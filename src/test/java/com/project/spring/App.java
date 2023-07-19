@@ -1,13 +1,12 @@
-package com.example.demo;
+package com.project.spring;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ProjectfinalSummer2023ApplicationTests {
-
-	@Test
-	void contextLoads() {
-	}
-
+public class App {
+    @Test
+    void acb(){
+        System.out.println("!23");
+    }
 }

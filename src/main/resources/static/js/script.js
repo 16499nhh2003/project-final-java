@@ -72,11 +72,11 @@ $(document).ready(function () {
 
     // are you sure to delete
     $(".btn-danger").click(function (event) {
-        if (!confirm("Are you sure?")) {
-            // Prevent default behavior of the button if user clicks "Cancel"
-            event.preventDefault();
-            return;
-        }
+        // if (!confirm("Are you sure?")) {
+        //     // Prevent default behavior of the button if user clicks "Cancel"
+        //     event.preventDefault();
+        //     return;
+        // }
     });
 
     // select all input type file
