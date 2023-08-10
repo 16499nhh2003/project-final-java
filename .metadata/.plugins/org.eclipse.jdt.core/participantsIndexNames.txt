@@ -1,0 +1,7 @@
+INDEX VERSION 1.134
+D:\asset\projectfinal-summer-2023\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\3968569077.index
+\Lab04\src\main\java
+D:\asset\projectfinal-summer-2023\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\3999878938.index
+\tdtu.edu.vn.Lab04\src\main\java
+D:\asset\projectfinal-summer-2023\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\1775207513.index
+\tdtu.edu.vn.Lab05\src\main\java

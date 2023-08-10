@@ -639,15 +639,28 @@ ol {
 
 .hero__search {
 	overflow: hidden;
-	margin-bottom: 30px;
+	margin-bottom: 0px;
 }
 
+/*.hero__search {*/
+/*	position: fixed;*/
+/*	top: 0;*/
+/*	left: 0;*/
+/*	width: 100%;*/
+/*	background-color: #f2f2f2;*/
+/*	padding: 10px;*/
+/*	z-index: 999;*/
+/*}*/
+
+
+
+
 .hero__search__form {
-	width: 610px;
+	width: 65%;
 	height: 50px;
 	border: 1px solid #ebebeb;
 	position: relative;
-	float: left;
+	margin:10px auto;
 }
 
 .hero__search__form form .hero__search__categories {
@@ -731,7 +744,7 @@ ol {
 }
 
 .hero__item {
-	height: 431px;
+	height: 560px;
 	display: flex;
 	align-items: center;
 	padding-left: 75px;

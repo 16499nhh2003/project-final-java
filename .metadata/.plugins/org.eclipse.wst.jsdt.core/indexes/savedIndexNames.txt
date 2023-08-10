@@ -1,0 +1,11 @@
+INDEX VERSION 1.4+D:\asset\projectfinal-summer-2023\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
+2252221515.index
+1639354633.index
+2977049356.index
+3266936921.index
+565767664.index
+2482195873.index
+1879880534.index
+642345920.index
+3841228087.index
+1365065167.index
