@@ -1,11 +1,14 @@
 package com.project.spring.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+
+import java.util.List;
 
 @Data
 @AllArgsConstructor
 public class ProductByCategoryDTO {
-    private ProductDTO productDTO;
+    private List<ProductDTO> products;
     private Integer quantity;
 }

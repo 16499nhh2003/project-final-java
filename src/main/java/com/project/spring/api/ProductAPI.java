@@ -183,8 +183,8 @@ public class ProductAPI {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseObject("0", "Fail! Not found products", ""));
         }
         List<ProductDTO> productDTOs = product.stream().map(this::convertToDTO).collect(Collectors.toList());
-        List<ProductByCategoryDTO> productByCategoryDTOS = productDTOs.stream().map(n -> new ProductByCategoryDTO(n, product.size())).collect(Collectors.toList());
-        return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject("1", "Success", productByCategoryDTOS));    }
+//        List<ProductByCategoryDTO> productByCategoryDTOS = productDTOs.stream().map(n -> new ProductByCategoryDTO(n, product.size())).collect(Collectors.toList());
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject("1", "Success", new ProductByCategoryDTO(productDTOs, productDTOs.size())));    }
 
     @GetMapping("/trendy")
     ResponseEntity<ResponseObject> getMostPurchasedProducts() {
