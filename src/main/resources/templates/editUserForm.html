@@ -1,18 +1,36 @@
-<!-- editUserForm.html -->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Edit User</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-<h2>Edit User</h2>
-<form th:action="@{/users/update/{id}(id=${user.id})}" th:object="${user}" method="post">
-    <input type="hidden" th:field="*{id}"/>
-    <label>Email: <input type="text" th:field="*{email}"/></label><br>
-    <label>Name: <input type="text" th:field="*{name}"/></label><br>
-    <label>Password: <input type="password" th:field="*{password}"/></label><br>
-    <label>Phone Number: <input type="text" th:field="*{phoneNumber}"/></label><br>
-    <button type="submit">Update</button>
-</form>
+<div class="container mt-5">
+    <h2>Edit User</h2>
+    <form th:action="@{/users/update/{id}(id=${user.id})}" th:object="${user}" method="post">
+        <input type="hidden" th:field="*{id}"/>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="text" class="form-control" id="email" th:field="*{email}" placeholder="Enter email">
+        </div>
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" class="form-control" id="name" th:field="*{name}" placeholder="Enter name">
+        </div>
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" class="form-control" id="password" th:field="*{password}" placeholder="Enter password">
+        </div>
+        <div class="form-group">
+            <label for="phoneNumber">Phone Number:</label>
+            <input type="text" class="form-control" id="phoneNumber" th:field="*{phoneNumber}" placeholder="Enter phone number">
+        </div>
+        <button type="submit" class="btn btn-primary">Update</button>
+    </form>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
