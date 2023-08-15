@@ -64,6 +64,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public List<Product> getMostPurchasedProducts() {
+        return this.productRepository.getMostPurchasedProduct();
+    }
+
+    @Override
     public List<Product> getAllProductByCategory(Long id) {
         return this.productRepository.findProductByCategory_Id(id);
     }

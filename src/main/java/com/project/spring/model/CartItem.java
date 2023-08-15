@@ -19,4 +19,13 @@ public class CartItem {
     @ManyToOne
     private Product product;
     private int quantity;
+    
+	public Product getProduct() {
+		// TODO Auto-generated method stub
+		return product;
+	}
+	public int getQuantity() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

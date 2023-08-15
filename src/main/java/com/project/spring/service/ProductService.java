@@ -30,6 +30,7 @@ public interface ProductService {
 
     boolean deleteProductById(Long id);
 
+    List<Product> getMostPurchasedProducts();
     //    FILTER
     PaginationProductResponse filterProducts(List<Double> price, String color, Category category, Set<Manufacture> manufactureSet, Pageable pageable,String[] colors);
     //    Search

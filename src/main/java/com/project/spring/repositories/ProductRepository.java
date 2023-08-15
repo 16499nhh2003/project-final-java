@@ -21,11 +21,18 @@ import java.util.Set;
 public interface ProductRepository extends JpaRepository<Product, Long>, PagingAndSortingRepository<Product, Long>, JpaSpecificationExecutor<Product> {
     List<Product> findByName(String name);
 
+    @Query("SELECT p from Product p where p.category.id = :id")
     List<Product> findProductByCategory_Id(@Param("id") Long id);
 
     @Query("SELECT p from Product p inner join ProductManufacture pm on p.id = pm.product_id.id where pm.manufacture_id.id = :idMan")
     List<Product> findAllProductByManufacture(@Param("idMan") Long id);
 
+    @Query("SELECT p from Product p INNER JOIN " +
+            "OrderDetail o ON p.id = o.product.id " +
+            "GROUP BY p.id " +
+            "ORDER BY SUM(o.quantity) DESC " +
+            "LIMIT 10")
+    List<Product> getMostPurchasedProduct();
 
 //    @Query(value = "select p from  Product p where  (:name is null or  LOWER(p.name) like %:name%)")
 //    Page<Product> filterProduct(String name, Pageable pageable);

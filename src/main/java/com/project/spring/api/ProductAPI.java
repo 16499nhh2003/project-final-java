@@ -1,7 +1,6 @@
 package com.project.spring.api;
 
-import com.project.spring.dto.PaginationProductResponse;
-import com.project.spring.dto.ProductDTO;
+import com.project.spring.dto.*;
 import com.project.spring.model.Cart;
 import com.project.spring.model.Category;
 import com.project.spring.model.Manufacture;
@@ -9,7 +8,6 @@ import com.project.spring.model.Product;
 import com.project.spring.repositories.CategoryRepository;
 import com.project.spring.repositories.ManufactureRepository;
 import com.project.spring.repositories.ProductRepository;
-import com.project.spring.dto.ResponseObject;
 import com.project.spring.service.ProductService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
@@ -163,7 +161,7 @@ public class ProductAPI {
                 .toArray(String[]::new);
     }
 
-    /*
+
     @GetMapping("/categories/{id}")
     ResponseEntity<ResponseObject> getAllProductByCategory(@PathVariable Long id, @RequestParam(defaultValue = "0") Integer pageNo, @RequestParam(defaultValue = "8") Integer pageSize, @RequestParam(defaultValue = "id") String sortBy, @RequestParam(defaultValue = "desc") String order) {
         List<Product> product = productService.getAllProductByCategory(id);
@@ -174,9 +172,23 @@ public class ProductAPI {
         if (product.size() == 0) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseObject("0", "Fail! Not found products", ""));
         }
-        return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject("1", "Successfull", product));
-    }
+        List<ProductDTO> productDTOs = product.stream().map(this::convertToDTO).collect(Collectors.toList());
+        List<CategoryDTO> categoryDTOS = productDTOs.stream().map(n -> new CategoryDTO(n, product.size())).collect(Collectors.toList());
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject("1", "Success", categoryDTOS));    }
 
+    @GetMapping("/trendy")
+    ResponseEntity<ResponseObject> getMostPurchasedProducts() {
+        List<Product> product = productService.getMostPurchasedProducts();
+//        HashMap<String, Object> hashMap = new HashMap<>();
+//        hashMap.put("products", product);
+//        hashMap.put("Page No", pageNo + 1);
+//        hashMap.put("Page Number", pageSize);
+        if (product.size() == 0) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseObject("0", "Fail! Not found products", ""));
+        }
+        List<ProductDTO> productDTOs = product.stream().map(this::convertToDTO).collect(Collectors.toList());
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject("1", "Success", productDTOs));    }
+/*
     @GetMapping("/manufacture/{id}")
     ResponseEntity<ResponseObject> getAllProductByManufacture(@PathVariable Long id) {
         List<Product> products = this.productService.getAllProductByManufacture(id);
