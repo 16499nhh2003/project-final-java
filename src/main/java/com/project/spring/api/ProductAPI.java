@@ -161,6 +161,16 @@ public class ProductAPI {
                 .toArray(String[]::new);
     }
 
+    @GetMapping("/categories")
+    ResponseEntity<ResponseObject> getAllCategories(){
+        List<Category> categories = this.categoryRepository.findAll();
+
+        if(categories.size() == 0)
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseObject("0", "Fail! Not found products", ""));
+
+        List<CategoryDTO> categoryDTOS = categories.stream().map(this::convertToDTO).collect(Collectors.toList());
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject("1", "Success", categoryDTOS));
+    }
 
     @GetMapping("/categories/{id}")
     ResponseEntity<ResponseObject> getAllProductByCategory(@PathVariable Long id, @RequestParam(defaultValue = "0") Integer pageNo, @RequestParam(defaultValue = "8") Integer pageSize, @RequestParam(defaultValue = "id") String sortBy, @RequestParam(defaultValue = "desc") String order) {
@@ -173,8 +183,8 @@ public class ProductAPI {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseObject("0", "Fail! Not found products", ""));
         }
         List<ProductDTO> productDTOs = product.stream().map(this::convertToDTO).collect(Collectors.toList());
-        List<CategoryDTO> categoryDTOS = productDTOs.stream().map(n -> new CategoryDTO(n, product.size())).collect(Collectors.toList());
-        return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject("1", "Success", categoryDTOS));    }
+        List<ProductByCategoryDTO> productByCategoryDTOS = productDTOs.stream().map(n -> new ProductByCategoryDTO(n, product.size())).collect(Collectors.toList());
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject("1", "Success", productByCategoryDTOS));    }
 
     @GetMapping("/trendy")
     ResponseEntity<ResponseObject> getMostPurchasedProducts() {
@@ -226,6 +236,11 @@ public class ProductAPI {
                     .collect(Collectors.toSet()));
         }
         return productDTO;
+    }
+
+    private CategoryDTO convertToDTO(Category category){
+        CategoryDTO categoryDTO = mapper.map(category, CategoryDTO.class);
+        return categoryDTO;
     }
 
     private Product convertToEntity(ProductDTO productDTO) {
