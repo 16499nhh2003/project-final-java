@@ -231,7 +231,7 @@
                             <!-- Form submit comment -->
                             <form action="#" th:action="@{/products/comments}" th:object="${commentDto}"
                                   method="post" id="123">
-                                <input type="hidden" th:field="*{productId}">
+                                <input type="hidden" name="productId" th:value="${idProduct}">
                                 <input type="hidden" th:field="*{rating}" value="" id="comment-star">
                                 <div class="form-group">
                                     <label for="message">Nội dung bình luận:</label>
@@ -268,8 +268,7 @@
         <div class="col">
             <div class="owl-carousel related-carousel">
                 <div class="card product-item border-0" th:each="p : ${products}">
-                    <div
-                            class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
+                    <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
                         <img th:id="${p.getId()}" class="img-fluid w-100 img-product"
                              th:src="@{'/assets/'+ ${p.originalPicture} }" alt="">
                     </div>

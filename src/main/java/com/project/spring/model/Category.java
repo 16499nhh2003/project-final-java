@@ -21,4 +21,5 @@ public class Category{
     @OneToMany(mappedBy = "category",fetch = FetchType.EAGER)
     @ToString.Exclude
     private Set<Product> products;
+    private String url;
 }

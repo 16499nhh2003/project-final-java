@@ -16,4 +16,16 @@ public class UserServiceImpl implements UserService {
     public Optional<AppUser> findUserById(Long id) {
         return this.userRepository.findById(id);
     }
+    @Override
+    public Optional<AppUser> findUserByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+    @Override
+    public Optional<AppUser> findUserByResetToken(String resetToken) {
+        return userRepository.findByResetToken(resetToken);
+    }
+    @Override
+    public void save(AppUser user) {
+        userRepository.save(user);
+    }
 }

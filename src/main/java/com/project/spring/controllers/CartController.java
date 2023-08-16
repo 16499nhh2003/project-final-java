@@ -27,10 +27,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Controller
 public class CartController {
@@ -51,29 +48,74 @@ public class CartController {
 
     @GetMapping("/cart")
     public ModelAndView showCart(HttpServletRequest request, HttpServletResponse response) {
+        AppUser user = this.userRepository.getUserByUsername(userDetailsServiceImpl.getCurrentUserId());
         ModelAndView modelAndView = new ModelAndView("/cart");
         int totalProduct = 0;
         int numberItems = 0;
-        final BigDecimal[] total = {BigDecimal.ZERO};
-        AppUser user = this.userRepository.getUserByUsername(userDetailsServiceImpl.getCurrentUserId());
+        BigDecimal[] total = {BigDecimal.ZERO};
         if (user != null) {
-            try {
-                Long idUser = user.getId();
-                List<Cart> carts = this.cartRepository.findByUserId(idUser);
-                /*get cart [0]*/
-                Cart cart = carts.get(0);
-                CartDTO cartDTO = modelMapper.map(cart, CartDTO.class);
-                List<CartItemDTO> cartItemDTOs = cartDTO.getCartItems();
-                numberItems = cartItemDTOs.size();
-                for (CartItemDTO cartItemDTO : cartItemDTOs) {
-                    total[0] = total[0].add(BigDecimal.valueOf(cartItemDTO.getProductPrice() * cartItemDTO.getQuantity()));
-                }
-                modelAndView.addObject("cartItems", cartItemDTOs);
-                modelAndView.addObject("isLogin", user.getName());
-                modelAndView.addObject("idCart",cart.getId());
-            } catch (Exception e) {
-                // TODO: handle exception
+            Long idUser = user.getId();
+            List<Cart> carts = this.cartRepository.findByUserId(idUser);
+            Cart cart = carts.get(0);
+            CartDTO cartDTO = modelMapper.map(cart, CartDTO.class);
+            List<CartItemDTO> cartItemDTOs = cartDTO.getCartItems();
+            numberItems = cartItemDTOs.size();
+            for (CartItemDTO cartItemDTO : cartItemDTOs) {
+                total[0] = total[0].add(BigDecimal.valueOf(cartItemDTO.getProductPrice() * cartItemDTO.getQuantity()));
             }
+            List<CartItemDTO> cartCookies = new ArrayList<CartItemDTO>();
+            Cookie[] cookies = request.getCookies();
+            if (cookies != null) {
+                for (Cookie cookie : cookies) {
+                    if ("cart".equals(cookie.getName())) {
+                        String encodedValue = cookie.getValue();
+                        String decodedValue = new String(Base64.getDecoder().decode(encodedValue));
+                        cartCookies = CartUtils.convertJsonToCart(decodedValue);
+                        Map<Long, CartItemDTO> mergedMap = new HashMap<>();
+                        for (CartItemDTO item : cartItemDTOs) {
+                            Long productId = item.getProductId();
+                            mergedMap.put(productId, item);
+                        }
+                        for (CartItemDTO item : cartCookies) {
+                            Long productId = item.getProductId();
+                            if (mergedMap.containsKey(productId)) {
+                                CartItemDTO existItem = mergedMap.get(productId);
+                                existItem.setQuantity(existItem.getQuantity() + item.getQuantity());
+                            } else {
+                                mergedMap.put(productId, item);
+                            }
+                        }
+                        List<CartItemDTO> mergedList = new ArrayList<>(mergedMap.values());
+                        List<CartItem> cartItems = mergedList.stream().map(cartItemDTO -> {
+                            CartItem item = new CartItem();
+                            item.setQuantity(cartItemDTO.getQuantity());
+                            item.setProduct(this.productRepository.findById(cartItemDTO.getProductId()).get());
+                            item.setCart(cart);
+                            return item;
+                        }).toList();
+                        Cart cart1 = new Cart();
+                        cart1.setId(cart.getId());
+                        cart1.setUser(user);
+                        double v = 0.0;
+                        for (CartItem cartItem : cartItems) {
+                            v += cartItem.getQuantity() * cartItem.getProduct().getPrice();
+                        }
+                        cart1.setTotal(v);
+                        cart1.setCartItems(cartItems);
+                        this.cartRepository.save(cart1);
+
+                        Cookie cookie1 = new Cookie("cart", null);
+                        cookie1.setMaxAge(0);
+                        response.addCookie(cookie1);
+                    }
+                }
+            }
+            modelAndView.addObject("cartItems", cartItemDTOs);
+            modelAndView.addObject("isLogin", user.getName());
+            modelAndView.addObject("idCart", cart.getId());
+            modelAndView.addObject("numberItems", numberItems);
+            modelAndView.addObject("total", total[0]);
+            return modelAndView;
         } else {
             Cookie[] cookies = request.getCookies();
             if (cookies != null) {
@@ -82,12 +124,13 @@ public class CartController {
                         String encodedValue = cookie.getValue();
                         String decodedValue = new String(Base64.getDecoder().decode(encodedValue));
                         List<CartItemDTO> cart = CartUtils.convertJsonToCart(decodedValue);
-                        cart.forEach(cartItemDTO ->{
+                        cart.forEach(cartItemDTO -> {
                             BigDecimal itemPrice = BigDecimal.valueOf(cartItemDTO.getProductPrice())
                                     .multiply(BigDecimal.valueOf(cartItemDTO.getQuantity()));
                             total[0] = total[0].add(itemPrice);
                         });
                         modelAndView.addObject("cartItems", cart);
+                        modelAndView.addObject("cookie", "cookie");
                         break;
                     }
                 }
@@ -141,9 +184,9 @@ public class CartController {
                     item.setQuantity(quantity);
                     cartItems.add(item);
                 }
-                double total =  0.0;
-                for(CartItem cartItem : cartItems){
-                    total += cartItem.getQuantity()*cartItem.getProduct().getPrice();
+                double total = 0.0;
+                for (CartItem cartItem : cartItems) {
+                    total += cartItem.getQuantity() * cartItem.getProduct().getPrice();
                 }
                 cart.setTotal(total);
                 cart.setCartItems(cartItems);
@@ -175,11 +218,12 @@ public class CartController {
 
     @RequestMapping(value = "/checkout", method = RequestMethod.GET)
     public ModelAndView checkOut() {
+        AppUser user = this.userRepository.getUserByUsername(userDetailsServiceImpl.getCurrentUserId());
+
         ModelAndView modelAndView = new ModelAndView("/checkout");
         int totalProduct = 0;
         int numberItems = 0;
         BigDecimal total = BigDecimal.ZERO;
-        AppUser user = this.userRepository.getUserByUsername(userDetailsServiceImpl.getCurrentUserId());
         if (user != null) {
             try {
                 Long idUser = user.getId();
@@ -206,7 +250,6 @@ public class CartController {
     @Transactional
     @RequestMapping(value = "/checkout", method = RequestMethod.POST)
     public String payment(Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         AppUser user = this.userRepository.getUserByUsername(userDetailsServiceImpl.getCurrentUserId());
         if (user == null) {
             return "redirect:/";
@@ -257,23 +300,23 @@ public class CartController {
     }
 
     @PostMapping("/cart")
-    public String updateCart(@ModelAttribute("cartItemDTO")CartItemDTO cartItemDTO){
+    public String updateCart(@ModelAttribute("cartItemDTO") CartItemDTO cartItemDTO) {
         Product product = this.productRepository.findById(cartItemDTO.getProductId()).get();
         int quantity = cartItemDTO.getQuantity();
         AppUser user = this.userRepository.getUserByUsername(userDetailsServiceImpl.getCurrentUserId());
-        if(user != null){
+        if (user != null) {
             List<Cart> carts = this.cartRepository.findByUserId(user.getId());
             Cart cart = carts.get(0);
             List<CartItem> cartItems = cart.getCartItems();
             boolean found = false;
-            for (CartItem item :cartItems){
-                if (product.getId().equals(item.getProduct().getId())){
+            for (CartItem item : cartItems) {
+                if (product.getId().equals(item.getProduct().getId())) {
                     item.setQuantity(quantity);
                     found = true;
                     break;
                 }
             }
-            if(!found){
+            if (!found) {
                 CartItem item = new CartItem();
                 item.setQuantity(quantity);
                 item.setProduct(product);

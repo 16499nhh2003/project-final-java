@@ -8,6 +8,7 @@ import com.project.spring.model.Cart;
 import com.project.spring.model.CartItem;
 import com.project.spring.model.Product;
 import com.project.spring.model.AppUser;
+import com.project.spring.repositories.CartItemRepository;
 import com.project.spring.repositories.CartRepository;
 import com.project.spring.repositories.ProductRepository;
 import com.project.spring.repositories.UserRepository;
@@ -18,6 +19,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.parameters.P;
@@ -25,6 +27,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.StreamSupport;
 
 @RestController
 @RequestMapping("/api/carts")
@@ -150,6 +153,7 @@ public class CartAPI {
 
     @Autowired
     ModelMapper modelMapper;
+
     @PutMapping("/{idCart}")
     ResponseEntity<ResponseObject> updateCart(@RequestBody CartItemDTO cartItemDTO, @PathVariable("idCart") Long idCart) {
         Product product = this.productRepository.findById(cartItemDTO.getProductId()).get();
@@ -173,11 +177,34 @@ public class CartAPI {
         }
         cart.setCartItems(cartItems);
         double total = 0.0;
-        for(CartItem cartItem : cartItems){
-            total += cartItem.getQuantity()*cartItem.getProduct().getPrice();
+        for (CartItem cartItem : cartItems) {
+            total += cartItem.getQuantity() * cartItem.getProduct().getPrice();
         }
         cart.setTotal(total);
         this.cartRepository.save(cart);
-        return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(""+HttpStatus.OK,"Successful",modelMapper.map( cart,CartDTO.class)));
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject("" + HttpStatus.OK, "Successful", modelMapper.map(cart, CartDTO.class)));
+    }
+
+    @Autowired
+    CartItemRepository cartItemRepository;
+    @DeleteMapping("/{idCart}")
+    public ResponseEntity<ResponseObject> deleteProductInCart(@PathVariable("idCart") Long idCart, @RequestBody Long idProduct) {
+        Cart cart = this.cartRepository.findById(idCart).get();
+        List<CartItem> cartItems = cart.getCartItems();
+        double total = cart.getTotal();
+        for (CartItem item : cartItems) {
+            if (item.getProduct().getId().equals(idProduct)) {
+                cartItems.remove(item);
+                total = total -  item.getProduct().getPrice()*item.getQuantity();
+                this.cartItemRepository.delete(item);
+                break;
+            }
+        }
+        cart.setTotal(total);
+        this.cartRepository.save(cart);
+
+        Cart cartUpdate = this.cartRepository.findById(idCart).get();
+        CartDTO cartDTO = modelMapper.map(cartUpdate,CartDTO.class);
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject("" + HttpStatus.OK, "Successful",cartDTO));
     }
 }

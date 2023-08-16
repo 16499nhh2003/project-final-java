@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -21,6 +22,7 @@ import java.util.Set;
 public interface ProductRepository extends JpaRepository<Product, Long>, PagingAndSortingRepository<Product, Long>, JpaSpecificationExecutor<Product> {
     List<Product> findByName(String name);
 
+    @Query("SELECT p from Product p where p.category.id = :id")
     List<Product> findProductByCategory_Id(@Param("id") Long id);
 
     @Query("SELECT p from Product p inner join ProductManufacture pm on p.id = pm.product_id.id where pm.manufacture_id.id = :idMan")
@@ -38,13 +40,17 @@ public interface ProductRepository extends JpaRepository<Product, Long>, PagingA
 
 //    Page<Product> findAllByManufactureInAndCategoryAndColorAndPrice(Set<Manufacture> manufacture,Category category,String color,Double aDouble,Pageable pageable);
 
-    Page<Product>  findAllByManufactureIn(Set<Manufacture>manufactures,Pageable pageable);
-    Page<Product> findProductByCategory(Category category , Pageable pageable);
-    Page<Product> findProductByPrice(Double aDouble,Pageable pageable);
-    Page<Product> findProductByColor(String color,Pageable pageable);
+    Page<Product> findAllByManufactureIn(Set<Manufacture> manufactures, Pageable pageable);
+
+    Page<Product> findProductByCategory(Category category, Pageable pageable);
+
+    Page<Product> findProductByPrice(Double aDouble, Pageable pageable);
+
+    Page<Product> findProductByColor(String color, Pageable pageable);
+
     Page<Product> findProductByName(String name, Pageable pageable);
 
-//    PaginationProductResponse filterProducts(Double price, String color, Category category, Set<Manufacture> manufactureSet, Pageable pageable);
+    //    PaginationProductResponse filterProducts(Double price, String color, Category category, Set<Manufacture> manufactureSet, Pageable pageable);
     @Query(value = "select p from Product p " +
             "join ProductManufacture pm on  p.id = pm.product_id.id " +
             "join Manufacture m on m.id = pm.manufacture_id.id " +
@@ -57,7 +63,7 @@ public interface ProductRepository extends JpaRepository<Product, Long>, PagingA
 //            "where (p.name like %?1% ) " +
 //            "or  (concat (p.price,'' ) like %?1%) " +
 //            "or (p.category.name like %?1% )" )
-    List<Product> searchProducts(@Param("keyword") String keyword,@Nullable Pageable pageable);
+    List<Product> searchProducts(@Param("keyword") String keyword, @Nullable Pageable pageable);
 
     /* Numbers comment of Products */
     @Query("SELECT COUNT(c) FROM Comment c WHERE c.product_comment.id = :id")
@@ -69,5 +75,16 @@ public interface ProductRepository extends JpaRepository<Product, Long>, PagingA
 
     /* get product by id*/
     Product findProductById(Long id);
+
+    @Query("SELECT p from Product p INNER JOIN " +
+            "OrderDetail o ON p.id = o.product.id " +
+            "GROUP BY p.id " +
+            "ORDER BY SUM(o.quantity) DESC " +
+            "LIMIT 8")
+    List<Product> getMostPurchasedProduct();
+
+    /* top 8 product most view by category/*/
+    @Query("select p from  Product p where p.category.id = :idCategory order by  p.viewCount limit 8 ")
+    List<Product> getTop8Product(@Param("idCategory") Long idCategory);
 }
 

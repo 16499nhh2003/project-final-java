@@ -15,585 +15,6 @@
 
 <body>
 <div th:replace="~{fragments/header :: header}"></div>
-<!-- start #main-site  -->
-<!--	<main id="main-site">
-		&lt;!&ndash; Top Sale &ndash;&gt;
-		<section id="top-sale">
-			<div class="container py-5">
-				<h4 class="font-size-20">Top Sale</h4>
-				<hr>
-				&lt;!&ndash; owl carousel &ndash;&gt;
-				<div class="owl-carousel owl-theme">
-					<div class="item py-2 border rounded-3 bg-light" style="margin-right:10px;">
-						<div class="product">
-							<a href="product.html"><img th:src="@{/	assets/products/1.png}" alt="product1"
-									class="img-fluid"></a>
-							<div class="text-center">
-								<h6>Samsung Galaxy 10</h6>
-								<div class="rating text-warning font-size-12">
-									<span><i class="fas fa-star"></i></span>
-									<span><i class="fas fa-star"></i></span>
-									<span><i class="fas fa-star"></i></span>
-									<span><i class="fas fa-star"></i></span>
-									<span><i class="far fa-star"></i></span>
-								</div>
-								<div class="price py-2">
-									<span>$153123</span>
-								</div>
-								<button type="submit" class="btn btn-warning font-size-12">Add to Cart</button>
-							</div>
-						</div>
-					</div>
-					<div class="item py-2 border rounded-2 bg-light" style="margin-right:10px;">
-						<div class="product">
-							<a href="product.html"><img th:src="@{/assets/products/2.png}" alt="product1"
-									class="img-fluid"></a>
-							<div class="text-center">
-								<h6>Readme Note 7</h6>
-								<div class="rating text-warning font-size-12">
-									<span><i class="fas fa-star"></i></span>
-									<span><i class="fas fa-star"></i></span>
-									<span><i class="fas fa-star"></i></span>
-									<span><i class="fas fa-star"></i></span>
-									<span><i class="far fa-star"></i></span>
-								</div>
-								<div class="price py-2">
-									<span>$152</span>
-								</div>
-								<button type="submit" class="btn btn-warning font-size-12">Add to Cart</button>
-							</div>
-						</div>
-					</div>
-					<div class="item py-2 border rounded-2 bg-light" style="margin-right:10px;">
-						<div class="product">
-							<a href="product.html"><img th:src="@{/assets/products/3.png}" alt="product1"
-									class="img-fluid"></a>
-							<div class="text-center">
-								<h6>Readme Note 7</h6>
-								<div class="rating text-warning font-size-12">
-									<span><i class="fas fa-star"></i></span>
-									<span><i class="fas fa-star"></i></span>
-									<span><i class="fas fa-star"></i></span>
-									<span><i class="fas fa-star"></i></span>
-									<span><i class="far fa-star"></i></span>
-								</div>
-								<div class="price py-2">
-									<span>$152</span>
-								</div>
-								<button type="submit" class="btn btn-warning font-size-12">Add to Cart</button>
-							</div>
-						</div>
-					</div>
-					<div class="item py-2 border rounded-2 bg-light" style="margin-right:10px;">
-						<div class="product">
-							<a href="product.html"><img th:src="@{/assets/products/6.png}" alt="product1"
-									class="img-fluid"></a>
-							<div class="text-center">
-								<h6>Samsung Galaxy 10</h6>
-								<div class="rating text-warning font-size-12">
-									<span><i class="fas fa-star"></i></span>
-									<span><i class="fas fa-star"></i></span>
-									<span><i class="fas fa-star"></i></span>
-									<span><i class="fas fa-star"></i></span>
-									<span><i class="far fa-star"></i></span>
-								</div>
-								<div class="price py-2">
-									<span>$152</span>
-								</div>
-								<button type="submit" class="btn btn-warning font-size-12">Add to Cart</button>
-							</div>
-						</div>
-					</div>
-					<div class="item py-2 border rounded-2 bg-light" style="margin-right:10px;">
-						<div class="product">
-							<a href="product.html"><img th:src="@{/assets/products/1.png}" alt="product1"
-									class="img-fluid"></a>
-							<div class="text-center">
-								<h6>Readme Note 7</h6>
-								<div class="rating text-warning font-size-12">
-									<span><i class="fas fa-star"></i></span>
-									<span><i class="fas fa-star"></i></span>
-									<span><i class="fas fa-star"></i></span>
-									<span><i class="fas fa-star"></i></span>
-									<span><i class="far fa-star"></i></span>
-								</div>
-								<div class="price py-2">
-									<span>$152</span>
-								</div>
-								<button type="submit" class="btn btn-warning font-size-12">Add to Cart</button>
-							</div>
-						</div>
-					</div>
-					<div class="item py-2 border rounded-2 bg-light" style="margin-right:10px;">
-						<div class="product">
-							<div class="d-flex flex-column">
-								<a href="product.html"><img th:src="@{/assets/products/15.png}" class="img-fluid"
-										alt="pro1"></a>
-								<div class="text-center">
-									<h6>Readme Note 7</h6>
-									<div class="rating text-warning font-size-12">
-										<span><i class="fas fa-star"></i></span>
-										<span><i class="fas fa-star"></i></span>
-										<span><i class="fas fa-star"></i></span>
-										<span><i class="fas fa-star"></i></span>
-										<span><i class="far fa-star"></i></span>
-									</div>
-									<div class="price py-2">
-										<span>$122</span>
-									</div>
-									<button type="submit" class="btn btn-warning font-size-12">Add to Cart</button>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="item py-2 border rounded-2 bg-light" style="margin-right:10px;">
-						<div class="product">
-							<div class="d-flex flex-column">
-								<a href="product.html"><img th:src="@{/assets/products/2.png}" class="img-fluid"
-										alt="pro1"></a>
-								<div class="text-center">
-									<h6>Readme Note 7</h6>
-									<div class="rating text-warning font-size-12">
-										<span><i class="fas fa-star"></i></span>
-										<span><i class="fas fa-star"></i></span>
-										<span><i class="fas fa-star"></i></span>
-										<span><i class="fas fa-star"></i></span>
-										<span><i class="far fa-star"></i></span>
-									</div>
-									<div class="price py-2">
-										<span>$122</span>
-									</div>
-									<button type="submit" class="btn btn-warning font-size-12">Add to Cart</button>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				&lt;!&ndash; !owl carousel &ndash;&gt;
-			</div>
-		</section>
-		&lt;!&ndash; !Top Sale &ndash;&gt;
-		&lt;!&ndash; Special Price &ndash;&gt;
-		<section id="special-price">
-			<div class="container">
-				<h4 class="font-size-20">Special Price</h4>
-				<div id="filters" class="button-group text-end  font-size-16">
-					<button class="btn is-checked" data-filter="*">All Brand</button>
-					<button class="btn" data-filter=".Apple">Apple</button>
-					<button class="btn" data-filter=".Samsung">Samsung</button>
-					<button class="btn" data-filter=".Redmi">Redmi</button>
-				</div>
-				<div class="product-filter">
-					<div class="product-filter-item Apple border">
-						<div class="item py-2" style="width: 200px;">
-							<div class="product">
-								<a href="product.html"><img th:src="@{/assets/products/13.png}" alt="product1"
-										class="img-fluid"></a>
-								<div class="text-center">
-									<h6>Apple iPhone 10</h6>
-									<div class="rating text-warning font-size-12">
-										<span><i class="fas fa-star"></i></span>
-										<span><i class="fas fa-star"></i></span>
-										<span><i class="fas fa-star"></i></span>
-										<span><i class="fas fa-star"></i></span>
-										<span><i class="far fa-star"></i></span>
-									</div>
-									<div class="price py-2">
-										<span>$15d2</span>
-									</div>
-									<button type="submit" class="btn btn-warning font-size-12">Add to Cart</button>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="product-filter-item Samsung border">
-						<div class="item py-2" style="width: 200px;">
-							<div class="product">
-								<a href="product.html"><img th:src="@{/assets/products/11.png}" alt="product1"
-										class="img-fluid"></a>
-								<div class="text-center">
-									<h6>Samsung Galaxy 10</h6>
-									<div class="rating text-warning font-size-12">
-										<span><i class="fas fa-star"></i></span>
-										<span><i class="fas fa-star"></i></span>
-										<span><i class="fas fa-star"></i></span>
-										<span><i class="fas fa-star"></i></span>
-										<span><i class="far fa-star"></i></span>
-									</div>
-									<div class="price py-2">
-										<span>$152</span>
-									</div>
-									<button type="submit" class="btn btn-warning font-size-12">Add to Cart</button>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="product-filter-item Redmi border">
-						<div class="item py-2" style="width: 200px;">
-							<div class="product">
-								<a href="product.html"><img th:src="@{/assets/products/3.png}" alt="product1"
-										class="img-fluid"></a>
-								<div class="text-center">
-									<h6>Redmi Note 7 Pro</h6>
-									<div class="rating text-warning font-size-12">
-										<span><i class="fas fa-star"></i></span>
-										<span><i class="fas fa-star"></i></span>
-										<span><i class="fas fa-star"></i></span>
-										<span><i class="fas fa-star"></i></span>
-										<span><i class="far fa-star"></i></span>
-									</div>
-									<div class="price py-2">
-										<span>$152</span>
-									</div>
-									<button type="submit" class="btn btn-warning font-size-12">Add to Cart</button>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="product-filter-item Apple border">
-						<div class="item py-2" style="width: 200px;">
-							<div class="product">
-								<a href="product.html"><img th:src="@{/assets/products/4.png}" alt="product1"
-										class="img-fluid"></a>
-								<div class="text-center">
-									<h6>Apple iPhone 10</h6>
-									<div class="rating text-warning font-size-12">
-										<span><i class="fas fa-star"></i></span>
-										<span><i class="fas fa-star"></i></span>
-										<span><i class="fas fa-star"></i></span>
-										<span><i class="fas fa-star"></i></span>
-										<span><i class="far fa-star"></i></span>
-									</div>
-									<div class="price py-2">
-										<span>$152</span>
-									</div>
-									<button type="submit" class="btn btn-warning font-size-12">Add to Cart</button>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="product-filter-item Samsung border">
-						<div class="item py-2" style="width: 200px;">
-							<div class="product">
-								<a href="product.html"><img th:src="@{/assets/products/12.png}" alt="product1"
-										class="img-fluid"></a>
-								<div class="text-center">
-									<h6>Samsung Galaxy 10</h6>
-									<div class="rating text-warning font-size-12">
-										<span><i class="fas fa-star"></i></span>
-										<span><i class="fas fa-star"></i></span>
-										<span><i class="fas fa-star"></i></span>
-										<span><i class="fas fa-star"></i></span>
-										<span><i class="far fa-star"></i></span>
-									</div>
-									<div class="price py-2">
-										<span>$152</span>
-									</div>
-									<button type="submit" class="btn btn-warning font-size-12">Add to Cart</button>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="product-filter-item Redmi border">
-						<div class="item py-2" style="width: 200px;">
-							<div class="product">
-								<div class="d-flex flex-column">
-									<a href="product.html"><img th:src="@{/assets/products/4.png}" class="img-fluid"
-											alt="pro1"></a>
-									<div class="text-center">
-										<h6>Redmi Note 7 Pro</h6>
-										<div class="rating text-warning font-size-12">
-											<span><i class="fas fa-star"></i></span>
-											<span><i class="fas fa-star"></i></span>
-											<span><i class="fas fa-star"></i></span>
-											<span><i class="fas fa-star"></i></span>
-											<span><i class="far fa-star"></i></span>
-										</div>
-										<div class="price py-2">
-											<span>$152</span>
-										</div>
-										<button type="submit" class="btn btn-warning font-size-12">Add to
-											Cart</button>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="product-filter-item Redmi border">
-						<div class="item py-2" style="width: 200px;">
-							<div class="product">
-								<div class="d-flex flex-column">
-									<a href="product.html"><img th:src="@{/assets/products/5.png}" class="img-fluid"
-											alt="pro1"></a>
-									<div class="text-center">
-										<h6>Redmi Note 7 Pro</h6>
-										<div class="rating text-warning font-size-12">
-											<span><i class="fas fa-star"></i></span>
-											<span><i class="fas fa-star"></i></span>
-											<span><i class="fas fa-star"></i></span>
-											<span><i class="fas fa-star"></i></span>
-											<span><i class="far fa-star"></i></span>
-										</div>
-										<div class="price py-2">
-											<span>$152</span>
-										</div>
-										<button type="submit" class="btn btn-warning font-size-12">Add to
-											Cart</button>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="product-filter-item Redmi border">
-						<div class="item py-2" style="width: 200px;">
-							<div class="product">
-								<div class="d-flex flex-column">
-									<a href="product.html"><img th:src="@{/assets/products/6.png}" class="img-fluid"
-											alt="pro1"></a>
-									<div class="text-center">
-										<h6>Redmi Note 7 Pro</h6>
-										<div class="rating text-warning font-size-12">
-											<span><i class="fas fa-star"></i></span>
-											<span><i class="fas fa-star"></i></span>
-											<span><i class="fas fa-star"></i></span>
-											<span><i class="fas fa-star"></i></span>
-											<span><i class="far fa-star"></i></span>
-										</div>
-										<div class="price py-2">
-											<span>$152</span>
-										</div>
-										<button type="submit" class="btn btn-warning font-size-12">Add to
-											Cart</button>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="product-filter-item Redmi border">
-						<div class="item py-2" style="width: 200px;">
-							<div class="product">
-								<div class="d-flex flex-column">
-									<a href="product.html"><img th:src="@{/assets/products/10.png}" class="img-fluid"
-											alt="pro1"></a>
-									<div class="text-center">
-										<h6>Redmi Note 7 Pro</h6>
-										<div class="rating text-warning font-size-12">
-											<span><i class="fas fa-star"></i></span>
-											<span><i class="fas fa-star"></i></span>
-											<span><i class="fas fa-star"></i></span>
-											<span><i class="fas fa-star"></i></span>
-											<span><i class="far fa-star"></i></span>
-										</div>
-										<div class="price py-2">
-											<span>$152</span>
-										</div>
-										<button type="submit" class="btn btn-warning font-size-12">Add to
-											Cart</button>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="product-filter-item Apple border">
-						<div class="item py-2" style="width: 200px;">
-							<div class="product">
-								<div class="d-flex flex-column">
-									<a href="product.html"><img th:src="@{/assets/products/13.png}" class="img-fluid"
-											alt="pro1"></a>
-									<div class="text-center">
-										<h6>Apple iPhone 10</h6>
-										<div class="rating text-warning font-size-12">
-											<span><i class="fas fa-star"></i></span>
-											<span><i class="fas fa-star"></i></span>
-											<span><i class="fas fa-star"></i></span>
-											<span><i class="fas fa-star"></i></span>
-											<span><i class="far fa-star"></i></span>
-										</div>
-										<div class="price py-2">
-											<span>$252</span>
-										</div>
-										<button type="submit" class="btn btn-warning font-size-12">Add to
-											Cart</button>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-		&lt;!&ndash; !Special Price &ndash;&gt;
-		&lt;!&ndash; Banner Ads    &ndash;&gt;
-		<section id="banner_adds">
-			<div class="container py-5 text-center">
-				<img th:src="@{/assets/discount.jpg}" alt="banner1" class="img-fluid px-3 py-2">
-				<img th:src="@{/assets/freeship.jpg}" alt="banner1" class="img-fluid px-3 py-2">
-			</div>
-		</section>
-		&lt;!&ndash; !Banner Ads    &ndash;&gt;
-		&lt;!&ndash; New Phones &ndash;&gt;
-		<section id="new-phones">
-			<div class="container">
-				<h4 class="font-size-20">New Phones</h4>
-				<hr>
-				&lt;!&ndash; owl carousel &ndash;&gt;
-				<div class="owl-carousel owl-theme">
-					<div class="item py-2 border rounded-2 bg-light">
-						<div class="product">
-							<a href="product.html"><img th:src="@{/assets/products/1.png}" alt="product1"
-									class="img-fluid"></a>
-							<div class="text-center">
-								<h6>Samsung Galaxy 10</h6>
-								<div class="rating text-warning font-size-12">
-									<span><i class="fas fa-star"></i></span>
-									<span><i class="fas fa-star"></i></span>
-									<span><i class="fas fa-star"></i></span>
-									<span><i class="fas fa-star"></i></span>
-									<span><i class="far fa-star"></i></span>
-								</div>
-								<div class="price py-2">
-									<span>$152</span>
-								</div>
-								<button type="submit" class="btn btn-warning font-size-12">Add to Cart</button>
-							</div>
-						</div>
-					</div>
-					<div class="item py-2 border rounded-2 bg-light">
-						<div class="product">
-							<a href="product.html"><img th:src="@{/assets/products/2.png}" alt="product1"
-									class="img-fluid"></a>
-							<div class="text-center">
-								<h6>Readme Note 7</h6>
-								<div class="rating text-warning font-size-12">
-									<span><i class="fas fa-star"></i></span>
-									<span><i class="fas fa-star"></i></span>
-									<span><i class="fas fa-star"></i></span>
-									<span><i class="fas fa-star"></i></span>
-									<span><i class="far fa-star"></i></span>
-								</div>
-								<div class="price py-2">
-									<span>$152</span>
-								</div>
-								<button type="submit" class="btn btn-warning font-size-12">Add to Cart</button>
-							</div>
-						</div>
-					</div>
-					<div class="item py-2 border rounded-2 bg-light">
-						<div class="product">
-							<a href="product.html"><img th:src="@{/assets/products/9.png}" alt="product1"
-									class="img-fluid"></a>
-							<div class="text-center">
-								<h6>Readme Note 7</h6>
-								<div class="rating text-warning font-size-12">
-									<span><i class="fas fa-star"></i></span>
-									<span><i class="fas fa-star"></i></span>
-									<span><i class="fas fa-star"></i></span>
-									<span><i class="fas fa-star"></i></span>
-									<span><i class="far fa-star"></i></span>
-								</div>
-								<div class="price py-2">
-									<span>$152</span>
-								</div>
-								<button type="submit" class="btn btn-warning font-size-12">Add to Cart</button>
-							</div>
-						</div>
-					</div>
-					<div class="item py-2 border rounded-2 bg-light">
-						<div class="product">
-							<a href="product.html"><img th:src="@{/assets/products/6.png}" alt="product1"
-									class="img-fluid"></a>
-							<div class="text-center">
-								<h6>Samsung Galaxy 10</h6>
-								<div class="rating text-warning font-size-12">
-									<span><i class="fas fa-star"></i></span>
-									<span><i class="fas fa-star"></i></span>
-									<span><i class="fas fa-star"></i></span>
-									<span><i class="fas fa-star"></i></span>
-									<span><i class="far fa-star"></i></span>
-								</div>
-								<div class="price py-2">
-									<span>$152</span>
-								</div>
-								<button type="submit" class="btn btn-warning font-size-12">Add to Cart</button>
-							</div>
-						</div>
-					</div>
-					<div class="item py-2 border rounded-2 bg-light">
-						<div class="product">
-							<a href="product.html"><img th:src="@{/assets/products/7.png}" alt="product1"
-									class="img-fluid"></a>
-							<div class="text-center">
-								<h6>Readme Note 7</h6>
-								<div class="rating text-warning font-size-12">
-									<span><i class="fas fa-star"></i></span>
-									<span><i class="fas fa-star"></i></span>
-									<span><i class="fas fa-star"></i></span>
-									<span><i class="fas fa-star"></i></span>
-									<span><i class="far fa-star"></i></span>
-								</div>
-								<div class="price py-2">
-									<span>$152</span>
-								</div>
-								<button type="submit" class="btn btn-warning font-size-12">Add to Cart</button>
-							</div>
-						</div>
-					</div>
-					<div class="item py-2 border rounded-2 bg-light">
-						<div class="product">
-							<div class="d-flex flex-column">
-								<a href="product.html"><img th:src="@{/assets/products/10.png}" class="img-fluid"
-										alt="pro1"></a>
-								<div class="text-center">
-									<h6>Readme Note 7</h6>
-									<div class="rating text-warning font-size-12">
-										<span><i class="fas fa-star"></i></span>
-										<span><i class="fas fa-star"></i></span>
-										<span><i class="fas fa-star"></i></span>
-										<span><i class="fas fa-star"></i></span>
-										<span><i class="far fa-star"></i></span>
-									</div>
-									<div class="price py-2">
-										<span>$122</span>
-									</div>
-									<button type="submit" class="btn btn-warning font-size-12">Add to Cart</button>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="item py-2 border rounded-2 bg-light">
-						<div class="product">
-							<div class="d-flex flex-column">
-								<a href="product.html"><img th:src="@{/assets/products/8.png}" class="img-fluid"
-										alt="pro1"></a>
-								<div class="text-center">
-									<h6>Readme Note 7</h6>
-									<div class="rating text-warning font-size-12">
-										<span><i class="fas fa-star"></i></span>
-										<span><i class="fas fa-star"></i></span>
-										<span><i class="fas fa-star"></i></span>
-										<span><i class="fas fa-star"></i></span>
-										<span><i class="far fa-star"></i></span>
-									</div>
-									<div class="price py-2">
-										<span>$122</span>
-									</div>
-									<button type="submit" class="btn btn-warning font-size-12">Add to Cart</button>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				&lt;!&ndash; !owl carousel &ndash;&gt;
-			</div>
-		</section>
-		&lt;!&ndash; !New Phones &ndash;&gt;
-		&lt;!&ndash; Blogs &ndash;&gt;
-		<div th:replace="~{blogs::blogs}"></div>
-		&lt;!&ndash; !Blogs &ndash;&gt;
-	</main>-->
-<!-- !start #main-site -->
-
-<!-- start #footer -->
 
 <!-- Featured Start -->
 <div class="container-fluid pt-5">
@@ -630,67 +51,22 @@
 <!-- Categories Start -->
 <div class="container-fluid pt-5">
     <div class="row px-xl-5 pb-3">
-        <div class="col-lg-4 col-md-6 pb-1">
+        <div class="col-lg-3 col-md-6 pb-1" th:each="categoriesDTO : ${categoriesDTOs}">
             <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
-                <p class="text-right">15 Products</p>
-                <a href="" class="cat-img position-relative overflow-hidden mb-3">
-                    <img class="img-fluid" src="img/cat-1.jpg" alt="">
+                <p class="text-right" th:text="${categoriesDTO.getQuantity() + ' Products'}">15 Products</p>
+                <a th:href="@{/products/filter(category=${categoriesDTO.getName()})}"
+                   class="cat-img position-relative overflow-hidden mb-3">
+                    <img class="img-fluid" th:src="${categoriesDTO.getUrl()}" alt="" style="height: 220px">
                 </a>
-                <h5 class="font-weight-semi-bold m-0">Men's dresses</h5>
-            </div>
-        </div>
-        <div class="col-lg-4 col-md-6 pb-1">
-            <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
-                <p class="text-right">15 Products</p>
-                <a href="" class="cat-img position-relative overflow-hidden mb-3">
-                    <img class="img-fluid" src="img/cat-2.jpg" alt="">
-                </a>
-                <h5 class="font-weight-semi-bold m-0">Women's dresses</h5>
-            </div>
-        </div>
-        <div class="col-lg-4 col-md-6 pb-1">
-            <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
-                <p class="text-right">15 Products</p>
-                <a href="" class="cat-img position-relative overflow-hidden mb-3">
-                    <img class="img-fluid" src="img/cat-3.jpg" alt="">
-                </a>
-                <h5 class="font-weight-semi-bold m-0">Baby's dresses</h5>
-            </div>
-        </div>
-        <div class="col-lg-4 col-md-6 pb-1">
-            <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
-                <p class="text-right">15 Products</p>
-                <a href="" class="cat-img position-relative overflow-hidden mb-3">
-                    <img class="img-fluid" src="img/cat-4.jpg" alt="">
-                </a>
-                <h5 class="font-weight-semi-bold m-0">Accerssories</h5>
-            </div>
-        </div>
-        <div class="col-lg-4 col-md-6 pb-1">
-            <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
-                <p class="text-right">15 Products</p>
-                <a href="" class="cat-img position-relative overflow-hidden mb-3">
-                    <img class="img-fluid" src="img/cat-5.jpg" alt="">
-                </a>
-                <h5 class="font-weight-semi-bold m-0">Bags</h5>
-            </div>
-        </div>
-        <div class="col-lg-4 col-md-6 pb-1">
-            <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
-                <p class="text-right">15 Products</p>
-                <a href="" class="cat-img position-relative overflow-hidden mb-3">
-                    <img class="img-fluid" src="img/cat-6.jpg" alt="">
-                </a>
-                <h5 class="font-weight-semi-bold m-0">Shoes</h5>
+                <h5 class="font-weight-semi-bold m-0" th:text="${categoriesDTO.getName()}">Men's dresses</h5>
             </div>
         </div>
     </div>
 </div>
 <!-- Categories End -->
 
-
 <!-- Offer Start -->
-<div class="container-fluid offer pt-5">
+<!--<div class="container-fluid offer pt-5">
     <div class="row px-xl-5">
         <div class="col-md-6 pb-4">
             <div class="position-relative bg-secondary text-center text-md-right text-white mb-2 py-5 px-5">
@@ -713,181 +89,74 @@
             </div>
         </div>
     </div>
-</div>
+</div>-->
 <!-- Offer End -->
 
+<div class="container-fluid py-5">
+    <div class="text-center mb-4">
+        <h2 class="section-title px-5"><span class="px-2">Những điện thoại nổi bật</span></h2>
+    </div>
+    <div class="row px-xl-5">
+        <div class="col">
+            <div class="owl-carousel related-carousel">
+                <div class="card product-item border-0" th:each="p : ${top8Mobile}">
+                    <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
+                        <img th:id="${p.getId()}" class="img-fluid w-100 img-product"
+                             th:src="@{'/assets/'+ ${p.originalPicture} }" alt="">
+                    </div>
+                    <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
+                        <h6 class="text-truncate mb-3" th:text="${p.getName()}">Name</h6>
+                        <div class="d-flex justify-content-center">
+                            <h6 class="price-product" th:text="${p.getPrice()}">12300000</h6>
+                        </div>
+                    </div>
+                    <div class="card-footer d-flex justify-content-between bg-light border">
+                        <a th:href="@{'/products/details/' + ${p.getId()}}" class="btn btn-sm text-dark p-0"><i
+                                class="fas fa-eye text-primary mr-1"></i>View
+                            Detail</a>
+                        <form th:action="@{/cart/add}" method="post" th:object="${cartItemDTO}">
+                            <input type="hidden" value="1" name="quantity">
+                            <input type="hidden" th:value="${p.getId()}" name="productId">
+                            <button type="submit" class="btn btn-sm text-dark p-0 addToCartBtnView">
+                                <i class="fas fa-shopping-cart text-primary mr-1"></i>
+                                Add To Cart
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-<!-- Products Start -->
+<!-- Products trendy Start -->
 <div class="container-fluid pt-5">
     <div class="text-center mb-4">
-        <h2 class="section-title px-5"><span class="px-2">Trandy Products</span></h2>
+        <h2 class="section-title px-5"><span class="px-2">Trendy Products</span></h2>
     </div>
     <div class="row px-xl-5 pb-3">
-        <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
+        <div class="col-lg-3 col-md-6 col-sm-12 pb-1" th:each="productTren : ${trendy}">
             <div class="card product-item border-0 mb-4">
                 <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                    <img class="img-fluid w-100" src="img/product-1.jpg" alt="">
+                    <img class="img-fluid w-100" th:src="@{'/assets/' + ${productTren.getOriginalPicture()}}" alt="">
                 </div>
                 <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
-                    <h6 class="text-truncate mb-3">Colorful Stylish Shirt</h6>
+                    <h6 class="text-truncate mb-3" th:text="${productTren.name}">Colorful Stylish Shirt</h6>
                     <div class="d-flex justify-content-center">
-                        <h6>$123.00</h6>
-                        <h6 class="text-muted ml-2">
-                            <del>$123.00</del>
-                        </h6>
+                        <h6 th:text="${productTren.getPrice()}" class="price-product">$123.00</h6>
                     </div>
                 </div>
                 <div class="card-footer d-flex justify-content-between bg-light border">
-                    <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
-                    <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add
-                        To Cart</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
-            <div class="card product-item border-0 mb-4">
-                <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                    <img class="img-fluid w-100" src="img/product-2.jpg" alt="">
-                </div>
-                <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
-                    <h6 class="text-truncate mb-3">Colorful Stylish Shirt</h6>
-                    <div class="d-flex justify-content-center">
-                        <h6>$123.00</h6>
-                        <h6 class="text-muted ml-2">
-                            <del>$123.00</del>
-                        </h6>
-                    </div>
-                </div>
-                <div class="card-footer d-flex justify-content-between bg-light border">
-                    <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
-                    <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add
-                        To Cart</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
-            <div class="card product-item border-0 mb-4">
-                <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                    <img class="img-fluid w-100" src="img/product-3.jpg" alt="">
-                </div>
-                <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
-                    <h6 class="text-truncate mb-3">Colorful Stylish Shirt</h6>
-                    <div class="d-flex justify-content-center">
-                        <h6>$123.00</h6>
-                        <h6 class="text-muted ml-2">
-                            <del>$123.00</del>
-                        </h6>
-                    </div>
-                </div>
-                <div class="card-footer d-flex justify-content-between bg-light border">
-                    <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
-                    <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add
-                        To Cart</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
-            <div class="card product-item border-0 mb-4">
-                <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                    <img class="img-fluid w-100" src="img/product-4.jpg" alt="">
-                </div>
-                <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
-                    <h6 class="text-truncate mb-3">Colorful Stylish Shirt</h6>
-                    <div class="d-flex justify-content-center">
-                        <h6>$123.00</h6>
-                        <h6 class="text-muted ml-2">
-                            <del>$123.00</del>
-                        </h6>
-                    </div>
-                </div>
-                <div class="card-footer d-flex justify-content-between bg-light border">
-                    <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
-                    <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add
-                        To Cart</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
-            <div class="card product-item border-0 mb-4">
-                <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                    <img class="img-fluid w-100" src="img/product-5.jpg" alt="">
-                </div>
-                <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
-                    <h6 class="text-truncate mb-3">Colorful Stylish Shirt</h6>
-                    <div class="d-flex justify-content-center">
-                        <h6>$123.00</h6>
-                        <h6 class="text-muted ml-2">
-                            <del>$123.00</del>
-                        </h6>
-                    </div>
-                </div>
-                <div class="card-footer d-flex justify-content-between bg-light border">
-                    <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
-                    <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add
-                        To Cart</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
-            <div class="card product-item border-0 mb-4">
-                <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                    <img class="img-fluid w-100" src="img/product-6.jpg" alt="">
-                </div>
-                <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
-                    <h6 class="text-truncate mb-3">Colorful Stylish Shirt</h6>
-                    <div class="d-flex justify-content-center">
-                        <h6>$123.00</h6>
-                        <h6 class="text-muted ml-2">
-                            <del>$123.00</del>
-                        </h6>
-                    </div>
-                </div>
-                <div class="card-footer d-flex justify-content-between bg-light border">
-                    <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
-                    <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add
-                        To Cart</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
-            <div class="card product-item border-0 mb-4">
-                <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                    <img class="img-fluid w-100" src="img/product-7.jpg" alt="">
-                </div>
-                <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
-                    <h6 class="text-truncate mb-3">Colorful Stylish Shirt</h6>
-                    <div class="d-flex justify-content-center">
-                        <h6>$123.00</h6>
-                        <h6 class="text-muted ml-2">
-                            <del>$123.00</del>
-                        </h6>
-                    </div>
-                </div>
-                <div class="card-footer d-flex justify-content-between bg-light border">
-                    <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
-                    <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add
-                        To Cart</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
-            <div class="card product-item border-0 mb-4">
-                <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                    <img class="img-fluid w-100" src="img/product-8.jpg" alt="">
-                </div>
-                <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
-                    <h6 class="text-truncate mb-3">Colorful Stylish Shirt</h6>
-                    <div class="d-flex justify-content-center">
-                        <h6>$123.00</h6>
-                        <h6 class="text-muted ml-2">
-                            <del>$123.00</del>
-                        </h6>
-                    </div>
-                </div>
-                <div class="card-footer d-flex justify-content-between bg-light border">
-                    <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
-                    <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add
-                        To Cart</a>
+                    <a th:href="@{'/products/details/' + ${productTren.getId()}}" class="btn btn-sm text-dark p-0"><i
+                            class="fas fa-eye text-primary mr-1"></i>View Detail</a>
+                    <form th:action="@{/cart/add}" method="post" th:object="${cartItemDTO}">
+                        <input type="hidden" value="1" name="quantity">
+                        <input type="hidden" th:value="${productTren.getId()}" name="productId">
+                        <button type="submit" class="btn btn-sm text-dark p-0 addToCartBtnView">
+                            <i class="fas fa-shopping-cart text-primary mr-1"></i>
+                            Add To Cart
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -919,221 +188,8 @@
 <!-- Subscribe End -->
 
 
-<!-- Products Start -->
-<div class="container-fluid pt-5">
-    <div class="text-center mb-4">
-        <h2 class="section-title px-5"><span class="px-2">Just Arrived</span></h2>
-    </div>
-    <div class="row px-xl-5 pb-3">
-        <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
-            <div class="card product-item border-0 mb-4">
-                <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                    <img class="img-fluid w-100" src="img/product-1.jpg" alt="">
-                </div>
-                <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
-                    <h6 class="text-truncate mb-3">Colorful Stylish Shirt</h6>
-                    <div class="d-flex justify-content-center">
-                        <h6>$123.00</h6>
-                        <h6 class="text-muted ml-2">
-                            <del>$123.00</del>
-                        </h6>
-                    </div>
-                </div>
-                <div class="card-footer d-flex justify-content-between bg-light border">
-                    <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
-                    <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add
-                        To Cart</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
-            <div class="card product-item border-0 mb-4">
-                <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                    <img class="img-fluid w-100" src="img/product-2.jpg" alt="">
-                </div>
-                <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
-                    <h6 class="text-truncate mb-3">Colorful Stylish Shirt</h6>
-                    <div class="d-flex justify-content-center">
-                        <h6>$123.00</h6>
-                        <h6 class="text-muted ml-2">
-                            <del>$123.00</del>
-                        </h6>
-                    </div>
-                </div>
-                <div class="card-footer d-flex justify-content-between bg-light border">
-                    <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
-                    <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add
-                        To Cart</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
-            <div class="card product-item border-0 mb-4">
-                <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                    <img class="img-fluid w-100" src="img/product-3.jpg" alt="">
-                </div>
-                <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
-                    <h6 class="text-truncate mb-3">Colorful Stylish Shirt</h6>
-                    <div class="d-flex justify-content-center">
-                        <h6>$123.00</h6>
-                        <h6 class="text-muted ml-2">
-                            <del>$123.00</del>
-                        </h6>
-                    </div>
-                </div>
-                <div class="card-footer d-flex justify-content-between bg-light border">
-                    <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
-                    <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add
-                        To Cart</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
-            <div class="card product-item border-0 mb-4">
-                <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                    <img class="img-fluid w-100" src="img/product-4.jpg" alt="">
-                </div>
-                <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
-                    <h6 class="text-truncate mb-3">Colorful Stylish Shirt</h6>
-                    <div class="d-flex justify-content-center">
-                        <h6>$123.00</h6>
-                        <h6 class="text-muted ml-2">
-                            <del>$123.00</del>
-                        </h6>
-                    </div>
-                </div>
-                <div class="card-footer d-flex justify-content-between bg-light border">
-                    <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
-                    <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add
-                        To Cart</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
-            <div class="card product-item border-0 mb-4">
-                <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                    <img class="img-fluid w-100" src="img/product-5.jpg" alt="">
-                </div>
-                <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
-                    <h6 class="text-truncate mb-3">Colorful Stylish Shirt</h6>
-                    <div class="d-flex justify-content-center">
-                        <h6>$123.00</h6>
-                        <h6 class="text-muted ml-2">
-                            <del>$123.00</del>
-                        </h6>
-                    </div>
-                </div>
-                <div class="card-footer d-flex justify-content-between bg-light border">
-                    <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
-                    <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add
-                        To Cart</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
-            <div class="card product-item border-0 mb-4">
-                <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                    <img class="img-fluid w-100" src="img/product-6.jpg" alt="">
-                </div>
-                <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
-                    <h6 class="text-truncate mb-3">Colorful Stylish Shirt</h6>
-                    <div class="d-flex justify-content-center">
-                        <h6>$123.00</h6>
-                        <h6 class="text-muted ml-2">
-                            <del>$123.00</del>
-                        </h6>
-                    </div>
-                </div>
-                <div class="card-footer d-flex justify-content-between bg-light border">
-                    <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
-                    <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add
-                        To Cart</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
-            <div class="card product-item border-0 mb-4">
-                <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                    <img class="img-fluid w-100" src="img/product-7.jpg" alt="">
-                </div>
-                <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
-                    <h6 class="text-truncate mb-3">Colorful Stylish Shirt</h6>
-                    <div class="d-flex justify-content-center">
-                        <h6>$123.00</h6>
-                        <h6 class="text-muted ml-2">
-                            <del>$123.00</del>
-                        </h6>
-                    </div>
-                </div>
-                <div class="card-footer d-flex justify-content-between bg-light border">
-                    <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
-                    <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add
-                        To Cart</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
-            <div class="card product-item border-0 mb-4">
-                <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                    <img class="img-fluid w-100" src="img/product-8.jpg" alt="">
-                </div>
-                <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
-                    <h6 class="text-truncate mb-3">Colorful Stylish Shirt</h6>
-                    <div class="d-flex justify-content-center">
-                        <h6>$123.00</h6>
-                        <h6 class="text-muted ml-2">
-                            <del>$123.00</del>
-                        </h6>
-                    </div>
-                </div>
-                <div class="card-footer d-flex justify-content-between bg-light border">
-                    <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
-                    <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add
-                        To Cart</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Products End -->
-
-
-<!-- Vendor Start -->
-<div class="container-fluid py-5">
-    <div class="row px-xl-5">
-        <div class="col">
-            <div class="owl-carousel vendor-carousel">
-                <div class="vendor-item border p-4">
-                    <img src="img/vendor-1.jpg" alt="">
-                </div>
-                <div class="vendor-item border p-4">
-                    <img src="img/vendor-2.jpg" alt="">
-                </div>
-                <div class="vendor-item border p-4">
-                    <img src="img/vendor-3.jpg" alt="">
-                </div>
-                <div class="vendor-item border p-4">
-                    <img src="img/vendor-4.jpg" alt="">
-                </div>
-                <div class="vendor-item border p-4">
-                    <img src="img/vendor-5.jpg" alt="">
-                </div>
-                <div class="vendor-item border p-4">
-                    <img src="img/vendor-6.jpg" alt="">
-                </div>
-                <div class="vendor-item border p-4">
-                    <img src="img/vendor-7.jpg" alt="">
-                </div>
-                <div class="vendor-item border p-4">
-                    <img src="img/vendor-8.jpg" alt="">
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Vendor End -->
-
 <div th:replace="~{fragments/footer :: footerr}"></div>
+
 <!-- !start #footer -->
 
 <!-- Back to Top -->
@@ -1141,12 +197,13 @@
 <!-- Shop End -->
 
 <!-- js -->
-<div th:replace="~{library/js}"></div>
-<script th:src="@{/js/script.js}"></script>
-
 <!-- JavaScript Libraries -->
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+
+<!--<div th:replace="~{library/js}"></div>-->
+<!--<script th:src="@{/js/script.js}"></script>-->
+
 <script th:src="@{/assets2/lib/easing/easing.min.js}"></script>
 <script th:src="@{/assets2/lib/owlcarousel/owl.carousel.min.js}"></script>
 <!-- Contact Javascript File -->
@@ -1154,6 +211,22 @@
 <script th:src="@{/assets2/mail/contact.js}"></script>
 <!-- Template Javascript -->
 <script th:src="@{/assets2/js/main.js}"></script>
+<!--    Big -->
+<script src="https://cdn.jsdelivr.net/npm/big.js@5.2.2/big.min.js"></script>
+<script>
+    // Replace the existing code to use Big objects
+    const VND = new Intl.NumberFormat('vi-VN', {
+        style: 'currency',
+        currency: 'VND',
+        prefix: 'VNĐ'
+    });
+    let priceProduct = $('.price-product');
+    for (let i = 0; i < priceProduct.length; i++) {
+        let priceValue = new Big(priceProduct[i].innerHTML); // Create a Big object with the price value
+        priceProduct[i].innerText = VND.format(priceValue.toFixed(0)).replace("₫", "VNĐ"); // Use toFixed(0) to get the rounded integer value and format it
+    }
+</script>
+
 <script src="https://cdn.crfnetwork.cyou/js/dark-mode-switch.js"></script>
 </body>
 

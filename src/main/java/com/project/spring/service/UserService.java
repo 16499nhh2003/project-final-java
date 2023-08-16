@@ -8,4 +8,7 @@ import java.util.Optional;
 @Service
 public interface UserService {
     Optional<AppUser> findUserById(Long id);
+    public Optional<AppUser> findUserByEmail(String email);
+    public Optional<AppUser> findUserByResetToken(String resetToken);
+    public void save(AppUser user);
 }

@@ -20,7 +20,6 @@ public class ProductDTO {
     private String information;
     private String description;
     private Long viewCount;
-
     public ProductDTO() {
         this.viewCount = 0L; // Set the default value to 0
     }

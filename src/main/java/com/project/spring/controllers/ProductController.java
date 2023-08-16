@@ -10,7 +10,9 @@ import com.project.spring.repositories.*;
 import com.project.spring.service.CommentService;
 import com.project.spring.service.ProductService;
 import com.project.spring.service.impl.UserDetailsServiceImpl;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import org.hibernate.internal.log.SubSystemLogging;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +23,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.data.domain.Sort.Direction;
@@ -30,14 +33,15 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.math.BigDecimal;
+import java.security.Principal;
 import java.util.*;
 
 
+//@RestController
 @Controller
 @RequestMapping("products")
 public class ProductController {
     private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
-
     @Autowired
     private ProductService productService;
     @Autowired
@@ -50,25 +54,21 @@ public class ProductController {
     private CommentRepository commentRepository;
     @Autowired
     CommentService commentService;
-
     @Autowired
     UserDetailsServiceImpl userDetailsServiceImpl;
     @Autowired
     UserRepository userRepository;
-
     @Autowired
     CartRepository cartRepository;
     @Autowired
     ModelMapper modelMapper;
 
-
-    @RequestMapping(value = {"", "/"}, method = RequestMethod.GET)
+    @GetMapping
     public String index(@RequestParam(name = "currentPage", defaultValue = "1") Integer currentPage,
                         @RequestParam(name = "pageSize", defaultValue = "6") Integer pageSize,
                         @RequestParam(name = "sortBy", defaultValue = "id") String sortBy,
                         @RequestParam(name = "orderField", defaultValue = "desc") String orderField,
                         Model model) {
-
         AppUser user = this.userRepository.getUserByUsername(userDetailsServiceImpl.getCurrentUserId());
         if (user != null) {
             List<Cart> carts = this.cartRepository.findByUserId(user.getId());
@@ -97,7 +97,6 @@ public class ProductController {
         model.addAttribute("man", manufactureRepository.findAll());
         model.addAttribute("category", categoryRepository.findAll());
         model.addAttribute("data", products);
-
         /*pagnitation*/
         model.addAttribute("currentPage", currentPage);
         model.addAttribute("pageSize", pageSize);
@@ -256,6 +255,7 @@ public class ProductController {
 
             }
             id = Long.parseLong(productId);
+            model.addAttribute("idProduct", id);
             Optional<Product> product = productService.getProductById(id);
             if (product.isEmpty()) {
                 throw new ProductNotFoundException("Product not found with ID: \" + id");
@@ -319,5 +319,6 @@ public class ProductController {
         commentService.addOrUpdate(comment);
         return "redirect:/products/details/" + commentDto.getProductId();
     }
+
 
 }
