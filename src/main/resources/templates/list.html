@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Product List</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        /* Tùy chỉnh CSS cho danh sách sản phẩm */
+        body {
+            padding: 20px;
+        }
+        .action-buttons {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+<h1>Product List</h1>
+<table class="table">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="product : ${products}">
+        <td th:text="${product.id}"></td>
+        <td th:text="${product.name}"></td>
+        <td th:text="${product.price}"></td>
+        <td>
+            <div class="btn-group action-buttons">
+                <a th:href="@{/products/edit/{id}(id=${product.id})}" class="btn btn-sm btn-primary">Edit</a>
+                <a th:href="@{/products/delete/{id}(id=${product.id})}" class="btn btn-sm btn-danger">Delete</a>
+            </div>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<a href="/products/add" class="btn btn-success">Add Product</a>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+</html>
