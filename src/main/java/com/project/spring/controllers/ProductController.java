@@ -61,6 +61,41 @@ public class ProductController {
     @Autowired
     ModelMapper modelMapper;
 
+    @GetMapping("/list")
+    public String productList(Model model) {
+        List<Product> products = productRepository.findAll();
+        model.addAttribute("products", products);
+        return "list";
+    }
+    @GetMapping("/add")
+    public String addProductForm(Model model) {
+        model.addAttribute("product", new Product());
+        return "add";
+    }
+
+    @PostMapping("/add")
+    public String addProductSubmit(@ModelAttribute Product product) {
+        productRepository.save(product);
+        return "redirect:/products/list";
+    }
+    @GetMapping("/edit/{id}")
+    public String editProductForm(@PathVariable Long id, Model model) {
+        Product product = productRepository.findById(id).orElse(null);
+        model.addAttribute("product", product);
+        return "edit";
+    }
+
+    @PostMapping("/edit/{id}")
+    public String editProductSubmit(@PathVariable Long id, @ModelAttribute Product product) {
+        product.setId(id); // Make sure to set the ID
+        productRepository.save(product);
+        return "redirect:/products/list";
+    }
+    @GetMapping("/delete/{id}")
+    public String deleteProduct(@PathVariable Long id) {
+        productRepository.deleteById(id);
+        return "redirect:/products/list";
+    }
 
     @RequestMapping(value = {"", "/"}, method = RequestMethod.GET)
     public String index(@RequestParam(name = "currentPage", defaultValue = "1") Integer currentPage,
