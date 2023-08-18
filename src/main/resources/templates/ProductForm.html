@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Product Form</title>
+</head>
+<body>
+<h2>Product Form</h2>
+<form th:object="${product}" th:action="${product.id != null ? '/product-management/products/' + product.id + '/edit' : '/product-management/products'}" method="post">
+    <label>Name: <input type="text" th:field="*{name}" /></label><br/>
+    <label>Price: <input type="text" th:field="*{price}" /></label><br/>
+    <label>Description: <input type="text" th:field="*{description}" /></label><br/>
+    <label>Color: <input type="text" th:field="*{color}" /></label><br/>
+    <label>Information: <input type="text" th:field="*{information}" /></label><br/>
+    <label>Original Picture: <input type="text" th:field="*{originalPicture}" /></label><br/>
+    <label>Size: <input type="text" th:field="*{size}" /></label><br/>
+    <label>View Count: <input type="text" th:field="*{viewCount}" /></label><br/>
+    <!-- Add more fields as needed -->
+    <button type="submit">Save</button>
+</form>
+</body>
+</html>
