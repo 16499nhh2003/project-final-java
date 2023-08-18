@@ -74,9 +74,15 @@
                     <input id="remmember" name="remember-me" type="checkbox">
                 </div>
                 <!--Message-->
-                <p th:if="${logoutMessage}" th:text="${logoutMessage}"></p>
-                <p th:if="${errorLogin}" th:text="${errorLogin}"></p>
-                <p th:if="${successMessage}" th:text="${successMessage}"></p>
+                <div class="alert alert-success" role="alert" th:if="${logoutMessage}">
+                    <h2 th:text="${logoutMessage}"></h2>
+                </div>
+                <div class="alert alert-danger" role="alert" th:if="${errorLogin}">
+                    <h2 th:text="${errorLogin}"></h2>
+                </div>
+                <div class="alert alert-success" role="alert" th:if="${successMessage}">
+                    <h2 th:text="${successMessage}"></h2>
+                </div>
                 <button class="form-submit col-12 p-2" name="login-submit"
                         style="background-color: #D19C97;color: white">
                     Sign in
@@ -109,6 +115,15 @@
 <!-- Template Javascript -->
 <script th:src="@{/assets2/js/main.js}"></script>
 
+<script>
+    if ($('.alert') != null) {
+        $(".alert").fadeTo(2000, 500).slideUp(500, function () {
+            $(".alert").slideUp(500);
+        });
+    }
+</script>
+
 </body>
+
 
 </html>

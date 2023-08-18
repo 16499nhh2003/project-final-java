@@ -320,5 +320,43 @@ public class ProductController {
         return "redirect:/products/details/" + commentDto.getProductId();
     }
 
+    @GetMapping("/list")
+    public String productList(Model model) {
+        List<Product> products = productRepository.findAll();
+        model.addAttribute("products", products);
+        return "admin/products/list";
+    }
+
+    @GetMapping("/add")
+    public String addProductForm(Model model) {
+        model.addAttribute("product", new Product());
+        return "admin/products/add";
+    }
+
+    @PostMapping("/add")
+    public String addProductSubmit(@ModelAttribute Product product) {
+        productRepository.save(product);
+        return "redirect:/products/list";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String editProductForm(@PathVariable Long id, Model model) {
+        Product product = productRepository.findById(id).orElse(null);
+        model.addAttribute("product", product);
+        return "admin/products/edit";
+    }
+
+    @PostMapping("/edit/{id}")
+    public String editProductSubmit(@PathVariable Long id, @ModelAttribute Product product) {
+        product.setId(id); // Make sure to set the ID
+        productRepository.save(product);
+        return "redirect:/products/list";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deleteProduct(@PathVariable Long id) {
+        productRepository.deleteById(id);
+        return "redirect:/products/list";
+    }
 
 }

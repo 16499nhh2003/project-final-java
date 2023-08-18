@@ -11,4 +11,6 @@ public class OrderDetailDTO {
     private String nameProduct;
     private double priceProduct;
     private int quantity;
+    private String url;
+    private String color;
 }

@@ -86,5 +86,34 @@ public interface ProductRepository extends JpaRepository<Product, Long>, PagingA
     /* top 8 product most view by category/*/
     @Query("select p from  Product p where p.category.id = :idCategory order by  p.viewCount limit 8 ")
     List<Product> getTop8Product(@Param("idCategory") Long idCategory);
+
+    List<Product> findByNameContainingIgnoreCase(String keyword);
+
+    /*Quang*/
+    List<Product> findProductByNameContaining(String name);
+
+    List<Product> findByCategory(Category category);
+
+    List<Product> findByPriceLessThan(Double maxPrice);
+
+    List<Product> findProductByPrice(Double price);
+
+    List<Product> findProductByPriceBetween(Double minPrice, Double maxPrice);
+
+    List<Product> findProductByColor(String color);
+
+    List<Product> findProductByDescriptionContaining(String description);
+
+    List<Product> findProductByInformationContaining(String information);
+
+    List<Product> findProductBySize(int size);
+
+    List<Product> findProductByViewCount(Long viewCount);
+
+    List<Product> findProductByViewCountBetween(Long minViewCount, Long maxViewCount);
+
+
+
+
 }
 

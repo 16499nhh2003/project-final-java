@@ -55,6 +55,11 @@ public class ApplicationSecurityConfig {
                             auth.requestMatchers("/orders").permitAll();
                             auth.requestMatchers("/forgot").permitAll();
                             auth.requestMatchers("/reset").permitAll();
+
+                            auth.requestMatchers("/users/**").permitAll();
+                            auth.requestMatchers("/admin/**").permitAll();
+                            auth.requestMatchers("/static/**").permitAll();
+//                            auth.requestMatchers("/change").permitAll();
                             auth.anyRequest().authenticated();
                         }
                 )
@@ -93,16 +98,19 @@ public class ApplicationSecurityConfig {
     public AuthenticationSuccessHandler authenticationSuccessHandler() {
         return new SimpleUrlAuthenticationSuccessHandler("/");
     }
+
     @Bean
     public AuthenticationFailureHandler authenticationFailureHandler() {
         SimpleUrlAuthenticationFailureHandler simpleUrlAuthenticationFailureHandler = new SimpleUrlAuthenticationFailureHandler();
         simpleUrlAuthenticationFailureHandler.setDefaultFailureUrl("/login?error=true");
         return simpleUrlAuthenticationFailureHandler;
     }
+
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
     @Bean
     public AuthenticationFailureHandler oauth2LoginFailureHandler() {
         return new SimpleUrlAuthenticationFailureHandler("/login?error=true");

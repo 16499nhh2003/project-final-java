@@ -43,4 +43,24 @@ public interface ProductService {
 
     void incrementViewCount(Long id);
 
+
+    /*Quang*/
+    List<Product> findProductByNameContaining(String name);
+    List<Product> findProductByPriceBetween(Double minPrice, Double maxPrice);
+
+    List<Product> findProductByPrice(Double price);
+
+    List<Product> findProductByColor(String color);
+
+    List<Product> findProductByDescriptionContaining(String description);
+
+    List<Product> findProductByInformationContaining(String information);
+
+    List<Product> findProductBySize(int size);
+
+    List<Product> findProductByViewCount(Long viewCount);
+
+    List<Product> findProductByViewCountBetween(Long minViewCount, Long maxViewCount);
+
+
 }

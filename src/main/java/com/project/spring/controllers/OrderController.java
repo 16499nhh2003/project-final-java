@@ -69,7 +69,6 @@ public class OrderController {
         Sort.Direction direction = orderField.equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
         Sort.Order order = new Sort.Order(direction, sortBy);
         Pageable pageable = PageRequest.of(currentPage - 1, pageSize, Sort.by(order));
-
         Page<OrderDTO> page = this.orderRepository.findByUser_Id(user.getId(), pageable)
                 .map(order1 -> modelMapper.map(order1, OrderDTO.class));
         model.addAttribute("orders", page.getContent());
@@ -80,7 +79,6 @@ public class OrderController {
         model.addAttribute("orderField", orderField);
         return "order";
     }
-
     @GetMapping("/{id}")
     public String orderdetail(@PathVariable("id") Long id,
                               Model model) {

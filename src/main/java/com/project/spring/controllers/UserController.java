@@ -2,6 +2,7 @@ package com.project.spring.controllers;
 
 import com.project.spring.model.AppUser;
 import com.project.spring.repositories.UserRepository;
+import com.project.spring.service.UserService;
 import com.project.spring.service.impl.UserDetailsServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -25,24 +26,26 @@ import java.util.List;
 import java.util.stream.Stream;
 
 @Controller
-@RequestMapping("/account")
+//@RequestMapping("/account")
 public class UserController {
     @Autowired
     UserDetailsServiceImpl userDetailsService;
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    UserService userService;
+
     public static String UPLOAD_DIRECTORY = System.getProperty("user.dir") + "/src/main/resources/static/uploads/users/";
 
-    @GetMapping
+    @GetMapping("/account")
     public String profileUser(Model model) {
         AppUser appUser = this.userRepository.getUserByUsername(this.userDetailsService.getCurrentUserId());
         model.addAttribute("isLogin", appUser.getName());
         model.addAttribute("userRequest", appUser);
         return "profile";
     }
-
-    @PostMapping
+    @PostMapping("/account")
     public String updateInfo(@Valid @ModelAttribute("userRequest") AppUser userRequest,
                              BindingResult bindingResult,
                              @RequestParam("image") MultipartFile file,
@@ -76,5 +79,42 @@ public class UserController {
                 .map(FeatureDescriptor::getName)
                 .filter(propertyName -> wrappedSource.getPropertyValue(propertyName) == null)
                 .toArray(String[]::new);
+    }
+
+    @GetMapping("/users")
+    public String listUsers(Model model) {
+        Iterable<AppUser> users = userService.getAllUsers();
+        model.addAttribute("users", users);
+        return "admin/user/userList";
+    }
+    @GetMapping("/users/new")
+    public String newUserForm(Model model) {
+        model.addAttribute("user", new AppUser());
+        return "admin/user/newUserForm";
+    }
+
+    @PostMapping("/users/save")
+    public String saveUser(@ModelAttribute AppUser user) {
+        userService.saveUser(user);
+        return "redirect:/users";
+    }
+
+    @GetMapping("/users/edit/{id}")
+    public String editUserForm(@PathVariable Long id, Model model) {
+        AppUser user = userService.getUserById(id);
+        model.addAttribute("user", user);
+        return "admin/user/editUserForm";
+    }
+
+    @PostMapping("/users/update/{id}")
+    public String updateUser(@PathVariable Long id, @ModelAttribute AppUser user) {
+        userService.updateUser(id, user);
+        return "redirect:/users";
+    }
+
+    @GetMapping("/users/delete/{id}")
+    public String deleteUser(@PathVariable Long id) {
+        userService.deleteUser(id);
+        return "redirect:/users";
     }
 }

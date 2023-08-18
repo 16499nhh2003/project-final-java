@@ -146,6 +146,54 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
+    @Override
+    public List<Product> findProductByNameContaining(String name) {
+        return productRepository.findProductByNameContaining(name);
+    }
+
+    @Override
+    public List<Product> findProductByPriceBetween(Double minPrice, Double maxPrice) {
+        return null;
+    }
+
+    @Override
+    public List<Product> findProductByPrice(Double price) {
+        return null;
+    }
+
+    @Override
+    public List<Product> findProductByColor(String color) {
+        return null;
+    }
+
+    @Override
+    public List<Product> findProductByDescriptionContaining(String description) {
+        return null;
+    }
+
+    @Override
+    public List<Product> findProductByInformationContaining(String information) {
+        return null;
+    }
+
+    @Override
+    public List<Product> findProductBySize(int size) {
+        return null;
+    }
+
+    @Override
+    public List<Product> findProductByViewCount(Long viewCount) {
+        return null;
+    }
+
+    @Override
+    public List<Product> findProductByViewCountBetween(Long minViewCount, Long maxViewCount) {
+        return null;
+    }
+
+    /*Quang*/
+
+
 }
 //Store
 

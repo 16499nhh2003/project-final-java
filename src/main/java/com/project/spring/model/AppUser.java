@@ -29,6 +29,7 @@ public class AppUser {
     private String password;
     @OneToMany(mappedBy = "user")
     private List<Cart> carts;
+
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "users_roles",
