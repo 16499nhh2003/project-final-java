@@ -55,7 +55,7 @@
 <body>
 <div class="container">
   <h1>Edit Product</h1>
-  <form th:action="@{/product-management/save}" th:object="${product}" method="post">
+  <form th:action="@{/admin/products/save}" th:object="${product}" method="post">
     <label for="id">Id:</label>
     <input type="text" th:field="*{id}" id="id" readonly>
     <label for="name">Name:</label>

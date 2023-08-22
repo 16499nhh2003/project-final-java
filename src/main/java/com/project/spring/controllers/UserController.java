@@ -4,6 +4,7 @@ import com.project.spring.model.AppUser;
 import com.project.spring.repositories.UserRepository;
 import com.project.spring.service.UserService;
 import com.project.spring.service.impl.UserDetailsServiceImpl;
+import com.project.spring.utils.FileUploadUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
@@ -12,6 +13,7 @@ import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +25,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 @Controller
@@ -45,10 +48,11 @@ public class UserController {
         model.addAttribute("userRequest", appUser);
         return "profile";
     }
+
     @PostMapping("/account")
     public String updateInfo(@Valid @ModelAttribute("userRequest") AppUser userRequest,
                              BindingResult bindingResult,
-                             @RequestParam("image") MultipartFile file,
+                             @RequestParam("image") MultipartFile multipartFile,
                              Model model, RedirectAttributes redirectAttributes
     ) throws IOException {
         if (bindingResult.hasErrors()) {
@@ -60,15 +64,21 @@ public class UserController {
             return "profile";
         }
         AppUser user = this.userRepository.getUserByUsername(this.userDetailsService.getCurrentUserId());
-        if (!file.isEmpty()) {
-            StringBuilder fileNames = new StringBuilder();
-            String fileName = file.getOriginalFilename();
+        if (!multipartFile.isEmpty()) {
+            /*StringBuilder fileNames = new StringBuilder();
+            String fileName = multipartFile.getOriginalFilename();
             Path uploadPath = Path.of(UPLOAD_DIRECTORY, fileName);
-            Files.write(uploadPath, file.getBytes());
-            user.setPhoto(fileName);
+            Files.write(uploadPath, multipartFile.getBytes());
+            user.setPhoto(fileName);*/
+            String fileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
+            String fileExtension = fileName.substring(fileName.lastIndexOf("."));
+            String uniqueFileName = FileUploadUtil.generateUniqueFileName(fileExtension);
+            user.setPhoto(uniqueFileName);
+            this.userRepository.save(user);
+            String uploadDir = "./upload/users/";
+            FileUploadUtil.saveFile(uploadDir, uniqueFileName, multipartFile);
         }
-        BeanUtils.copyProperties(userRequest, user, getNullPropertyNames(userRequest));
-        this.userRepository.save(user);
+//        BeanUtils.copyProperties(userRequest, user, getNullPropertyNames(userRequest));
         redirectAttributes.addFlashAttribute("success", "success");
         return "redirect:/account";
     }
@@ -79,42 +89,5 @@ public class UserController {
                 .map(FeatureDescriptor::getName)
                 .filter(propertyName -> wrappedSource.getPropertyValue(propertyName) == null)
                 .toArray(String[]::new);
-    }
-
-    @GetMapping("/users")
-    public String listUsers(Model model) {
-        Iterable<AppUser> users = userService.getAllUsers();
-        model.addAttribute("users", users);
-        return "admin/user/userList";
-    }
-    @GetMapping("/users/new")
-    public String newUserForm(Model model) {
-        model.addAttribute("user", new AppUser());
-        return "admin/user/newUserForm";
-    }
-
-    @PostMapping("/users/save")
-    public String saveUser(@ModelAttribute AppUser user) {
-        userService.saveUser(user);
-        return "redirect:/users";
-    }
-
-    @GetMapping("/users/edit/{id}")
-    public String editUserForm(@PathVariable Long id, Model model) {
-        AppUser user = userService.getUserById(id);
-        model.addAttribute("user", user);
-        return "admin/user/editUserForm";
-    }
-
-    @PostMapping("/users/update/{id}")
-    public String updateUser(@PathVariable Long id, @ModelAttribute AppUser user) {
-        userService.updateUser(id, user);
-        return "redirect:/users";
-    }
-
-    @GetMapping("/users/delete/{id}")
-    public String deleteUser(@PathVariable Long id) {
-        userService.deleteUser(id);
-        return "redirect:/users";
     }
 }

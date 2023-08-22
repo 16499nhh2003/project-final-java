@@ -2,18 +2,32 @@ package com.project.spring.controllers.admin;
 
 import com.project.spring.dto.OrderDTO;
 import com.project.spring.dto.OrderDetailDTO;
+import com.project.spring.model.AppUser;
 import com.project.spring.model.Order;
 import com.project.spring.model.OrderDetail;
+import com.project.spring.model.Product;
 import com.project.spring.repositories.OrderRepository;
 import com.project.spring.repositories.ProductRepository;
 import com.project.spring.repositories.UserRepository;
+import com.project.spring.service.impl.ReportService;
+import com.project.spring.service.impl.UserDetailsServiceImpl;
+import com.project.spring.utils.ExportPdf;
+import jakarta.servlet.http.HttpServletResponse;
+import net.sf.jasperreports.engine.JRException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.*;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.ByteArrayInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,14 +37,32 @@ import java.util.stream.Collectors;
 public class AdminController {
     @Autowired
     OrderRepository orderRepository;
+    @Autowired
+    UserDetailsServiceImpl userDetailsServiceImpl;
 
     @GetMapping
-    public String index() {
+    public String index(Model model) {
+        AppUser user = this.userRepository.getUserByUsername(userDetailsServiceImpl.getCurrentUserId());
+        model.addAttribute("isAdmin", user.getName());
+
+        List<Order> orders = this.orderRepository.findAll();
+        model.addAttribute("numberOfOrder", orders.size());
+
+        List<AppUser> appUsers = this.userRepository.findAll();
+        model.addAttribute("numberOfUser", appUsers.size());
+
+        List<Product> products = this.productRepository.findAll();
+        model.addAttribute("numberOfProduct", products.size());
+
+
         return "admin/index";
     }
 
     @GetMapping("/order")
     public String order(Model model, @RequestParam(name = "currentPage", defaultValue = "1") Integer currentPage, @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize, @RequestParam(name = "sortBy", defaultValue = "date") String sortBy, @RequestParam(name = "orderField", defaultValue = "desc") String orderField) {
+        AppUser user = this.userRepository.getUserByUsername(userDetailsServiceImpl.getCurrentUserId());
+        model.addAttribute("isAdmin", user.getName());
+
         Sort.Direction direction = orderField.equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
         Sort.Order order = new Sort.Order(direction, sortBy);
         Pageable pageable = PageRequest.of(currentPage - 1, pageSize, Sort.by(order));
@@ -62,6 +94,10 @@ public class AdminController {
 
     @GetMapping("/order/details/{id}")
     public String details(@PathVariable("id") Long id, Model model) {
+
+        AppUser user = this.userRepository.getUserByUsername(userDetailsServiceImpl.getCurrentUserId());
+        model.addAttribute("isAdmin", user.getName());
+
         Order order = this.orderRepository.findById(id).get();
         List<OrderDetail> orderDetails = order.getOrderDetails();
         List<OrderDetailDTO> orderDetailDTOS = orderDetails.stream().map(orderDetail -> {
@@ -84,6 +120,7 @@ public class AdminController {
 
     @PostMapping("/order/delete/{id}")
     public String deleteOrder(@PathVariable("id") Long id) {
+
         Order order = this.orderRepository.findById(id).get();
         this.orderRepository.delete(order);
         return "redirect:/admin/order";
@@ -91,6 +128,9 @@ public class AdminController {
 
     @GetMapping("/order/edit/{id}")
     public String editOrder(@PathVariable("id") Long id, Model model) {
+        AppUser user = this.userRepository.getUserByUsername(userDetailsServiceImpl.getCurrentUserId());
+        model.addAttribute("isAdmin", user.getName());
+
         Order order = this.orderRepository.findById(id).get();
         List<OrderDetail> orderDetail = order.getOrderDetails();
         List<OrderDetailDTO> orderDetailDTOS = orderDetail.stream().map(orderDetail1 -> {
@@ -126,6 +166,7 @@ public class AdminController {
 
     @PostMapping("/order/edit")
     public String editOrderPost(@ModelAttribute("order") OrderDTO orderDTORequest) {
+
         Long idOrder = orderDTORequest.getIdOrder();
 
         Order order = new Order();
@@ -147,16 +188,31 @@ public class AdminController {
 
         BigDecimal total = BigDecimal.ZERO;
         for (OrderDetail orderDetail : orderDetails) {
-            BigDecimal subtotal = BigDecimal.valueOf(orderDetail.getProduct().getPrice())
-                    .multiply(BigDecimal.valueOf(orderDetail.getQuantity()));
+            BigDecimal subtotal = BigDecimal.valueOf(orderDetail.getProduct().getPrice()).multiply(BigDecimal.valueOf(orderDetail.getQuantity()));
             total = total.add(subtotal);
         }
 
         order.setOrderDetails(orderDetails);
         order.setTotal(total);
         this.orderRepository.save(order);
-
         return "redirect:/admin/order/edit/" + orderDTORequest.getIdOrder();
     }
 
+    @GetMapping(value = "/exports", produces = MediaType.APPLICATION_PDF_VALUE)
+    public ResponseEntity<InputStreamResource> employeeReports(HttpServletResponse response) throws IOException {
+        List<AppUser> allEmployees = this.userRepository.findAll();
+        ByteArrayInputStream bis = ExportPdf.employeesReport(allEmployees);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Disposition", "attachment;filename=employees.pdf");
+        return ResponseEntity.ok().headers(headers).contentType(MediaType.APPLICATION_PDF).body(new InputStreamResource(bis));
+    }
+
+    @Autowired
+    ReportService exportReport;
+
+    @GetMapping("/report/order/{id}/{format}")
+    public String generateReport(@PathVariable String format, @PathVariable Long id) throws FileNotFoundException, JRException {
+        exportReport.exportReport(format, id);
+        return "admin/index";
+    }
 }

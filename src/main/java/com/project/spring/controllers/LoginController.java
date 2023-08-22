@@ -29,7 +29,8 @@ public class LoginController {
             @RequestParam(name = "logout", required = false) String logout,
             Model model,
             HttpSession httpSession,
-            @RequestParam(name = "error", required = false) String error) {
+            @RequestParam(name = "error", required = false) String error,
+            Authentication authentication) {
         if (logout != null) {
             SecurityContextHolder.clearContext();
             httpSession.invalidate();
@@ -37,6 +38,9 @@ public class LoginController {
         }
         if (error != null) {
             model.addAttribute("errorLogin", "Fail login");
+        }
+        if (authentication != null && authentication.isAuthenticated()) {
+            return "redirect:/";
         }
         model.addAttribute("isLogin", null);
         return "login";

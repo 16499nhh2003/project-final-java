@@ -2,12 +2,23 @@ package com.project.spring.controllers.admin;
 
 import com.project.spring.model.Product;
 import com.project.spring.service.impl.ProductServiceImpl;
+import com.project.spring.utils.FileUploadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Objects;
 
 
 @Controller
@@ -35,10 +46,36 @@ public class ProductManagementController {
         return "admin/products/new";
     }
 
+    public static String UPLOAD_DIRECTORY = System.getProperty("user.dir") + "/src/main/resources/static/upload/";
+
     @PostMapping("/save")
-    public String saveProduct(@ModelAttribute Product product) {
-        productService.addOrUpdate(product);
-        return "redirect:/admin/list";
+    public String saveProduct(@ModelAttribute Product product, @RequestParam("image") MultipartFile multipartFile) throws IOException {
+        /*if (!multipartFile.isEmpty()) {
+            try {
+                String originalFileName = multipartFile.getOriginalFilename();
+                String fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
+                String uniqueFileName = generateUniqueFileName(fileExtension);
+                Path targetPath = Path.of(UPLOAD_DIRECTORY, uniqueFileName);
+                Files.copy(imageFile.getInputStream(), targetPath, StandardCopyOption.REPLACE_EXISTING);
+                product.setOriginalPicture(uniqueFileName);
+            } catch (IOException exception) {
+                exception.printStackTrace();
+            }
+        }*/
+        String fileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
+        product.setOriginalPicture(fileName);
+        product.setViewCount(0L);
+        Product savedProduct = this.productService.addOrUpdate(product);
+        String uploadDir = "./upload/products/";
+        FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+        return "redirect:/admin/products/list";
+    }
+
+    private String generateUniqueFileName(String fileExtension) {
+        LocalDateTime currentTime = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+        String formattedDateTime = currentTime.format(formatter);
+        return "upload_" + formattedDateTime + fileExtension;
     }
 
     @GetMapping("/edit/{id}")
@@ -50,13 +87,13 @@ public class ProductManagementController {
     @PostMapping("/update/{id}")
     public String updateProduct(@PathVariable Long id, @ModelAttribute Product product) {
         productService.addOrUpdate(product);
-        return "redirect:/admin/list";
+        return "redirect:/admin/products/list";
     }
 
     @GetMapping("/delete/{id}")
     public String deleteProduct(@PathVariable Long id) {
         productService.deleteProductById(id);
-        return "redirect:/admin/list";
+        return "redirect:/admin/products/list";
     }
 
     @PostMapping("/search")

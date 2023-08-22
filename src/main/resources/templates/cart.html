@@ -52,7 +52,8 @@
                 <tr th:each="cartItem : ${cartItems}" th:id="${cartItem.productId}">
                     <td class="align-middle" style="text-align: left">
                         <!-- ... product image and name ... -->
-                        <img th:src="@{'/assets/' + ${cartItem.productOriginalPicture}}" alt="" style="width: 50px;">
+                        <img th:src="@{${cartItem.productOriginalPicture}}"
+                             alt="" style="width: 50px;">
                         [[${cartItem.productName}]]
                     </td>
                     <td class="align-middle price price-product" th:data-tag="${cartItem.getProductPrice()}">

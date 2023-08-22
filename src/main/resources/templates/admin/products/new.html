@@ -7,7 +7,8 @@
 <body>
 <div class="container mt-5">
     <h1 class="text-center">New Product</h1>
-    <form class="mt-4" th:action="@{/admin/products/save}" th:object="${product}" method="post">
+    <form class="mt-4" th:action="@{/admin/products/save}" th:object="${product}" method="post"
+          enctype="multipart/form-data">
         <div class="mb-3">
             <label for="name" class="form-label">Name:</label>
             <input type="text" class="form-control" th:field="*{name}" id="name">
@@ -27,6 +28,10 @@
         <div class="mb-3">
             <label for="information" class="form-label">Information:</label>
             <input type="text" class="form-control" th:field="*{information}" id="information">
+        </div>
+        <div class="mb-3">
+            <label for="formFileLg" class="form-label">Image</label>
+            <input class="form-control form-control-lg" id="formFileLg" type="file" accept="image/*"  name="image">
         </div>
         <div class="mb-3">
             <label for="size" class="form-label">Size:</label>

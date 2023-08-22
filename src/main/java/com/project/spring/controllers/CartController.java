@@ -63,6 +63,10 @@ public class CartController {
             }
             CartDTO cartDTO = modelMapper.map(cart, CartDTO.class);
             List<CartItemDTO> cartItemDTOs = cartDTO.getCartItems();
+            cartItemDTOs.stream().map(cartItemDTO -> {
+                cartItemDTO.setProductOriginalPicture(this.productRepository.findById(cartItemDTO.getProductId()).get().getLogoImage());
+                return cartItemDTO;
+            }).toList();
             numberItems = cartItemDTOs.size();
             for (CartItemDTO cartItemDTO : cartItemDTOs) {
                 total[0] = total[0].add(BigDecimal.valueOf(cartItemDTO.getProductPrice() * cartItemDTO.getQuantity()));

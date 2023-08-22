@@ -63,6 +63,7 @@
                             <th scope="col">Số điện thoại</th>
                             <th scope="col">Trạng Thái</th>
                             <th scope="col">Xem chi tiết</th>
+                            <th scope="col">In hóa đơn</th>
                             <th scope="col">Hành động</th>
                         </tr>
                         </thead>
@@ -92,6 +93,9 @@
                                    th:href="@{'/admin/order/details/' + ${order.getIdOrder()}}">
                                     <i class="fa fa-light fa-info"></i> &nbsp;Xem chi tiết đơn hàng
                                 </a></td>
+                            <td>
+                                <a th:href="@{'/admin/report/order/'+${order.idOrder}+'/pdf'}">In hóa đơn </a>
+                            </td>
                             <td>
                                 <a th:href="@{'/admin/order/edit/' + ${order.getIdOrder()}}" type="button"
                                    class="btn btn-warning">

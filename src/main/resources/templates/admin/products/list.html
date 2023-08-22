@@ -3,8 +3,17 @@
 <head>
     <title>Product List</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .limited-text {
+            max-width: 200px; /* Adjust this value as needed */
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
 </head>
 <body>
+
 <div class="container">
     <h1>Product List</h1>
 
@@ -24,6 +33,7 @@
         <tr>
             <th>ID</th>
             <th>Name</th>
+            <th>Image</th>
             <th>Price</th>
             <th>Color</th>
             <th>Description</th>
@@ -37,10 +47,13 @@
         <tr th:if="${products} != null" th:each="product : ${products}">
             <td th:text="${product.id}"></td>
             <td th:text="${product.name}"></td>
+            <th>
+                <img th:src="@{${product.logoImage}}" style="width: 100px">
+            </th>
             <td th:text="${product.price}"></td>
             <td th:text="${product.color}"></td>
-            <td th:text="${product.description}"></td>
-            <td th:text="${product.information}"></td>
+            <td th:text="${product.description}" class="limited-text"></td>
+            <td th:text="${product.information}" class="limited-text"></td>
             <td th:text="${product.size}"></td>
             <td th:if="${product.viewCount} != null" th:text="${product.viewCount}"></td>
             <td th:if="${product.viewCount} == null" th:text="0"></td>

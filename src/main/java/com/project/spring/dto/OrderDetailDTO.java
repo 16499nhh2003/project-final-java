@@ -4,6 +4,8 @@ import com.project.spring.model.Order;
 import com.project.spring.model.Product;
 import lombok.Data;
 
+import java.math.BigDecimal;
+
 @Data
 public class OrderDetailDTO {
     private Long idProduct;

@@ -951,7 +951,7 @@ var undefined=null;
 
 /**
  * function parseInt(s,radix)
- * @param {String} s
+ * @param {number} s
  * @type Number
  * @returns {Number}
  * @since   Standard ECMA-262 3rd. Edition
