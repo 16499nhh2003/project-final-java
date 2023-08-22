@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="">
+<head>
+    <title>Product List</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .limited-text {
+            max-width: 200px; /* Adjust this value as needed */
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Product List</h1>
+
+    <a class="btn btn-success mb-3" th:href="@{/admin/products/new}">Add New Product</a>
+
+    <form th:action="@{/admin/products/search}" method="post">
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" name="keyword" placeholder="Search products...">
+            <button class="btn btn-outline-secondary" type="submit">Search</button>
+        </div>
+    </form>
+
+    <span th:if="${errorMessage} != null" th:text="${errorMessage}" style="color: red"></span>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Image</th>
+            <th>Price</th>
+            <th>Color</th>
+            <th>Description</th>
+            <th>Information</th>
+            <th>Size</th>
+            <th>View Count</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${products} != null" th:each="product : ${products}">
+            <td th:text="${product.id}"></td>
+            <td th:text="${product.name}"></td>
+            <th>
+                <img th:src="@{${product.logoImage}}" style="width: 100px">
+            </th>
+            <td th:text="${product.price}"></td>
+            <td th:text="${product.color}"></td>
+            <td th:text="${product.description}" class="limited-text"></td>
+            <td th:text="${product.information}" class="limited-text"></td>
+            <td th:text="${product.size}"></td>
+            <td th:if="${product.viewCount} != null" th:text="${product.viewCount}"></td>
+            <td th:if="${product.viewCount} == null" th:text="0"></td>
+            <td>
+                <a class="btn btn-primary" th:href="@{/admin/products/view/{id}(id=${product.id})}">View</a>
+                <a class="btn btn-warning" th:href="@{/admin/products/edit/{id}(id=${product.id})}">Edit</a>
+                <a class="btn btn-danger" th:href="@{/admin/products/delete/{id}(id=${product.id})}">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+
+<!-- Pagination-->
+        <tfoot th:if="${products} != null">
+            <tr>
+                <td colspan="10">
+                    Page:
+                    <!-- Previous Page -->
+                    <span   th:if="${currentPage > 0}">
+                            <a th:href="@{/admin/products/list(currentPage=${currentPage} - 1)}">Previous</a>
+                    </span>
+                    <!-- Page number -->
+                    <span   th:if="${totalPages > 0}" th:each="pageNumber : ${#numbers.sequence(0, totalPages - 1)}">
+                        <!-- Current page -->
+                            <span th:if="${currentPage} == ${pageNumber}" th:text="${pageNumber}"></span>
+                        <!-- Other page -->
+                            <span th:if="${currentPage} != ${pageNumber}">
+                                <a th:href="@{/admin/products/list(currentPage=${pageNumber})}" th:text="${pageNumber}"></a>
+                            </span>
+                        <!-- Separator -->
+                        <span>|</span>
+                    </span>
+
+                    <!-- Next Page -->
+                    <span th:if="${currentPage + 1 &lt; totalPages}">
+                        <a th:href="@{/admin/products/list(currentPage=${currentPage} + 1)}">Next</a>
+                    </span>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+</body>
+</html>
