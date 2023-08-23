@@ -43,6 +43,7 @@ public class ProductManagementController {
         Sort.Direction direction = orderField.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
         Sort.Order order = new Sort.Order(direction, sortBy);
         Pageable pageable = PageRequest.of(Integer.parseInt(currentPage), Integer.parseInt(numberElementInOnePage), Sort.by(order));
+        model.addAttribute("ids", resultIdSearch);
 
         if (!resultIdSearch.isEmpty()) {
             resultIdSearch = resultIdSearch.replace('[', ' ');
