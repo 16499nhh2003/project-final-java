@@ -45,8 +45,7 @@ public class ReportService {
             int quantity = orderDetailDTO.getQuantity();
             total += price * quantity;
         }
-        System.out.println(total
-        );
+        System.out.println(total);
 
         //load file and compile it
         File file = ResourceUtils.getFile("classpath:order.jrxml");

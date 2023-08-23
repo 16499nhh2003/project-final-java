@@ -56,23 +56,29 @@
 <body>
 <div class="container">
   <h1>Edit Product</h1>
-  <form th:action="@{/admin/products/save}" th:object="${product}" method="post" enctype="multipart/form-data">
+  <form th:action="@{/admin/products/update}" method="post" enctype="multipart/form-data">
     <label for="id">Id:</label>
-    <input type="text" th:field="*{id}" id="id" readonly>
+    <input type="text" id="id" name="id" th:value="${product.id}" readonly>
     <label for="name">Name:</label>
-    <input type="text" th:field="*{name}" id="name">
+    <input type="text" id="name" name="name" th:value="${product.name}">
     <label for="price">Price:</label>
-    <input type="text" th:field="*{price}" id="price">
+    <input type="text" id="price" name="price" th:value="${product.price}">
     <label for="color">Color:</label>
-    <input type="text" th:field="*{color}" id="color">
+    <input type="text" id="color" name="color" th:value="${product.color}">
     <label for="description">Description:</label>
-    <input type="text" th:field="*{description}" id="description">
+    <input type="text" id="description" name="description" th:value="${product.description}">
     <label for="information">Information:</label>
-    <input type="text" th:field="*{information}" id="information">
+    <input type="text" id="information" name="information" th:value="${product.information}">
     <label for="formFileLg">Image</label>
-    <input id="formFileLg" type="file" accept="image/*"  name="image" required>
+    <input id="formFileLg" type="file" accept="image/*" name="image" required>
     <label for="size">Size:</label>
-    <input type="text" th:field="*{size}" id="size">
+    <input type="text" id="size" name="size" th:value="${product.size}">
+    <label for="categoryName">Category Name:</label>
+    <input type="text" id="categoryName" name="categoryName" th:value="${product.category.name}">
+    <label for="categoryURL" >Category URL:</label>
+    <input type="text" id="categoryURL" name="categoryURL" th:value="${product.category.url}">
+    <label for="manufactureName">Manufacture Name:</label>
+    <input type="text" id="manufactureName" name="manufactureName" th:value="${product.manufacture}">
     <!-- Other fields here -->
     <input type="submit" value="Save">
   </form>

@@ -11,32 +11,45 @@
           enctype="multipart/form-data">
         <div class="mb-3">
             <label for="name" class="form-label">Name:</label>
-            <input type="text" class="form-control" th:field="*{name}" id="name">
+            <input type="text" class="form-control" th:field="*{name}" id="name" required>
         </div>
         <div class="mb-3">
             <label for="price" class="form-label">Price:</label>
-            <input type="text" class="form-control" th:field="*{price}" id="price">
+            <input type="text" class="form-control" th:field="*{price}" id="price" required>
         </div>
         <div class="mb-3">
             <label for="color" class="form-label">Color:</label>
-            <input type="text" class="form-control" th:field="*{color}" id="color">
+            <input type="text" class="form-control" th:field="*{color}" id="color" required>
         </div>
         <div class="mb-3">
             <label for="description" class="form-label">Description:</label>
-            <input type="text" class="form-control" th:field="*{description}" id="description">
+            <input type="text" class="form-control" th:field="*{description}" id="description" required>
         </div>
         <div class="mb-3">
             <label for="information" class="form-label">Information:</label>
-            <input type="text" class="form-control" th:field="*{information}" id="information">
+            <input type="text" class="form-control" th:field="*{information}" id="information" required>
         </div>
         <div class="mb-3">
             <label for="formFileLg" class="form-label">Image</label>
-            <input class="form-control form-control-lg" id="formFileLg" type="file" accept="image/*"  name="image">
+            <input class="form-control form-control-lg" id="formFileLg" type="file" accept="image/*"  name="image" required>
         </div>
         <div class="mb-3">
             <label for="size" class="form-label">Size:</label>
-            <input type="text" class="form-control" th:field="*{size}" id="size">
+            <input type="text" class="form-control" th:field="*{size}" id="size" required>
         </div>
+        <div class="mb-3">
+            <label for="categoryName" class="form-label">Category Name:</label>
+            <input type="text" class="form-control" id="categoryName" name="categoryName" required>
+        </div>
+        <div class="mb-3">
+            <label for="categoryURL" class="form-label">Category URL:</label>
+            <input type="text" class="form-control" id="categoryURL" name="categoryURL" required>
+        </div>
+        <div class="mb-3">
+            <label for="manufactureName" class="form-label">Manufacture Name:</label>
+            <input type="text" class="form-control" id="manufactureName" name="manufactureName" required>
+        </div>
+
         <!-- Other fields here -->
         <button type="submit" class="btn btn-primary">Save</button>
     </form>

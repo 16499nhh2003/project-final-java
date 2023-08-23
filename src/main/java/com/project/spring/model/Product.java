@@ -31,7 +31,7 @@ public class Product implements Serializable {
     @Column(columnDefinition = "BIGINT DEFAULT 0")
     private Long viewCount; // Set default value to 0
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @ToString.Exclude
     @JoinColumn(name = "category_id", nullable = true)
     private Category category;
@@ -41,7 +41,7 @@ public class Product implements Serializable {
     @ToString.Exclude
     private Set<ProductImage> images;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "pro_man", inverseJoinColumns = @JoinColumn(name = "manufacture_id"), joinColumns = @JoinColumn(name = "product_id"))
     @ToString.Exclude
     private Set<Manufacture> manufacture;

@@ -1,5 +1,7 @@
 package com.project.spring.controllers.admin;
 
+import com.project.spring.model.Category;
+import com.project.spring.model.Manufacture;
 import com.project.spring.model.Product;
 import com.project.spring.service.impl.ProductServiceImpl;
 import com.project.spring.utils.FileUploadUtil;
@@ -20,8 +22,7 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 
 @Controller
@@ -33,6 +34,7 @@ public class ProductManagementController {
 
     @GetMapping("/list")
     public String listProducts(Model model,
+                               @RequestParam(value = "resultIdSearch", defaultValue = "") String resultIdSearch,
                                @RequestParam(name = "currentPage", defaultValue = "0") String currentPage,
                                @RequestParam(name = "numberElementInOnePage", defaultValue = "10") String numberElementInOnePage,
                                @RequestParam(name = "sortBy", defaultValue = "id") String sortBy,
@@ -42,8 +44,23 @@ public class ProductManagementController {
         Sort.Order order = new Sort.Order(direction, sortBy);
         Pageable pageable = PageRequest.of(Integer.parseInt(currentPage), Integer.parseInt(numberElementInOnePage), Sort.by(order));
 
-        model.addAttribute("products", productService.pageFindAllProduct(pageable).getContent());
-        model.addAttribute("totalPages", productService.pageFindAllProduct(pageable).getTotalPages());
+        if (!resultIdSearch.isEmpty()) {
+            resultIdSearch = resultIdSearch.replace('[', ' ');
+            resultIdSearch = resultIdSearch.replace(", ", ",");
+            String[] ids = resultIdSearch.strip().split(",");
+            List<Long> ids1 = new ArrayList<Long>();
+            for (String id : ids) {
+                ids1.add(Long.parseLong(id));
+            }
+            model.addAttribute("products", productService.pageFindProductByIdIn(ids1, pageable).getContent());
+            model.addAttribute("totalPages", productService.pageFindProductByIdIn(ids1, pageable).getTotalPages());
+
+        } else {
+            model.addAttribute("products", productService.pageFindAllProduct(pageable).getContent());
+            model.addAttribute("totalPages", productService.pageFindAllProduct(pageable).getTotalPages());
+        }
+
+
         model.addAttribute("currentPage", Integer.parseInt(currentPage));
         model.addAttribute("numberElementInOnePage", Integer.parseInt(numberElementInOnePage));
         model.addAttribute("sortBy", sortBy);
@@ -68,6 +85,9 @@ public class ProductManagementController {
     @PostMapping("/save")
     public String saveProduct(@ModelAttribute Product product,
                               @RequestParam("image") MultipartFile multipartFile,
+                              @RequestParam("categoryName") String categoryName,
+                              @RequestParam("categoryURL") String categoryURL,
+                              @RequestParam("manufactureName") String manufactureName,
                               Model model,
                               @RequestParam(name = "currentPage", defaultValue = "0") String currentPage,
                               @RequestParam(name = "numberElementInOnePage", defaultValue = "10") String numberElementInOnePage,
@@ -86,27 +106,28 @@ public class ProductManagementController {
             }
         }*/
 
-        if (multipartFile == null) {
-            productService.addOrUpdate(product);
-            Sort.Direction direction = orderField.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
-            Sort.Order order = new Sort.Order(direction, sortBy);
-            Pageable pageable = PageRequest.of(Integer.parseInt(currentPage), Integer.parseInt(numberElementInOnePage), Sort.by(order));
 
-            model.addAttribute("products", productService.pageFindAllProduct(pageable).getContent());
-            model.addAttribute("totalPages", productService.pageFindAllProduct(pageable).getTotalPages());
-            model.addAttribute("currentPage", Integer.parseInt(currentPage));
-            model.addAttribute("numberElementInOnePage", Integer.parseInt(numberElementInOnePage));
-            model.addAttribute("sortBy", sortBy);
-            model.addAttribute("orderField", orderField);
-            return "/admin/products/list";
-        }
-        else {
+            product.setCategory(new Category(categoryName, categoryURL));
+            if (manufactureName.contains(",")) {
+                Set<Manufacture> manufactures = new HashSet<Manufacture>();
+                for (String name : manufactureName.strip().split(",")) {
+                    manufactures.add(new Manufacture(name));
+                }
+                product.setManufacture(manufactures);
+            } else {
+                Set<Manufacture> manufactures = new HashSet<Manufacture>();
+                manufactures.add(new Manufacture(manufactureName));
+                product.setManufacture(manufactures);
+            }
+
+
             String fileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
             product.setOriginalPicture(fileName);
             product.setViewCount(0L);
-            Product savedProduct = this.productService.addOrUpdate(product);
+            productService.addOrUpdate(product);
             String uploadDir = "./upload/products/";
             FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+
             Sort.Direction direction = orderField.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
             Sort.Order order = new Sort.Order(direction, sortBy);
             Pageable pageable = PageRequest.of(Integer.parseInt(currentPage), Integer.parseInt(numberElementInOnePage), Sort.by(order));
@@ -118,7 +139,6 @@ public class ProductManagementController {
             model.addAttribute("sortBy", sortBy);
             model.addAttribute("orderField", orderField);
             return "/admin/products/list";
-        }
 
     }
 
@@ -129,21 +149,51 @@ public class ProductManagementController {
         return "upload_" + formattedDateTime + fileExtension;
     }
 
-    @GetMapping("/edit/{id}")
-    public String editProductForm(@PathVariable Long id, Model model) {
-        model.addAttribute("product", productService.getProductById(id).orElse(null));
-        return "admin/products/edit";
-    }
-
-    @PostMapping("/update")
-    public String updateProduct(@ModelAttribute Product product,
+    @PostMapping("update")
+    public String updateProduct(@RequestParam("id") String id,
+                                @RequestParam("name") String name,
+                                @RequestParam("price") String price,
+                                @RequestParam("color") String color,
+                                @RequestParam("description") String description,
+                                @RequestParam("information") String information,
+                                @RequestParam("image") MultipartFile multipartFile,
+                                @RequestParam("size") String size,
+                                @RequestParam("categoryName") String categoryName,
+                                @RequestParam("categoryURL") String categoryURL,
+                                @RequestParam("manufactureName") String manufactureName,
                                 Model model,
                                 @RequestParam(name = "currentPage", defaultValue = "0") String currentPage,
                                 @RequestParam(name = "numberElementInOnePage", defaultValue = "10") String numberElementInOnePage,
                                 @RequestParam(name = "sortBy", defaultValue = "id") String sortBy,
-                                @RequestParam(name = "orderField", defaultValue = "acs") String orderField) {
+                                @RequestParam(name = "orderField", defaultValue = "acs") String orderField) throws IOException {
 
+        manufactureName = manufactureName.replace('[',' ');
+        manufactureName = manufactureName.replace(']', ' ');
+        manufactureName = manufactureName.replace(", ", ",");
+        Set<Manufacture> manufactures = new HashSet<Manufacture>();
+        for (String mamanufacture : manufactureName.strip().split(",")) {
+            manufactures.add(new Manufacture(mamanufacture));
+        }
+
+        Product product = new Product();
+        product.setId(Long.parseLong(id));
+        product.setName(name);
+        product.setPrice(Double.parseDouble(price));
+        product.setColor(color);
+        product.setDescription(description);
+        product.setInformation(information);
+        product.setSize(Integer.parseInt(size));
+        product.setCategory(new Category(categoryName, categoryURL));
+        product.setManufacture(manufactures);
+
+
+        String fileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
+        product.setOriginalPicture(fileName);
+        product.setViewCount(0L);
         productService.addOrUpdate(product);
+        String uploadDir = "./upload/products/";
+        FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+
         Sort.Direction direction = orderField.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
         Sort.Order order = new Sort.Order(direction, sortBy);
         Pageable pageable = PageRequest.of(Integer.parseInt(currentPage), Integer.parseInt(numberElementInOnePage), Sort.by(order));
@@ -154,7 +204,14 @@ public class ProductManagementController {
         model.addAttribute("numberElementInOnePage", Integer.parseInt(numberElementInOnePage));
         model.addAttribute("sortBy", sortBy);
         model.addAttribute("orderField", orderField);
-        return "redirect:/admin/products/list";
+        return "/admin/products/list";
+
+    }
+
+    @GetMapping("/edit/{id}")
+    public String editProductForm(@PathVariable Long id, Model model) {
+        model.addAttribute("product", productService.getProductById(id).orElse(null));
+        return "admin/products/edit";
     }
 
     @GetMapping("/delete/{id}")
@@ -200,7 +257,7 @@ public class ProductManagementController {
                     Pageable pageable = PageRequest.of(Integer.parseInt(currentPage), Integer.parseInt(numberElementInOnePage), Sort.by(order));
 
                     model.addAttribute("products", productService.pageFindProductById(id, pageable));
-                    model.addAttribute("totalPages", productService.pageFindAllProduct(pageable).getTotalPages());
+                    model.addAttribute("totalPages", productService.pageFindProductById(id, pageable).getTotalPages());
                     model.addAttribute("currentPage", Integer.parseInt(currentPage));
                     model.addAttribute("numberElementInOnePage", Integer.parseInt(numberElementInOnePage));
                     model.addAttribute("sortBy", sortBy);
@@ -218,8 +275,14 @@ public class ProductManagementController {
                 Sort.Order order = new Sort.Order(direction, sortBy);
                 Pageable pageable = PageRequest.of(Integer.parseInt(currentPage), Integer.parseInt(numberElementInOnePage), Sort.by(order));
 
+                List<Long> ids = new ArrayList<Long>();
+                for (Product product : productService.findProductByNameContaining(value)) {
+                    ids.add(product.getId());
+                }
+
                 model.addAttribute("products", productService.pageFindProductByNameContaining(value, pageable));
-                model.addAttribute("totalPages", productService.pageFindAllProduct(pageable).getTotalPages());
+                model.addAttribute("ids", ids);
+                model.addAttribute("totalPages", productService.pageFindProductByNameContaining(value, pageable).getTotalPages());
                 model.addAttribute("currentPage", Integer.parseInt(currentPage));
                 model.addAttribute("numberElementInOnePage", Integer.parseInt(numberElementInOnePage));
                 model.addAttribute("sortBy", sortBy);
@@ -236,8 +299,14 @@ public class ProductManagementController {
                         Sort.Order order = new Sort.Order(direction, sortBy);
                         Pageable pageable = PageRequest.of(Integer.parseInt(currentPage), Integer.parseInt(numberElementInOnePage), Sort.by(order));
 
+                        List<Long> ids = new ArrayList<Long>();
+                        for (Product product : productService.findProductByPriceBetween(minPrice, maxPrice)) {
+                            ids.add(product.getId());
+                        }
+
                         model.addAttribute("products", productService.pageFindProductByPriceBetween(minPrice, maxPrice, pageable));
-                        model.addAttribute("totalPages", productService.pageFindAllProduct(pageable).getTotalPages());
+                        model.addAttribute("ids", ids);
+                        model.addAttribute("totalPages", productService.pageFindProductByPriceBetween(minPrice, maxPrice, pageable).getTotalPages());
                         model.addAttribute("currentPage", Integer.parseInt(currentPage));
                         model.addAttribute("numberElementInOnePage", Integer.parseInt(numberElementInOnePage));
                         model.addAttribute("sortBy", sortBy);
@@ -255,8 +324,14 @@ public class ProductManagementController {
                         Sort.Order order = new Sort.Order(direction, sortBy);
                         Pageable pageable = PageRequest.of(Integer.parseInt(currentPage), Integer.parseInt(numberElementInOnePage), Sort.by(order));
 
+                        List<Long> ids = new ArrayList<Long>();
+                        for (Product product : productService.findProductByPrice(price)) {
+                            ids.add(product.getId());
+                        }
+
                         model.addAttribute("products", productService.pageFindProductByPrice(price, pageable));
-                        model.addAttribute("totalPages", productService.pageFindAllProduct(pageable).getTotalPages());
+                        model.addAttribute("ids", ids);
+                        model.addAttribute("totalPages", productService.pageFindProductByPrice(price, pageable).getTotalPages());
                         model.addAttribute("currentPage", Integer.parseInt(currentPage));
                         model.addAttribute("numberElementInOnePage", Integer.parseInt(numberElementInOnePage));
                         model.addAttribute("sortBy", sortBy);
@@ -275,8 +350,14 @@ public class ProductManagementController {
                 Sort.Order order = new Sort.Order(direction, sortBy);
                 Pageable pageable = PageRequest.of(Integer.parseInt(currentPage), Integer.parseInt(numberElementInOnePage), Sort.by(order));
 
+                List<Long> ids = new ArrayList<Long>();
+                for (Product product : productService.findProductByColor(value)) {
+                    ids.add(product.getId());
+                }
+
                 model.addAttribute("products", productService.pageFindProductByColor(value, pageable));
-                model.addAttribute("totalPages", productService.pageFindAllProduct(pageable).getTotalPages());
+                model.addAttribute("ids", ids);
+                model.addAttribute("totalPages", productService.pageFindProductByColor(value, pageable).getTotalPages());
                 model.addAttribute("currentPage", Integer.parseInt(currentPage));
                 model.addAttribute("numberElementInOnePage", Integer.parseInt(numberElementInOnePage));
                 model.addAttribute("sortBy", sortBy);
@@ -289,8 +370,14 @@ public class ProductManagementController {
                 Sort.Order order = new Sort.Order(direction, sortBy);
                 Pageable pageable = PageRequest.of(Integer.parseInt(currentPage), Integer.parseInt(numberElementInOnePage), Sort.by(order));
 
+                List<Long> ids = new ArrayList<Long>();
+                for (Product product : productService.findProductByDescriptionContaining(value)) {
+                    ids.add(product.getId());
+                }
+
                 model.addAttribute("products", productService.pageFindProductByDescriptionContaining(value, pageable));
-                model.addAttribute("totalPages", productService.pageFindAllProduct(pageable).getTotalPages());
+                model.addAttribute("ids", ids);
+                model.addAttribute("totalPages", productService.pageFindProductByDescriptionContaining(value, pageable).getTotalPages());
                 model.addAttribute("currentPage", Integer.parseInt(currentPage));
                 model.addAttribute("numberElementInOnePage", Integer.parseInt(numberElementInOnePage));
                 model.addAttribute("sortBy", sortBy);
@@ -303,8 +390,14 @@ public class ProductManagementController {
                 Sort.Order order = new Sort.Order(direction, sortBy);
                 Pageable pageable = PageRequest.of(Integer.parseInt(currentPage), Integer.parseInt(numberElementInOnePage), Sort.by(order));
 
+                List<Long> ids = new ArrayList<Long>();
+                for (Product product : productService.findProductByInformationContaining(value)) {
+                    ids.add(product.getId());
+                }
+
                 model.addAttribute("products", productService.pageFindProductByInformationContaining(value, pageable));
-                model.addAttribute("totalPages", productService.pageFindAllProduct(pageable).getTotalPages());
+                model.addAttribute("ids", ids);
+                model.addAttribute("totalPages", productService.pageFindProductByInformationContaining(value, pageable).getTotalPages());
                 model.addAttribute("currentPage", Integer.parseInt(currentPage));
                 model.addAttribute("numberElementInOnePage", Integer.parseInt(numberElementInOnePage));
                 model.addAttribute("sortBy", sortBy);
@@ -319,8 +412,14 @@ public class ProductManagementController {
                     Sort.Order order = new Sort.Order(direction, sortBy);
                     Pageable pageable = PageRequest.of(Integer.parseInt(currentPage), Integer.parseInt(numberElementInOnePage), Sort.by(order));
 
+                    List<Long> ids = new ArrayList<Long>();
+                    for (Product product : productService.findProductBySize(size)) {
+                        ids.add(product.getId());
+                    }
+
                     model.addAttribute("products", productService.pageFindProductBySize(size, pageable));
-                    model.addAttribute("totalPages", productService.pageFindAllProduct(pageable).getTotalPages());
+                    model.addAttribute("ids", ids);
+                    model.addAttribute("totalPages", productService.pageFindProductBySize(size, pageable).getTotalPages());
                     model.addAttribute("currentPage", Integer.parseInt(currentPage));
                     model.addAttribute("numberElementInOnePage", Integer.parseInt(numberElementInOnePage));
                     model.addAttribute("sortBy", sortBy);
@@ -342,8 +441,14 @@ public class ProductManagementController {
                         Sort.Order order = new Sort.Order(direction, sortBy);
                         Pageable pageable = PageRequest.of(Integer.parseInt(currentPage), Integer.parseInt(numberElementInOnePage), Sort.by(order));
 
+                        List<Long> ids = new ArrayList<Long>();
+                        for (Product product : productService.findProductByViewCountBetween(lowestValue, highestValue)) {
+                            ids.add(product.getId());
+                        }
+
                         model.addAttribute("products", productService.pageFindProductByViewCountBetween(lowestValue, highestValue, pageable));
-                        model.addAttribute("totalPages", productService.pageFindAllProduct(pageable).getTotalPages());
+                        model.addAttribute("ids", ids);
+                        model.addAttribute("totalPages", productService.pageFindProductByViewCountBetween(lowestValue, highestValue, pageable).getTotalPages());
                         model.addAttribute("currentPage", Integer.parseInt(currentPage));
                         model.addAttribute("numberElementInOnePage", Integer.parseInt(numberElementInOnePage));
                         model.addAttribute("sortBy", sortBy);
@@ -361,8 +466,14 @@ public class ProductManagementController {
                         Sort.Order order = new Sort.Order(direction, sortBy);
                         Pageable pageable = PageRequest.of(Integer.parseInt(currentPage), Integer.parseInt(numberElementInOnePage), Sort.by(order));
 
+                        List<Long> ids = new ArrayList<Long>();
+                        for (Product product : productService.findProductByViewCount(viewCount)) {
+                            ids.add(product.getId());
+                        }
+
                         model.addAttribute("products", productService.pageFindProductByViewCount(viewCount, pageable));
-                        model.addAttribute("totalPages", productService.pageFindAllProduct(pageable).getTotalPages());
+                        model.addAttribute("ids", ids);
+                        model.addAttribute("totalPages", productService.pageFindProductByViewCount(viewCount, pageable).getTotalPages());
                         model.addAttribute("currentPage", Integer.parseInt(currentPage));
                         model.addAttribute("numberElementInOnePage", Integer.parseInt(numberElementInOnePage));
                         model.addAttribute("sortBy", sortBy);
@@ -374,6 +485,32 @@ public class ProductManagementController {
                         return "admin/products/list";
                     }
                 }
+
+                // category
+            } else if (key.equalsIgnoreCase("category")) {
+                Sort.Direction direction = orderField.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+                Sort.Order order = new Sort.Order(direction, sortBy);
+                Pageable pageable = PageRequest.of(Integer.parseInt(currentPage), Integer.parseInt(numberElementInOnePage), Sort.by(order));
+
+                List<Long> ids = new ArrayList<Long>();
+                for (Product product : productService.findProductByCategoryNameContaining(value)) {
+                    ids.add(product.getId());
+                }
+
+                model.addAttribute("products", productService.pageFindProductByCategoryNameContaining(value, pageable));
+                model.addAttribute("ids", ids);
+                model.addAttribute("totalPages", productService.pageFindProductByCategoryNameContaining(value, pageable).getTotalPages());
+                model.addAttribute("currentPage", Integer.parseInt(currentPage));
+                model.addAttribute("numberElementInOnePage", Integer.parseInt(numberElementInOnePage));
+                model.addAttribute("sortBy", sortBy);
+                model.addAttribute("orderField", orderField);
+                return "admin/products/list";
+
+                // manufacture
+            } else if (key.equalsIgnoreCase("manufacture")) {
+                model.addAttribute("errorMessage", "Feature find manufacture not support, please try to find another keyword");
+                model.addAttribute("products", null);
+                return "admin/products/list";
 
             } else {
                 model.addAttribute("errorMessage", "please enter correct keyword");

@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -197,6 +198,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public List<Product> findProductByCategoryNameContaining(String categoryName) {
+        return productRepository.findProductByCategoryNameContaining(categoryName);
+    }
+
+    // Page
+    @Override
     public Page<Product> pageFindAllProduct(Pageable pageable) {
         return productRepository.findAll(pageable);
     }
@@ -249,6 +256,21 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Page<Product> pageFindProductByViewCount(Long viewCount, Pageable pageable) {
         return productRepository.findProductByViewCount(viewCount, pageable);
+    }
+
+    @Override
+    public Page<Product> pageFindProductByCategoryNameContaining(String categoryName, Pageable pageable) {
+        return productRepository.findProductByCategoryNameContaining(categoryName, pageable);
+    }
+
+    @Override
+    public Page<Product> pageFindProductByManufacture(Set<Manufacture> manufactures, Pageable pageable) {
+        return productRepository.findAllByManufactureIn(manufactures, pageable);
+    }
+
+    @Override
+    public Page<Product> pageFindProductByIdIn(Collection<Long> ids, Pageable pageable) {
+        return productRepository.findProductByIdIn(ids, pageable);
     }
 }
 //Store

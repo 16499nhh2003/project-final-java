@@ -40,6 +40,8 @@
             <th>Information</th>
             <th>Size</th>
             <th>View Count</th>
+            <th>Category</th>
+            <th>Manufacture</th>
             <th>Actions</th>
         </tr>
         </thead>
@@ -57,6 +59,8 @@
             <td th:text="${product.size}"></td>
             <td th:if="${product.viewCount} != null" th:text="${product.viewCount}"></td>
             <td th:if="${product.viewCount} == null" th:text="0"></td>
+            <td th:text="${product.category}"></td>
+            <td th:text="${product.manufacture}"></td>
             <td>
                 <a class="btn btn-primary" th:href="@{/admin/products/view/{id}(id=${product.id})}">View</a>
                 <a class="btn btn-warning" th:href="@{/admin/products/edit/{id}(id=${product.id})}">Edit</a>
@@ -72,7 +76,7 @@
                     Page:
                     <!-- Previous Page -->
                     <span   th:if="${currentPage > 0}">
-                            <a th:href="@{/admin/products/list(currentPage=${currentPage} - 1)}">Previous</a>
+                            <a th:href="@{/admin/products/list(currentPage=${currentPage} - 1, resultIdSearch=${ids})}">Previous</a>
                     </span>
                     <!-- Page number -->
                     <span   th:if="${totalPages > 0}" th:each="pageNumber : ${#numbers.sequence(0, totalPages - 1)}">
@@ -80,7 +84,7 @@
                             <span th:if="${currentPage} == ${pageNumber}" th:text="${pageNumber}"></span>
                         <!-- Other page -->
                             <span th:if="${currentPage} != ${pageNumber}">
-                                <a th:href="@{/admin/products/list(currentPage=${pageNumber})}" th:text="${pageNumber}"></a>
+                                <a th:href="@{/admin/products/list(currentPage=${pageNumber}, resultIdSearch=${ids})}" th:text="${pageNumber}"></a>
                             </span>
                         <!-- Separator -->
                         <span>|</span>
@@ -88,7 +92,7 @@
 
                     <!-- Next Page -->
                     <span th:if="${currentPage + 1 &lt; totalPages}">
-                        <a th:href="@{/admin/products/list(currentPage=${currentPage} + 1)}">Next</a>
+                        <a th:href="@{/admin/products/list(currentPage=${currentPage} + 1, resultIdSearch=${ids})}">Next</a>
                     </span>
                 </td>
             </tr>

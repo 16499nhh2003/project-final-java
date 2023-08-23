@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -49,6 +50,10 @@ public interface ProductService {
 
     List<Product> findProductByViewCountBetween(Long minViewCount, Long maxViewCount);
 
+    List<Product> findProductByCategoryNameContaining(String categoryName);
+
+    // Page
+
     Page<Product> pageFindAllProduct(Pageable pageable);
 
     Page<Product> pageFindProductById(Long id, Pageable pageable);
@@ -72,6 +77,12 @@ public interface ProductService {
                                                     Pageable pageable);
 
     Page<Product> pageFindProductByViewCount(Long viewCount, Pageable pageable);
+
+    Page<Product> pageFindProductByCategoryNameContaining(String categoryName, Pageable pageable);
+
+    Page<Product> pageFindProductByManufacture(Set<Manufacture> manufactures, Pageable pageable);
+
+    Page<Product> pageFindProductByIdIn(Collection<Long> ids, Pageable pageable);
 
 
 
