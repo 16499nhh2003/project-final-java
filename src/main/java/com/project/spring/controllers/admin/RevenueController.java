@@ -30,6 +30,7 @@ public class RevenueController {
     OrderDetailRepositopry orderDetailRepositopry;
     @Autowired
     UserDetailsServiceImpl userDetailsServiceImpl;
+
     @GetMapping("/category")
     public String index(Model model) {
         AppUser user = this.userRepository.getUserByUsername(userDetailsServiceImpl.getCurrentUserId());
@@ -163,8 +164,12 @@ public class RevenueController {
             productDTO.setQuantity(quantity);
             productDTO.setTotal(total);
             productDTO.setPrice(product.getPrice());
-            productDTO.setGpa(total.divide(BigDecimal.valueOf(quantity), 2, RoundingMode.HALF_UP));
 
+            if (quantity == 0) {
+                productDTO.setGpa(new BigDecimal(0));
+            } else {
+                productDTO.setGpa(total.divide(BigDecimal.valueOf(quantity), 2, RoundingMode.HALF_UP));
+            }
             revenueProductDTOs.add(productDTO);
         }
         model.addAttribute("data", revenueProductDTOs);
@@ -312,7 +317,7 @@ public class RevenueController {
             revenueMonthDTOS.add(revenueMonthDTO);
         }
         model.addAttribute("dataPoints", revenueMonthDTOS);
-        model.addAttribute("year",year);
+        model.addAttribute("year", year);
         return "admin/revenue/month";
     }
 

@@ -182,18 +182,14 @@ public class ProductManagementController {
                                 @RequestParam(name = "numberElementInOnePage", defaultValue = "10") String numberElementInOnePage,
                                 @RequestParam(name = "sortBy", defaultValue = "id") String sortBy,
                                 @RequestParam(name = "orderField", defaultValue = "acs") String orderField) throws IOException {
-
         manufactureName = manufactureName.replace('[', ' ');
         manufactureName = manufactureName.replace(']', ' ');
         manufactureName = manufactureName.replace(", ", ",");
-
         Set<Manufacture> manufactures = new HashSet<Manufacture>();
         for (String manufacture : manufactureName.strip().split(",")) {
             Manufacture manufacture1 = manufactureRepository.findManufactureByNameContainsIgnoreCase(manufacture).get();
             manufactures.add(manufacture1);
         }
-
-
         Product product = this.productRepository.findById(Long.parseLong(id)).get();
         /*product.setId(Long.parseLong(id));*/
         product.setName(name);
@@ -205,6 +201,7 @@ public class ProductManagementController {
         product.setCategory(categoryService.findCategoryByName(categoryName).orElse(null));
         product.setManufacture(manufactures);
 
+        /* upload image */
         if (multipartFile != null && !multipartFile.isEmpty()) {
             String fileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
             product.setOriginalPicture(fileName);
