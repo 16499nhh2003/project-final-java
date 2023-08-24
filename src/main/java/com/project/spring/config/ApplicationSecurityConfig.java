@@ -66,6 +66,7 @@ public class ApplicationSecurityConfig {
             auth.requestMatchers("/orders").permitAll();
             auth.requestMatchers("/forgot").permitAll();
             auth.requestMatchers("/reset").permitAll();
+            auth.requestMatchers("/register").permitAll();
             /*auth.requestMatchers("/users/**").permitAll();*/
 
             auth.requestMatchers("/admin").hasAnyAuthority("admin");
