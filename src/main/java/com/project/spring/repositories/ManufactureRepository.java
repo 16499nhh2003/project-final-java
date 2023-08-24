@@ -17,9 +17,15 @@ public interface ManufactureRepository extends JpaRepository<Manufacture, Long> 
 
     Optional<Manufacture> findManufactureByNameContainsIgnoreCase(String name);
 
+    Optional<Manufacture> findManufactureByName(String name);
+
+
+
     @Query("SELECT m FROM Manufacture m " +
             "JOIN ProductManufacture p ON m.id = p.manufacture_id.id " +
             "JOIN Product pr ON p.product_id.id = pr.id " +
             "WHERE pr.category.id = :idCategory")
     List<Manufacture> findByCategory(@Param("idCategory") Long idCategory);
+
+
 }
