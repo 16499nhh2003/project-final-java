@@ -13,9 +13,16 @@ import java.util.Optional;
 public class ManufactureServiceImpl implements ManufactureService {
     @Autowired
     ManufactureRepository manufactureRepository;
+
+
     @Override
     public List<Manufacture> findAllManufacture() {
         return manufactureRepository.findAll();
+    }
+
+    @Override
+    public void addOrUpdate(Manufacture manufacture) {
+        manufactureRepository.save(manufacture);
     }
 
     @Override
@@ -24,7 +31,12 @@ public class ManufactureServiceImpl implements ManufactureService {
     }
 
     @Override
-    public Optional<Manufacture> findManufactureByName(String name) {
-        return manufactureRepository.findManufactureByName(name);
+    public List<String> findAllNameManufacture() {
+        return manufactureRepository.findAllNameManufacture();
+    }
+
+    @Override
+    public Optional<Manufacture> findManufactureByNameContainsIgnoreCase(String name) {
+        return manufactureRepository.findManufactureByNameContainsIgnoreCase(name);
     }
 }

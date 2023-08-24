@@ -84,8 +84,12 @@ public class ProductManagementController {
     @GetMapping("/new")
     public String newProductForm(Model model) {
         model.addAttribute("product", new Product());
-        model.addAttribute("categories", categoryService.findAllCategory());
-        model.addAttribute("manufactures", manufactureService.findAllManufacture());
+        Set<Category> categories = new HashSet<Category>();
+        for (String name : categoryService.findAllNameCategory()) {
+            categories.add(new Category(name, categoryService.findURLCategoryByName(name)));
+        }
+        model.addAttribute("categories", categories);
+        model.addAttribute("manufacturesName", manufactureService.findAllNameManufacture());
         return "admin/products/new";
     }
 
@@ -113,17 +117,19 @@ public class ProductManagementController {
                 exception.printStackTrace();
             }
         }*/
-
+        manufactureName = manufactureName.replace("[", " ");
+        manufactureName = manufactureName.replace("]", " ");
+        manufactureName = manufactureName.replace(", ", ",");
 
             if (manufactureName.contains(",")) {
                 Set<Manufacture> manufactures = new HashSet<Manufacture>();
-                for (String name : manufactureName.strip().split(",")) {
-                    manufactures.add(new Manufacture(name));
+                for (String manufName : manufactureName.strip().split(",")) {
+                    manufactures.add(manufactureService.findManufactureByNameContainsIgnoreCase(manufName).orElse(null));
                 }
                 product.setManufacture(manufactures);
             } else {
                 Set<Manufacture> manufactures = new HashSet<Manufacture>();
-                manufactures.add(new Manufacture(manufactureName));
+                manufactures.add(manufactureService.findManufactureByNameContainsIgnoreCase(manufactureName).orElse(null));
                 product.setManufacture(manufactures);
             }
 
@@ -131,7 +137,7 @@ public class ProductManagementController {
             String fileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
             product.setOriginalPicture(fileName);
             product.setViewCount(0L);
-            product.setCategory(categoryService.findCategoryByName(categoryName).orElse(null));
+            product.setCategory(categoryService.findCategoryByName(categoryName).get(0));
             productService.addOrUpdate(product);
             String uploadDir = "./upload/products/";
             FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
@@ -174,12 +180,13 @@ public class ProductManagementController {
                                 @RequestParam(name = "sortBy", defaultValue = "id") String sortBy,
                                 @RequestParam(name = "orderField", defaultValue = "acs") String orderField) throws IOException {
 
-        manufactureName = manufactureName.replace('[',' ');
-        manufactureName = manufactureName.replace(']', ' ');
+        manufactureName = manufactureName.replace("[", " ");
+        manufactureName = manufactureName.replace("]", " ");
         manufactureName = manufactureName.replace(", ", ",");
+
         Set<Manufacture> manufactures = new HashSet<Manufacture>();
-        for (String mamanufacture : manufactureName.strip().split(",")) {
-            manufactures.add(new Manufacture(mamanufacture));
+        for (String manufName : manufactureName.strip().split(",")) {
+            manufactures.add(manufactureService.findManufactureByNameContainsIgnoreCase(manufName).orElse(null));
         }
 
         Product product = new Product();
@@ -190,7 +197,7 @@ public class ProductManagementController {
         product.setDescription(description);
         product.setInformation(information);
         product.setSize(Integer.parseInt(size));
-        product.setCategory(categoryService.findCategoryByName(categoryName).orElse(null));
+        product.setCategory(categoryService.findCategoryByName(categoryName).get(0));
         product.setManufacture(manufactures);
 
 
@@ -218,8 +225,13 @@ public class ProductManagementController {
     @GetMapping("/edit/{id}")
     public String editProductForm(@PathVariable Long id, Model model) {
         model.addAttribute("product", productService.getProductById(id).orElse(null));
-        model.addAttribute("categories", categoryService.findAllCategory());
-        model.addAttribute("manufactures", manufactureService.findAllManufacture());
+        Set<Category> categories = new HashSet<Category>();
+        for (String name : categoryService.findAllNameCategory()) {
+            categories.add(new Category(name, categoryService.findURLCategoryByName(name)));
+        }
+
+        model.addAttribute("categories", categories);
+        model.addAttribute("manufacturesName", manufactureService.findAllNameManufacture());
 
         return "admin/products/edit";
     }

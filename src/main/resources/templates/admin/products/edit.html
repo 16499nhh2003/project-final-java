@@ -81,7 +81,7 @@
     <label for="manufactureName">Manufacture Name:</label>
     <select id="manufactureName" name="manufactureName" multiple required>
       <option th:value="${product.manufacture}" th:text="${product.manufacture}"></option>
-      <option th:each="manufacture : ${product.manufacture}" th:value="${manufacture.name}" th:text="${manufacture.name}"></option>
+      <option th:each="manufactureName : ${manufacturesName}" th:value="${manufactureName}" th:text="${manufactureName}"></option>
     </select>
     <!-- Other fields here -->
     <input type="submit" value="Save">

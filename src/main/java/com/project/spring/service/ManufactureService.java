@@ -11,7 +11,12 @@ import java.util.Optional;
 public interface ManufactureService {
     List<Manufacture> findAllManufacture();
 
+    void addOrUpdate(Manufacture manufacture);
+
     void deleteALl();
 
-    Optional<Manufacture> findManufactureByName(String name);
+    List<String> findAllNameManufacture();
+
+    Optional<Manufacture> findManufactureByNameContainsIgnoreCase(String name);
+
 }

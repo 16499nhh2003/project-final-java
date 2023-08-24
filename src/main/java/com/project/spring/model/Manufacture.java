@@ -20,7 +20,7 @@ public class Manufacture implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    @ManyToMany(mappedBy = "manufacture", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "manufacture", fetch = FetchType.EAGER)
     @ToString.Exclude
     private Set<Product> products;
 
@@ -33,17 +33,4 @@ public class Manufacture implements Serializable {
         return this.name;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof Manufacture) {
-            Manufacture manufacture = (Manufacture) obj;
-            return this.name.equals(manufacture.name);
-        }
-        return false;
-    }
-
-    @Override
-    public int hashCode() {
-        return super.hashCode();
-    }
 }

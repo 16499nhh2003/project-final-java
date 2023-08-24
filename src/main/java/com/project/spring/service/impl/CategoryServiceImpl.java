@@ -13,6 +13,12 @@ import java.util.Optional;
 public class CategoryServiceImpl implements CategoryService {
     @Autowired
     CategoryRepository categoryRepository;
+
+    @Override
+    public void addOrUpdate(Category category) {
+        categoryRepository.save(category);
+    }
+
     @Override
     public void deleteAllCategory() {
         categoryRepository.deleteAll();
@@ -24,7 +30,22 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Optional<Category> findCategoryByName(String name) {
-        return categoryRepository.getCategoriesByName(name);
+    public List<Category> findCategoryByName(String name) {
+        return categoryRepository.findCategoryByName(name);
+    }
+
+    @Override
+    public List<String> findAllNameCategory() {
+        return categoryRepository.findAllNameCategory();
+    }
+
+    @Override
+    public List<String> findAllURLCategory() {
+        return categoryRepository.findAllURLCategory();
+    }
+
+    @Override
+    public String findURLCategoryByName(String name) {
+        return categoryRepository.findURLCategoryByName(name);
     }
 }

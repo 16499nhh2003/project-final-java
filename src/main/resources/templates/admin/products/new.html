@@ -47,7 +47,7 @@
         <div class="mb-3">
             <label for="manufactureName" class="form-label">Manufacture Name:</label>
             <select id="manufactureName" name="manufactureName" multiple>
-                <option th:each="manufacture : ${manufactures}" th:value="${manufacture.name}" th:text="${manufacture.name}"></option>
+                <option th:each="manufactureName : ${manufacturesName}" th:value="${manufactureName}" th:text="${manufactureName}"></option>
             </select>
         </div>
 

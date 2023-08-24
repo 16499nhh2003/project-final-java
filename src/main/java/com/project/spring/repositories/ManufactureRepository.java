@@ -10,14 +10,13 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Repository
 public interface ManufactureRepository extends JpaRepository<Manufacture, Long> {
     List<Manufacture> findManufactureById(Long id);
 
     Optional<Manufacture> findManufactureByNameContainsIgnoreCase(String name);
-
-    Optional<Manufacture> findManufactureByName(String name);
 
 
 
@@ -26,6 +25,9 @@ public interface ManufactureRepository extends JpaRepository<Manufacture, Long> 
             "JOIN Product pr ON p.product_id.id = pr.id " +
             "WHERE pr.category.id = :idCategory")
     List<Manufacture> findByCategory(@Param("idCategory") Long idCategory);
+
+    @Query("SELECT DISTINCT m.name FROM Manufacture m")
+    List<String> findAllNameManufacture();
 
 
 }
