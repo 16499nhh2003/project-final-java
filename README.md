@@ -1,5 +1,6 @@
-<h1 style="color=red"> What new</h1>
-
+```diff
+  - <h1 style="color=red"> What new</h1>
+```
 
 
 
