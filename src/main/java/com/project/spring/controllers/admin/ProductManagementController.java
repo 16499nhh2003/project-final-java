@@ -3,6 +3,8 @@ package com.project.spring.controllers.admin;
 import com.project.spring.model.Category;
 import com.project.spring.model.Manufacture;
 import com.project.spring.model.Product;
+import com.project.spring.service.impl.CategoryServiceImpl;
+import com.project.spring.service.impl.ManufactureServiceImpl;
 import com.project.spring.service.impl.ProductServiceImpl;
 import com.project.spring.utils.FileUploadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +33,10 @@ public class ProductManagementController {
 
     @Autowired
     ProductServiceImpl productService;
+    @Autowired
+    CategoryServiceImpl categoryService;
+    @Autowired
+    ManufactureServiceImpl manufactureService;
 
     @GetMapping("/list")
     public String listProducts(Model model,
@@ -78,6 +84,8 @@ public class ProductManagementController {
     @GetMapping("/new")
     public String newProductForm(Model model) {
         model.addAttribute("product", new Product());
+        model.addAttribute("categories", categoryService.findAllCategory());
+        model.addAttribute("manufactures", manufactureService.findAllManufacture());
         return "admin/products/new";
     }
 
@@ -214,6 +222,9 @@ public class ProductManagementController {
     @GetMapping("/edit/{id}")
     public String editProductForm(@PathVariable Long id, Model model) {
         model.addAttribute("product", productService.getProductById(id).orElse(null));
+        model.addAttribute("categories", categoryService.findAllCategory());
+        model.addAttribute("manufactures", manufactureService.findAllManufacture());
+
         return "admin/products/edit";
     }
 
