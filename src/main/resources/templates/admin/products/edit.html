@@ -74,7 +74,7 @@
     <label for="size">Size:</label>
     <input type="text" id="size" name="size" th:value="${product.size}">
     <label for="categoryName">Category Name:</label>
-    <select id="categoryName" name="categoryName" th:value="${product.category.name}">
+    <select id="categoryName" name="categoryName" th:value="${product.category.name}" required>
       <option value="Smartphone">Smartphone</option>
       <option value="Flip Phone">Flip Phone</option>
       <option value="Slider Phones">Slider Phones</option>
@@ -106,7 +106,7 @@
       <option value="Remote Control">Remote Control</option>
     </select>
     <label for="manufactureName">Manufacture Name:</label>
-    <select id="manufactureName" name="manufactureName" multiple th:value="${product.manufacture}">
+    <select id="manufactureName" name="manufactureName" multiple required>
       <option value="Samsung">Samsung</option>
       <option value="Apple">Apple</option>
       <option value="OnePlus">OnePlus</option>
