@@ -87,7 +87,6 @@ public class ProductManagementController {
     public String saveProduct(@ModelAttribute Product product,
                               @RequestParam("image") MultipartFile multipartFile,
                               @RequestParam("categoryName") String categoryName,
-                              @RequestParam("categoryURL") String categoryURL,
                               @RequestParam("manufactureName") String manufactureName,
                               Model model,
                               @RequestParam(name = "currentPage", defaultValue = "0") String currentPage,
@@ -108,7 +107,6 @@ public class ProductManagementController {
         }*/
 
 
-            product.setCategory(new Category(categoryName, categoryURL));
             if (manufactureName.contains(",")) {
                 Set<Manufacture> manufactures = new HashSet<Manufacture>();
                 for (String name : manufactureName.strip().split(",")) {
@@ -125,6 +123,9 @@ public class ProductManagementController {
             String fileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
             product.setOriginalPicture(fileName);
             product.setViewCount(0L);
+            Category category = new Category();
+            category.setName(categoryName);
+            product.setCategory(category);
             productService.addOrUpdate(product);
             String uploadDir = "./upload/products/";
             FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
@@ -160,7 +161,6 @@ public class ProductManagementController {
                                 @RequestParam("image") MultipartFile multipartFile,
                                 @RequestParam("size") String size,
                                 @RequestParam("categoryName") String categoryName,
-                                @RequestParam("categoryURL") String categoryURL,
                                 @RequestParam("manufactureName") String manufactureName,
                                 Model model,
                                 @RequestParam(name = "currentPage", defaultValue = "0") String currentPage,
@@ -184,7 +184,9 @@ public class ProductManagementController {
         product.setDescription(description);
         product.setInformation(information);
         product.setSize(Integer.parseInt(size));
-        product.setCategory(new Category(categoryName, categoryURL));
+        Category category = new Category();
+        category.setName(categoryName);
+        product.setCategory(category);
         product.setManufacture(manufactures);
 
 

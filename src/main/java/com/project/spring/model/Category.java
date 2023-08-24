@@ -30,6 +30,6 @@ public class Category{
 
     @Override
     public String toString() {
-        return this.name + " [ " + this.url + " ]";
+        return this.name;
     }
 }
