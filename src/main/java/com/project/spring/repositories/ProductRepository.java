@@ -14,6 +14,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -40,15 +41,7 @@ public interface ProductRepository extends JpaRepository<Product, Long>, PagingA
 
 //    Page<Product> findAllByManufactureInAndCategoryAndColorAndPrice(Set<Manufacture> manufacture,Category category,String color,Double aDouble,Pageable pageable);
 
-    Page<Product> findAllByManufactureIn(Set<Manufacture> manufactures, Pageable pageable);
 
-    Page<Product> findProductByCategory(Category category, Pageable pageable);
-
-    Page<Product> findProductByPrice(Double aDouble, Pageable pageable);
-
-    Page<Product> findProductByColor(String color, Pageable pageable);
-
-    Page<Product> findProductByName(String name, Pageable pageable);
 
     //    PaginationProductResponse filterProducts(Double price, String color, Category category, Set<Manufacture> manufactureSet, Pageable pageable);
     @Query(value = "select p from Product p " +
@@ -112,8 +105,39 @@ public interface ProductRepository extends JpaRepository<Product, Long>, PagingA
 
     List<Product> findProductByViewCountBetween(Long minViewCount, Long maxViewCount);
 
+    List<Product> findProductByCategoryNameContaining(String categoryName);
 
+    // Page
+
+    Page<Product> findAllByManufactureIn(Set<Manufacture> manufactures, Pageable pageable);
+
+    Page<Product> findProductByCategory(Category category, Pageable pageable);
+
+    Page<Product> findProductByName(String name, Pageable pageable);
+
+    Page<Product> findProductById(Long id, Pageable pageable);
+
+    Page<Product> findProductByNameContaining(String name, Pageable pageable);
+
+    Page<Product> findProductByPriceBetween(Double minPrice, Double maxPrice, Pageable pageable);
+
+    Page<Product> findProductByPrice(Double aDouble, Pageable pageable);
+
+    Page<Product> findProductByColor(String color, Pageable pageable);
+
+    Page<Product> findProductByDescriptionContaining(String description, Pageable pageable);
+
+    Page<Product> findProductByInformationContaining(String information, Pageable pageable);
+
+    Page<Product> findProductBySize(int size, Pageable pageable);
+
+    Page<Product> findProductByViewCountBetween(Long minViewCount, Long maxViewCount, Pageable pageable);
+
+    Page<Product> findProductByViewCount(Long viewCount, Pageable pageable);
+
+    Page<Product> findProductByCategoryNameContaining(String categoryName, Pageable pageable);
+
+    Page<Product> findProductByIdIn(Collection<Long> ids, Pageable pageable);
 
 
 }
-

@@ -9,14 +9,17 @@ import com.project.spring.repositories.ProductRepository;
 import com.project.spring.service.ProductService;
 import jakarta.annotation.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 @Component
 public class ProductServiceImpl implements ProductService {
@@ -54,13 +57,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public boolean deleteProductById(Long id) {
+    public void deleteProductById(Long id) {
         boolean exist = productRepository.existsById(id);
         if (exist) {
             productRepository.deleteById(id);
-            return true;
         }
-        return false;
     }
 
     @Override
@@ -147,53 +148,134 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> findProductByNameContaining(String name) {
-        return productRepository.findProductByNameContaining(name);
+    public void deleteAll() {
+        productRepository.deleteAll();
     }
 
     @Override
     public List<Product> findProductByPriceBetween(Double minPrice, Double maxPrice) {
-        return null;
+        return productRepository.findProductByPriceBetween(minPrice, maxPrice);
     }
 
     @Override
     public List<Product> findProductByPrice(Double price) {
-        return null;
+        return productRepository.findProductByPrice(price);
     }
 
     @Override
     public List<Product> findProductByColor(String color) {
-        return null;
+        return productRepository.findProductByColor(color);
     }
 
     @Override
     public List<Product> findProductByDescriptionContaining(String description) {
-        return null;
+        return productRepository.findProductByDescriptionContaining(description);
     }
 
     @Override
     public List<Product> findProductByInformationContaining(String information) {
-        return null;
+        return productRepository.findProductByInformationContaining(information);
     }
 
     @Override
     public List<Product> findProductBySize(int size) {
-        return null;
+        return productRepository.findProductBySize(size);
     }
 
     @Override
     public List<Product> findProductByViewCount(Long viewCount) {
-        return null;
+        return productRepository.findProductByViewCount(viewCount);
     }
 
     @Override
     public List<Product> findProductByViewCountBetween(Long minViewCount, Long maxViewCount) {
-        return null;
+        return productRepository.findProductByViewCountBetween(minViewCount, maxViewCount);
     }
 
-    /*Quang*/
+    @Override
+    public List<Product> findProductByNameContaining(String name) {
+        return productRepository.findProductByNameContaining(name);
+    }
 
+	/*
+	 * @Override public List<Product> findProductByCategoryNameContaining(String
+	 * categoryName) { return
+	 * productRepository.findProductByCategoryNameContaining(categoryName); }
+	 */
+    // Page
+    @Override
+    public Page<Product> pageFindAllProduct(Pageable pageable) {
+        return productRepository.findAll(pageable);
+    }
 
+    @Override
+    public Page<Product> pageFindProductById(Long id, Pageable pageable) {
+        return productRepository.findProductById(id, pageable);
+    }
+
+    @Override
+    public Page<Product> pageFindProductByNameContaining(String name, Pageable pageable) {
+        return productRepository.findProductByNameContaining(name, pageable);
+    }
+
+    @Override
+    public Page<Product> pageFindProductByPriceBetween(Double minPrice, Double maxPrice, Pageable pageable) {
+        return productRepository.findProductByPriceBetween(minPrice, maxPrice, pageable);
+    }
+
+    @Override
+    public Page<Product> pageFindProductByPrice(Double price, Pageable pageable) {
+        return productRepository.findProductByPrice(price, pageable);
+    }
+
+    @Override
+    public Page<Product> pageFindProductByColor(String color, Pageable pageable) {
+        return productRepository.findProductByColor(color, pageable);
+    }
+
+    @Override
+    public Page<Product> pageFindProductByDescriptionContaining(String description, Pageable pageable) {
+        return productRepository.findProductByDescriptionContaining(description, pageable);
+    }
+
+    @Override
+    public Page<Product> pageFindProductByInformationContaining(String information, Pageable pageable) {
+        return productRepository.findProductByInformationContaining(information, pageable);
+    }
+
+    @Override
+    public Page<Product> pageFindProductBySize(int size, Pageable pageable) {
+        return productRepository.findProductBySize(size, pageable);
+    }
+
+    @Override
+    public Page<Product> pageFindProductByViewCountBetween(Long minViewCount, Long maxViewCount, Pageable pageable) {
+        return productRepository.findProductByViewCountBetween(minViewCount, maxViewCount, pageable);
+    }
+
+    @Override
+    public Page<Product> pageFindProductByViewCount(Long viewCount, Pageable pageable) {
+        return productRepository.findProductByViewCount(viewCount, pageable);
+    }
+
+    @Override
+    public Page<Product> pageFindProductByCategoryNameContaining(String categoryName, Pageable pageable) {
+        return productRepository.findProductByCategoryNameContaining(categoryName, pageable);
+    }
+
+    @Override
+    public Page<Product> pageFindProductByManufacture(Set<Manufacture> manufactures, Pageable pageable) {
+        return productRepository.findAllByManufactureIn(manufactures, pageable);
+    }
+
+    @Override
+    public Page<Product> pageFindProductByIdIn(Collection<Long> ids, Pageable pageable) {
+        return productRepository.findProductByIdIn(ids, pageable);
+    }
+    @Override
+    public List<Product> findProductByCategoryNameContaining(String categoryName) {
+        return productRepository.findProductByCategoryNameContaining(categoryName);
+    }
 }
 //Store
 
