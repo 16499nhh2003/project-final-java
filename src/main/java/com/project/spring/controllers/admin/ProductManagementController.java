@@ -137,7 +137,7 @@ public class ProductManagementController {
             String fileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
             product.setOriginalPicture(fileName);
             product.setViewCount(0L);
-            product.setCategory(categoryService.findCategoryByName(categoryName).get(0));
+            product.setCategory(categoryService.findCategoryByName(categoryName).orElse(null));
             productService.addOrUpdate(product);
             String uploadDir = "./upload/products/";
             FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
@@ -197,7 +197,7 @@ public class ProductManagementController {
         product.setDescription(description);
         product.setInformation(information);
         product.setSize(Integer.parseInt(size));
-        product.setCategory(categoryService.findCategoryByName(categoryName).get(0));
+        product.setCategory(categoryService.findCategoryByName(categoryName).orElse(null));
         product.setManufacture(manufactures);
 
 

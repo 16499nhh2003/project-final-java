@@ -13,7 +13,7 @@ public interface CategoryRepository extends JpaRepository<Category,Long> {
     Optional<Category> getCategoriesByName(String name);
     Optional<Category> findCategoriesByNameContainingIgnoreCase(String name);
 
-    List<Category> findCategoryByName(String name);
+    Optional<Category> findCategoryByName(String name);
     @Query("SELECT DISTINCT c.name FROM Category c")
     List<String> findAllNameCategory();
     @Query("SELECT DISTINCT c.url FROM Category c")

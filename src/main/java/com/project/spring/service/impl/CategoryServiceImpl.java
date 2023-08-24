@@ -30,7 +30,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<Category> findCategoryByName(String name) {
+    public Optional<Category> findCategoryByName(String name) {
         return categoryRepository.findCategoryByName(name);
     }
 
