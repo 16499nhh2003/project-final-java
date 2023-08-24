@@ -1,5 +1,5 @@
 ```diff
-  - <h1 style="color=red"> What new</h1>
+  - What new
 ```
 
 
