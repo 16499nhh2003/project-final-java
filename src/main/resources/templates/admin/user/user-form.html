@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+<<<<<<< Updated upstream
     <title>Thêm/Cập nhật người dùng</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
@@ -38,5 +39,90 @@
 
     </form>
 </div>
+=======
+    <meta charset="UTF-8">
+    <title>User Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        form {
+            margin-top: 20px;
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 5px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        .save-button {
+            background-color: #66cc66;
+            border: none;
+            color: #fff;
+            padding: 8px 15px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .cancel-link {
+            display: inline-block;
+            margin-left: 10px;
+            color: #333;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+<h1>User Form</h1>
+<form th:object="${user}" th:action="${user.id == null ? '/admin/users/add' : '/admin/users/edit/' + user.id}" method="post">
+    <input type="hidden" th:field="*{id}">
+
+    <label for="name">Name:</label>
+    <input type="text" th:field="*{name}" required>
+    <br>
+    <label for="username">Username:</label>
+    <input type="text" th:field="*{username}" required>
+    <br>
+    <label for="email">Email:</label>
+    <input type="email" th:field="*{email}" required>
+    <br>
+    <label for="phoneNumber">Phone Number:</label>
+    <input type="text" th:field="*{phoneNumber}">
+    <br>
+    <label for="password">Password:</label>
+    <input type="password" th:field="*{password}">
+    <br>
+<!--    <label for="roles">Role:</label>-->
+<!--    <select th:field="*{roles}" multiple="multiple">-->
+<!--        <option th:each="role : ${allRoles}" th:value="${role}" th:text="${role.name}"></option>-->
+<!--    </select>-->
+<!--    <br>-->
+
+
+    <!-- Additional fields can be added here as needed -->
+
+    <button class="save-button" type="submit">Save</button>
+    <a class="cancel-link" th:if="${user.id != null}" th:href="@{/admin/users/}">Cancel</a>
+</form>
+>>>>>>> Stashed changes
 </body>
 </html>
