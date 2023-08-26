@@ -40,4 +40,8 @@ public class Manufacture implements Serializable {
     public int hashCode() {
         return Objects.hash(id);
     }*/
+    
+    public Manufacture(String name) {
+        this.name = name;
+    }
 }

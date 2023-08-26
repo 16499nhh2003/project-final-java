@@ -11,4 +11,11 @@ public interface UserService {
     public Optional<AppUser> findUserByEmail(String email);
     public Optional<AppUser> findUserByResetToken(String resetToken);
     public void save(AppUser user);
+
+
+    Iterable<AppUser> getAllUsers();
+    AppUser getUserById(Long id);
+    void saveUser(AppUser user);
+    void updateUser(Long id, AppUser user);
+    void deleteUser(Long id);
 }

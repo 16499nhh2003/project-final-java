@@ -22,4 +22,9 @@ public class Category{
     @ToString.Exclude
     private Set<Product> products;
     private String url;
+    
+    public Category(String name, String url) {
+        this.name = name;
+        this.url = url;
+    }
 }

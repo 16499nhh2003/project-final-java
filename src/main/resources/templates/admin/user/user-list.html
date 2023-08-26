@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+<<<<<<< HEAD
   <title>Quản lý người dùng</title>
+=======
+  <title>User Management</title>
+>>>>>>> main
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
   <style>
@@ -25,6 +29,7 @@
       font-weight: bold;
     }
 
+<<<<<<< HEAD
     .edit-icon,
     .delete-icon {
       transition: color 0.3s;
@@ -32,13 +37,26 @@
 
     .edit-icon:hover,
     .delete-icon:hover {
+=======
+    .edit-link,
+    .delete-link {
+      transition: color 0.3s;
+    }
+
+    .edit-link:hover,
+    .delete-link:hover {
+>>>>>>> main
       color: #0056b3;
     }
   </style>
 </head>
 <body>
 <div class="container table-container">
+<<<<<<< HEAD
   <h1 class="mb-4">Danh sách người dùng</h1>
+=======
+  <h1 class="mb-4">User List</h1>
+>>>>>>> main
   <table class="table table-striped">
     <thead class="table-header">
     <tr>
@@ -47,8 +65,16 @@
       <th>Username</th>
       <th>Email</th>
       <th>Phone Number</th>
+<<<<<<< HEAD
       <th>Address</th>
       <th>Roles</th>
+=======
+      <th>Password</th>
+      <th>Photo</th>
+      <th>Address</th>
+      <th>Gender</th>
+      <th>Reset Token</th>
+>>>>>>> main
       <th>Actions</th>
     </tr>
     </thead>
@@ -59,6 +85,7 @@
       <td th:text="${user.username}"></td>
       <td th:text="${user.email}"></td>
       <td th:text="${user.phoneNumber}"></td>
+<<<<<<< HEAD
       <td th:text="${user.address}"></td>
       <td>
         <select th:each="role : ${user.roles}" th:value="${role.id}" class="form-control" disabled>
@@ -72,11 +99,28 @@
         <a class="delete-icon" th:href="@{/admin/users/delete/{id}(id=${user.id})}">
           <i class="fas fa-trash"></i>
         </a>
+=======
+      <td th:text="${user.password}"></td>
+      <td th:text="${user.photo}"></td>
+      <td th:text="${user.address}"></td>
+      <td th:text="${user.gender}"></td>
+      <td th:text="${user.resetToken}"></td>
+      <td>
+        <a class="edit-link" th:href="@{/admin/users/edit/{id}(id=${user.id})}"><i class="fas fa-edit"></i> Edit</a>
+        <a class="delete-link" th:href="@{/admin/users/delete/{id}(id=${user.id})}"><i class="fas fa-trash"></i> Delete</a>
+>>>>>>> main
       </td>
     </tr>
     </tbody>
   </table>
+<<<<<<< HEAD
   <a class="btn btn-primary" href="/admin/users/add">Thêm người dùng</a>
 </div>
 </body>
 </html>
+=======
+  <a class="btn btn-primary" href="/admin/users/add">Add User</a>
+</div>
+</body>
+</html>
+>>>>>>> main

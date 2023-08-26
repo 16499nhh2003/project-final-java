@@ -1,6 +1,7 @@
 package com.project.spring.controllers;
 
 import com.project.spring.dto.*;
+import com.project.spring.enums.OrderStatus;
 import com.project.spring.model.*;
 import com.project.spring.repositories.CartRepository;
 import com.project.spring.repositories.ProductRepository;
@@ -56,9 +57,16 @@ public class CartController {
         if (user != null) {
             Long idUser = user.getId();
             List<Cart> carts = this.cartRepository.findByUserId(idUser);
-            Cart cart = carts.get(0);
+            Cart cart = new Cart();
+            if (!carts.isEmpty()) {
+                cart = carts.get(0);
+            }
             CartDTO cartDTO = modelMapper.map(cart, CartDTO.class);
             List<CartItemDTO> cartItemDTOs = cartDTO.getCartItems();
+            cartItemDTOs.stream().map(cartItemDTO -> {
+                cartItemDTO.setProductOriginalPicture(this.productRepository.findById(cartItemDTO.getProductId()).get().getLogoImage());
+                return cartItemDTO;
+            }).toList();
             numberItems = cartItemDTOs.size();
             for (CartItemDTO cartItemDTO : cartItemDTOs) {
                 total[0] = total[0].add(BigDecimal.valueOf(cartItemDTO.getProductPrice() * cartItemDTO.getQuantity()));
@@ -86,11 +94,12 @@ public class CartController {
                             }
                         }
                         List<CartItemDTO> mergedList = new ArrayList<>(mergedMap.values());
+                        Cart finalCart = cart;
                         List<CartItem> cartItems = mergedList.stream().map(cartItemDTO -> {
                             CartItem item = new CartItem();
                             item.setQuantity(cartItemDTO.getQuantity());
                             item.setProduct(this.productRepository.findById(cartItemDTO.getProductId()).get());
-                            item.setCart(cart);
+                            item.setCart(finalCart);
                             return item;
                         }).toList();
                         Cart cart1 = new Cart();
@@ -293,6 +302,7 @@ public class CartController {
         }
         order.setTotal(total);
         order.setOrderDetails(orderDetails);
+        order.setStatus(OrderStatus.PENDING);
         entityManager.persist(order);
         /*clear cart */
         this.cartRepository.delete(cart);

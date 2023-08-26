@@ -86,7 +86,5 @@ public interface ProductRepository extends JpaRepository<Product, Long>, PagingA
     /* top 8 product most view by category/*/
     @Query("select p from  Product p where p.category.id = :idCategory order by  p.viewCount limit 8 ")
     List<Product> getTop8Product(@Param("idCategory") Long idCategory);
-
-    List<Product> findByNameContainingIgnoreCase(String keyword);
 }
 

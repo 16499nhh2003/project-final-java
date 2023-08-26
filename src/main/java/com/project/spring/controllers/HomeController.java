@@ -42,7 +42,14 @@ public class HomeController {
         modelAndView.addObject("hasBanner", "hasBanner");
 
         List<Product> products = this.productRepository.getMostPurchasedProduct();
-        List<ProductDTO> productDTOS = products.stream().map(product -> modelMapper.map(product, ProductDTO.class)).toList();
+        List<ProductDTO> productDTOS = products.stream().map(product -> {
+            ProductDTO productDTO = new ProductDTO();
+            productDTO.setId(product.getId());
+            productDTO.setName(product.getName());
+            productDTO.setPrice(product.getPrice());
+            productDTO.setOriginalPicture(product.getLogoImage());
+            return productDTO;
+        }).toList();
         modelAndView.addObject("trendy", productDTOS);
 
 //        List<Product> productsCategoty = this.productService.getAllProductByCategory()
@@ -62,7 +69,14 @@ public class HomeController {
         modelAndView.addObject("categoriesDTOs", categoryDTOS);
 
         List<Product> products1 = this.productRepository.getTop8Product(1L);
-        List<ProductDTO> productDTOS1 = products1.stream().map(product -> modelMapper.map(product, ProductDTO.class)).toList();
+        List<ProductDTO> productDTOS1 = products1.stream().map(product -> {
+            ProductDTO productDTO = new ProductDTO();
+            productDTO.setId(product.getId());
+            productDTO.setName(product.getName());
+            productDTO.setPrice(product.getPrice());
+            productDTO.setOriginalPicture(product.getLogoImage());
+            return productDTO;
+        }).toList();
         modelAndView.addObject("top8Mobile", productDTOS1);
 
         AppUser user = this.userRepository.getUserByUsername(userDetailsServiceImpl.getCurrentUserId());
@@ -86,5 +100,9 @@ public class HomeController {
             modelAndView.addObject("isLogin", user.getName());
         }
         return modelAndView;
+    }
+    @GetMapping("/403")
+    public String error403(){
+        return "403";
     }
 }
