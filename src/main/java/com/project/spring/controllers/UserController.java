@@ -5,9 +5,7 @@ import com.project.spring.repositories.UserRepository;
 import com.project.spring.service.UserService;
 import com.project.spring.service.impl.UserDetailsServiceImpl;
 import com.project.spring.utils.FileUploadUtil;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +20,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.beans.FeatureDescriptor;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;

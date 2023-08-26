@@ -1,7 +1,9 @@
 package com.project.spring.controllers.admin;
 
 import com.project.spring.model.AppUser;
+import com.project.spring.model.Role;
 import com.project.spring.service.UserManagementService;
+import com.project.spring.service.RoleService; // Import thêm service cho Role
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,10 +16,12 @@ import java.util.Optional;
 @RequestMapping("/admin/users")
 public class UserManagementController {
     private final UserManagementService userService;
+    private final RoleService roleService; // Inject RoleService
 
     @Autowired
-    public UserManagementController(UserManagementService userService) {
+    public UserManagementController(UserManagementService userService, RoleService roleService) {
         this.userService = userService;
+        this.roleService = roleService; // Inject RoleService
     }
 
     @GetMapping("/")
@@ -30,6 +34,7 @@ public class UserManagementController {
     @GetMapping("/add")
     public String addUserForm(Model model) {
         model.addAttribute("user", new AppUser());
+        model.addAttribute("allRoles", roleService.getAllRoles()); // Truyền danh sách vai trò
         return "admin/user/user-form";
     }
 
@@ -42,7 +47,10 @@ public class UserManagementController {
     @GetMapping("/edit/{id}")
     public String editUserForm(@PathVariable Long id, Model model) {
         Optional<AppUser> user = userService.getUserById(id);
-        user.ifPresent(appUser -> model.addAttribute("user", appUser));
+        user.ifPresent(appUser -> {
+            model.addAttribute("user", appUser);
+            model.addAttribute("allRoles", roleService.getAllRoles()); // Truyền danh sách vai trò
+        });
         return "admin/user/user-form";
     }
 

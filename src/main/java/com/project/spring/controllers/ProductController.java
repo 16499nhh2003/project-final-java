@@ -10,9 +10,7 @@ import com.project.spring.repositories.*;
 import com.project.spring.service.CommentService;
 import com.project.spring.service.ProductService;
 import com.project.spring.service.impl.UserDetailsServiceImpl;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
-import org.hibernate.internal.log.SubSystemLogging;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,9 +19,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.data.domain.Sort.Direction;
@@ -33,7 +28,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.math.BigDecimal;
-import java.security.Principal;
 import java.util.*;
 
 

@@ -23,13 +23,8 @@ public class ProductManagementService {
         return productRepository.findById(id);
     }
 
-<<<<<<< HEAD
-    public Product saveProduct(Product product) {
-        return productRepository.save(product);
-=======
     public void saveProduct(Product product) {
         productRepository.save(product);
->>>>>>> main
     }
 
     public void deleteProduct(Long id) {
