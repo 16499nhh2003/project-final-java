@@ -1,6 +1,7 @@
 <i>--------------Version 2.1:--------------</i>
 <li>Supported find manufacture name</li><br><br><br><br>
-
+<img src="img_6.png"><br><br><br><br>
+<img src="img_7.png"><br><br><br><br>
 
 
 <i>--------------Version 2.0:--------------</i>
