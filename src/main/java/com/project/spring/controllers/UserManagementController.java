@@ -35,8 +35,11 @@ public class UserManagementController {
     public String addUserForm(Model model) {
         model.addAttribute("user", new AppUser());
 <<<<<<< Updated upstream:src/main/java/com/project/spring/controllers/UserManagementController.java
+<<<<<<< Updated upstream:src/main/java/com/project/spring/controllers/UserManagementController.java
         return "user-form";
 =======
+=======
+>>>>>>> Stashed changes:src/main/java/com/project/spring/controllers/admin/UserManagementController.java
         model.addAttribute("allRoles", roleService.getAllRoles()); // Truyền danh sách vai trò
         return "admin/user/user-form";
 >>>>>>> Stashed changes:src/main/java/com/project/spring/controllers/admin/UserManagementController.java
@@ -52,9 +55,12 @@ public class UserManagementController {
     public String editUserForm(@PathVariable Long id, Model model) {
         Optional<AppUser> user = userService.getUserById(id);
 <<<<<<< Updated upstream:src/main/java/com/project/spring/controllers/UserManagementController.java
+<<<<<<< Updated upstream:src/main/java/com/project/spring/controllers/UserManagementController.java
         user.ifPresent(appUser -> model.addAttribute("user", appUser));
         return "user-form";
 =======
+=======
+>>>>>>> Stashed changes:src/main/java/com/project/spring/controllers/admin/UserManagementController.java
         user.ifPresent(appUser -> {
             model.addAttribute("user", appUser);
             model.addAttribute("allRoles", roleService.getAllRoles()); // Truyền danh sách vai trò

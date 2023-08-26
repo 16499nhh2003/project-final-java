@@ -8,8 +8,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+<<<<<<< Updated upstream
 import java.util.Set;
 import java.util.stream.Collectors;
+=======
+>>>>>>> Stashed changes
 
 @Service
 public class RoleServiceImpl implements RoleService {
@@ -30,6 +33,7 @@ public class RoleServiceImpl implements RoleService {
         Optional<Role> optionalRole = roleRepository.findById(id);
         return optionalRole.orElse(null);
     }
+<<<<<<< Updated upstream
 
     @Override
     public Set<Role> getRolesByIds(List<Integer> roleIds) {
@@ -40,3 +44,6 @@ public class RoleServiceImpl implements RoleService {
                 .collect(Collectors.toSet());
     }
 }
+=======
+}
+>>>>>>> Stashed changes
