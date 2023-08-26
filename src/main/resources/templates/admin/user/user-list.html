@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Quản lý người dùng</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+    }
+
+    .table-container {
+      max-width: 100%;
+      padding: 20px;
+      border-radius: 10px;
+      background-color: #fff;
+      box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+      margin: 20px auto;
+      overflow-x: auto;
+    }
+
+    .table-header {
+      background-color: #f8f9fa;
+      font-weight: bold;
+    }
+
+    .edit-icon,
+    .delete-icon {
+      transition: color 0.3s;
+    }
+
+    .edit-icon:hover,
+    .delete-icon:hover {
+      color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+<div class="container table-container">
+  <h1 class="mb-4">Danh sách người dùng</h1>
+  <table class="table table-striped">
+    <thead class="table-header">
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Username</th>
+      <th>Email</th>
+      <th>Phone Number</th>
+      <th>Address</th>
+      <th>Roles</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user : ${users}">
+      <td th:text="${user.id}"></td>
+      <td th:text="${user.name}"></td>
+      <td th:text="${user.username}"></td>
+      <td th:text="${user.email}"></td>
+      <td th:text="${user.phoneNumber}"></td>
+      <td th:text="${user.address}"></td>
+      <td>
+        <select th:each="role : ${user.roles}" th:value="${role.id}" class="form-control" disabled>
+          <option th:text="${role.name}"></option>
+        </select>
+      </td>
+      <td>
+        <a class="edit-icon" th:href="@{/admin/users/edit/{id}(id=${user.id})}">
+          <i class="fas fa-edit"></i>
+        </a>
+        <a class="delete-icon" th:href="@{/admin/users/delete/{id}(id=${user.id})}">
+          <i class="fas fa-trash"></i>
+        </a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <a class="btn btn-primary" href="/admin/users/add">Thêm người dùng</a>
+</div>
+</body>
+</html>
