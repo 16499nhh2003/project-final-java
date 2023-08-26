@@ -30,13 +30,11 @@ public class UserManagementController {
     @GetMapping("/add")
     public String addUserForm(Model model) {
         model.addAttribute("user", new AppUser());
-        model.addAttribute("allRoles", userService.getAllRoles()); // Truyền danh sách roles vào Model
         return "admin/user/user-form";
     }
 
     @PostMapping("/add")
-    public String addUser(@ModelAttribute AppUser user, @RequestParam List<String> roles) {
-        user.setRoles(userService.getRolesByNames(roles));
+    public String addUser(@ModelAttribute AppUser user) {
         userService.saveUser(user);
         return "redirect:/admin/users/";
     }
@@ -45,13 +43,11 @@ public class UserManagementController {
     public String editUserForm(@PathVariable Long id, Model model) {
         Optional<AppUser> user = userService.getUserById(id);
         user.ifPresent(appUser -> model.addAttribute("user", appUser));
-        model.addAttribute("allRoles", userService.getAllRoles()); // Truyền danh sách roles vào Model
         return "admin/user/user-form";
     }
 
     @PostMapping("/edit/{id}")
-    public String editUser(@ModelAttribute AppUser user, @RequestParam List<String> roles) {
-        user.setRoles(userService.getRolesByNames(roles));
+    public String editUser(@ModelAttribute AppUser user) {
         userService.saveUser(user);
         return "redirect:/admin/users/";
     }
@@ -61,7 +57,6 @@ public class UserManagementController {
         userService.deleteUser(id);
         return "redirect:/admin/users/";
     }
-
     @GetMapping("/search")
     public String searchUsers(@RequestParam("keyword") String keyword, Model model) {
         List<AppUser> searchResults = userService.searchUsers(keyword);
