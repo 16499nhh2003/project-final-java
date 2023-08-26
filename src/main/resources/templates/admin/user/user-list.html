@@ -1,14 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<<<<<<< Updated upstream
-  <title>Quản lý người dùng</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
-=======
   <meta charset="UTF-8">
   <title>User List</title>
->>>>>>> Stashed changes
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -23,16 +17,6 @@
       width: 100%;
     }
 
-<<<<<<< Updated upstream
-    .edit-icon,
-    .delete-icon {
-      transition: color 0.3s;
-    }
-
-    .edit-icon:hover,
-    .delete-icon:hover {
-      color: #0056b3;
-=======
     .user-table th,
     .user-table td {
       border: 1px solid #ddd;
@@ -69,54 +53,10 @@
       border-radius: 3px;
       text-decoration: none;
       color: #fff;
->>>>>>> Stashed changes
     }
   </style>
 </head>
 <body>
-<<<<<<< Updated upstream
-<div class="container table-container">
-  <h1 class="mb-4">Danh sách người dùng</h1>
-  <table class="table table-striped">
-    <thead class="table-header">
-    <tr>
-      <th>ID</th>
-      <th>Name</th>
-      <th>Username</th>
-      <th>Email</th>
-      <th>Phone Number</th>
-      <th>Address</th>
-      <th>Roles</th>
-      <th>Actions</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="user : ${users}">
-      <td th:text="${user.id}"></td>
-      <td th:text="${user.name}"></td>
-      <td th:text="${user.username}"></td>
-      <td th:text="${user.email}"></td>
-      <td th:text="${user.phoneNumber}"></td>
-      <td th:text="${user.address}"></td>
-      <td>
-        <select th:each="role : ${user.roles}" th:value="${role.id}" class="form-control" disabled>
-          <option th:text="${role.name}"></option>
-        </select>
-      </td>
-      <td>
-        <a class="edit-icon" th:href="@{/admin/users/edit/{id}(id=${user.id})}">
-          <i class="fas fa-edit"></i>
-        </a>
-        <a class="delete-icon" th:href="@{/admin/users/delete/{id}(id=${user.id})}">
-          <i class="fas fa-trash"></i>
-        </a>
-      </td>
-    </tr>
-    </tbody>
-  </table>
-  <a class="btn btn-primary" href="/admin/users/add">Thêm người dùng</a>
-</div>
-=======
 <h1>User List</h1>
 <form action="/admin/users/search" method="get">
   <input type="text" name="keyword" placeholder="Search...">
@@ -124,14 +64,14 @@
 </form>
 <table class="user-table">
   <tr>
-  <th>ID</th>
-  <th>Name</th>
-  <th>Username</th>
-  <th>Email</th>
-  <th>Phone Number</th>
-  <th>Role</th>
-  <th>Actions</th>
-</tr>
+    <th>ID</th>
+    <th>Name</th>
+    <th>Username</th>
+    <th>Email</th>
+    <th>Phone Number</th>
+    <th>Roles</th>
+    <th>Actions</th>
+  </tr>
   <tr th:each="user : ${users}">
     <td th:text="${user.id}"></td>
     <td th:text="${user.name}"></td>
@@ -150,6 +90,5 @@
   </tr>
 </table>
 <p><a class="add-link" th:href="@{/admin/users/add}">Add User</a></p>
->>>>>>> Stashed changes
 </body>
 </html>

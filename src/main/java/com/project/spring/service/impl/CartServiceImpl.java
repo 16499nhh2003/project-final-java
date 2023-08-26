@@ -1,15 +1,21 @@
 package com.project.spring.service.impl;
 
 import com.project.spring.dto.CartDTO;
+import com.project.spring.dto.CartItemDTO;
+import com.project.spring.dto.ProductDTO;
 import com.project.spring.model.Cart;
+import com.project.spring.model.CartItem;
+import com.project.spring.repositories.CartItemRepository;
 import com.project.spring.repositories.CartRepository;
 import com.project.spring.service.CartService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
 public class CartServiceImpl implements CartService {

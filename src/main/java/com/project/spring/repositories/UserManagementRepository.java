@@ -7,7 +7,5 @@ import java.util.List;
 
 public interface UserManagementRepository extends JpaRepository<AppUser, Long> {
     List<AppUser> findByNameContainingOrUsernameContainingOrEmailContaining(String keyword, String keyword1, String keyword2);
-
-    boolean existsByEmail(String email);
     // Các phương thức tùy chỉnh nếu cần
 }

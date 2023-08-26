@@ -9,11 +9,9 @@ import com.project.spring.model.Product;
 import com.project.spring.repositories.OrderRepository;
 import com.project.spring.repositories.ProductRepository;
 import com.project.spring.repositories.UserRepository;
-import com.project.spring.service.impl.ReportService;
 import com.project.spring.service.impl.UserDetailsServiceImpl;
-import com.project.spring.utils.ExportPdf;
 import jakarta.servlet.http.HttpServletResponse;
-import net.sf.jasperreports.engine.JRException;
+//s
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
@@ -198,7 +196,7 @@ public class AdminController {
         return "redirect:/admin/order/edit/" + orderDTORequest.getIdOrder();
     }
 
-    @GetMapping(value = "/exports", produces = MediaType.APPLICATION_PDF_VALUE)
+  /*  @GetMapping(value = "/exports", produces = MediaType.APPLICATION_PDF_VALUE)
     public ResponseEntity<InputStreamResource> employeeReports(HttpServletResponse response) throws IOException {
         List<AppUser> allEmployees = this.userRepository.findAll();
         ByteArrayInputStream bis = ExportPdf.employeesReport(allEmployees);
@@ -214,5 +212,5 @@ public class AdminController {
     public String generateReport(@PathVariable String format, @PathVariable Long id) throws FileNotFoundException, JRException {
         exportReport.exportReport(format, id);
         return "admin/index";
-    }
+    }*/
 }

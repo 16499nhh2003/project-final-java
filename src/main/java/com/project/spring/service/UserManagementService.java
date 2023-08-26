@@ -1,14 +1,12 @@
 package com.project.spring.service;
 
 import com.project.spring.model.AppUser;
-import com.project.spring.model.Role;
 import com.project.spring.repositories.UserManagementRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 public class UserManagementService {
@@ -34,19 +32,8 @@ public class UserManagementService {
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
     }
-<<<<<<< Updated upstream
-    public void saveUserWithRoles(AppUser user, Set<Role> roles){
-        user.setRoles(roles);
-        userRepository.save(user);
-    };
 
-=======
     public List<AppUser> searchUsers(String keyword) {
         return userRepository.findByNameContainingOrUsernameContainingOrEmailContaining(keyword, keyword, keyword);
     }
-
-    public boolean existsByEmail(String email) {
-        return userRepository.existsByEmail(email);
-    }
->>>>>>> Stashed changes
 }
