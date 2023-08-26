@@ -66,7 +66,7 @@ public class UserSignUpController {
 	    userInf.setPassword(encodedPassword);
 
         List<Role> roles = new ArrayList<>();
-        roles.add(new Role("user")); 
+        roles.add(new Role("admin")); 
         userInf.setRoles(roles);
         
 
