@@ -8,8 +8,10 @@ import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Repository
 public interface ManufactureRepository extends JpaRepository<Manufacture, Long> {
@@ -22,4 +24,7 @@ public interface ManufactureRepository extends JpaRepository<Manufacture, Long> 
             "JOIN Product pr ON p.product_id.id = pr.id " +
             "WHERE pr.category.id = :idCategory")
     List<Manufacture> findByCategory(@Param("idCategory") Long idCategory);
+
+    Set<Manufacture> findManufactureByNameIn(Collection<String> names);
+
 }

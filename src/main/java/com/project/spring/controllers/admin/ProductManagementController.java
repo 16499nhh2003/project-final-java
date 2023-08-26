@@ -546,8 +546,14 @@ public class ProductManagementController {
 
                 // manufacture
             } else if (key.equalsIgnoreCase("manufacture")) {
-                model.addAttribute("errorMessage", "Feature find manufacture not support, please try to find another keyword");
-                model.addAttribute("products", null);
+                if (value.contains(",")) {
+                    value = value.replace(", ", ",");
+                    model.addAttribute("errorMessage", "No support find multi name manufacture");
+                    model.addAttribute("products", null);
+                } else {
+                    model.addAttribute("products", manufactureRepository.findManufactureByNameContainsIgnoreCase(value).get().getProducts());
+                }
+
                 return "admin/products/list";
 
             } else {
