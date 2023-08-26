@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/admin/users")
@@ -39,8 +40,9 @@ public class UserManagementController {
     }
 
     @PostMapping("/add")
-    public String addUser(@ModelAttribute AppUser user) {
-        userService.saveUser(user);
+    public String addUser(@ModelAttribute AppUser user, @RequestParam("roles") List<Integer> roleIds) {
+        Set<Role> roles = roleService.getRolesByIds(roleIds);
+        userService.saveUserWithRoles(user, roles);
         return "redirect:/admin/users/";
     }
 

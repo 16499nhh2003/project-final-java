@@ -6,7 +6,10 @@ import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 @Entity
 @Table(name = "users")
 @Data
@@ -16,10 +19,12 @@ public class AppUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @NotEmpty(message = "Name not empty!")
     private String name;
-//    @Column(nullable = false, unique = true)
+
     private String username;
+
     @Column(nullable = false, unique = true)
     @Email(message = "Please provide a valid e-mail")
     @NotEmpty(message = "Please provide an e-mail")
@@ -27,6 +32,7 @@ public class AppUser {
 
     private String phoneNumber;
     private String password;
+
     @OneToMany(mappedBy = "user")
     private List<Cart> carts;
 
@@ -36,12 +42,10 @@ public class AppUser {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    private List<Role> roles = new ArrayList<>();
+    private Set<Role> roles = new HashSet<>(); // Changed to Set<Role> instead of List<Role>
 
     private String photo;
     private String address;
     private boolean gender;
-    @Column
     private String resetToken;
-
 }

@@ -1,12 +1,14 @@
 package com.project.spring.service;
 
 import com.project.spring.model.AppUser;
+import com.project.spring.model.Role;
 import com.project.spring.repositories.UserManagementRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class UserManagementService {
@@ -32,4 +34,9 @@ public class UserManagementService {
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
     }
+    public void saveUserWithRoles(AppUser user, Set<Role> roles){
+        user.setRoles(roles);
+        userRepository.save(user);
+    };
+
 }

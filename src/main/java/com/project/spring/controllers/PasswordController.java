@@ -10,7 +10,6 @@ import com.project.spring.repositories.UserRepository;
 import com.project.spring.service.EmailService;
 import com.project.spring.service.UserService;
 import com.project.spring.service.impl.UserDetailsServiceImpl;
-import com.project.spring.service.impl.UserServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
