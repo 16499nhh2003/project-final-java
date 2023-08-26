@@ -124,7 +124,7 @@
                         </div>
                         <div class="navbar-nav ml-auto py-0" th:if="${isLogin == null}">
                             <a th:href="@{/login}" class="nav-item nav-link">Login</a>
-                            <a href="" class="nav-item nav-link">Register</a>
+                            <a th:href="@{/register}" class="nav-item nav-link">Register</a>
                         </div>
                         <div class="navbar-nav ml-auto py-0" th:if="${isLogin != null}">
                             <a class="nav-item nav-link" th:text="'Hi ' + ${isLogin}"></a>

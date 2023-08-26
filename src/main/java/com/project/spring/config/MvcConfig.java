@@ -11,6 +11,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class MvcConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(final ResourceHandlerRegistry registry) {
+
         exposeDirectory("upload/products", registry);
         exposeDirectory("upload/users", registry);
         /*Path path = Paths.get("./upload/products");

@@ -52,7 +52,6 @@ public class ApplicationSecurityConfig {
             auth.requestMatchers("/js/**").permitAll();
             auth.requestMatchers("/assets/**").permitAll();
             auth.requestMatchers("/assets2/**").permitAll();
-
             auth.requestMatchers("/login").permitAll();
             auth.requestMatchers("/logout").permitAll();
             auth.requestMatchers("/login?error=true").anonymous();
@@ -67,6 +66,7 @@ public class ApplicationSecurityConfig {
             auth.requestMatchers("/forgot").permitAll();
             auth.requestMatchers("/reset").permitAll();
             auth.requestMatchers("/register").permitAll();
+          
             /*auth.requestMatchers("/users/**").permitAll();*/
 
             auth.requestMatchers("/admin").hasAnyAuthority("admin");
@@ -74,7 +74,17 @@ public class ApplicationSecurityConfig {
 
             auth.requestMatchers("/upload/**").permitAll();
             auth.anyRequest().authenticated();
-        }).formLogin(formLogin -> formLogin.loginPage("/login").successHandler(customAuthenticationSuccessHandler).failureUrl("/login?error=true")).logout(logout -> logout.logoutUrl("/logout").logoutSuccessUrl("/login?logout").clearAuthentication(true).invalidateHttpSession(true).deleteCookies("JSESSIONID").permitAll()).rememberMe(remmember -> remmember.key("remember-me").tokenValiditySeconds(86400)).exceptionHandling(handling -> handling.accessDeniedPage("/403")).oauth2Login(oauth2Login -> oauth2Login.loginPage("/login").successHandler(oauth2LoginSuccessHandler()).failureHandler(oauth2LoginFailureHandler()).authorizationEndpoint(authorization -> authorization.baseUri("/oauth2/authorization"))).httpBasic(withDefaults());
+        }).formLogin(formLogin -> formLogin.loginPage("/login")
+        		.successHandler(customAuthenticationSuccessHandler)
+        		.failureUrl("/login?error=true")).logout(logout -> logout.logoutUrl("/logout").logoutSuccessUrl("/login?logout")
+        				.clearAuthentication(true).invalidateHttpSession(true)
+        				.deleteCookies("JSESSIONID").permitAll())
+        .rememberMe(remmember -> remmember.key("remember-me").tokenValiditySeconds(86400))
+        .exceptionHandling(handling -> handling.accessDeniedPage("/403"))
+        .oauth2Login(oauth2Login -> oauth2Login.loginPage("/login")
+        		.successHandler(oauth2LoginSuccessHandler())
+        		.failureHandler(oauth2LoginFailureHandler())
+        		.authorizationEndpoint(authorization -> authorization.baseUri("/oauth2/authorization"))).httpBasic(withDefaults());
         return http.build();
     }
 

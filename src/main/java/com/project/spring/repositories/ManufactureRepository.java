@@ -22,4 +22,8 @@ public interface ManufactureRepository extends JpaRepository<Manufacture, Long> 
             "JOIN Product pr ON p.product_id.id = pr.id " +
             "WHERE pr.category.id = :idCategory")
     List<Manufacture> findByCategory(@Param("idCategory") Long idCategory);
+   
+    List<Manufacture> findAll();
+    
+
 }
