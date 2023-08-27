@@ -81,6 +81,11 @@
     <label for="password">Password:</label>
     <input type="password" th:field="*{password}">
     <br>
+    <label for="role">Role:</label>
+    <select th:field="*{roles}" multiple="multiple">
+        <option th:each="role : ${allRoles}" th:value="${role.id}" th:text="${role.name}"></option>
+    </select>
+    <br>
 
     <!-- Các trường bổ sung có thể được thêm vào đây nếu cần -->
 

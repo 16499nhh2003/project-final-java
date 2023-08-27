@@ -1,6 +1,9 @@
 package com.project.spring.controllers.admin;
 
 import com.project.spring.model.AppUser;
+import com.project.spring.model.Role;
+import com.project.spring.model.UserRole;
+import com.project.spring.repositories.RoleRepository;
 import com.project.spring.service.UserManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,10 +17,12 @@ import java.util.Optional;
 @RequestMapping("/admin/users")
 public class UserManagementController {
     private final UserManagementService userService;
+    private final RoleRepository roleRepository;
 
     @Autowired
-    public UserManagementController(UserManagementService userService) {
+    public UserManagementController(UserManagementService userService, RoleRepository roleRepository) {
         this.userService = userService;
+        this.roleRepository = roleRepository; // Khởi tạo roleRepository
     }
 
     @GetMapping("/")
@@ -30,15 +35,29 @@ public class UserManagementController {
     @GetMapping("/add")
     public String addUserForm(Model model) {
         model.addAttribute("user", new AppUser());
+        model.addAttribute("allRoles", roleRepository.findAll());
         return "/admin/user/user-form";
     }
 
     @PostMapping("/add")
-    public String addUser(@ModelAttribute AppUser user, Model model) {
+    public String addUser(@ModelAttribute AppUser user, @RequestParam(name = "selectedRoles", required = false) List<Long> selectedRoles, Model model) {
         if (userService.isEmailExists(user.getEmail())) {
             model.addAttribute("emailExistsError", "Email already exists");
-            model.addAttribute("user", user); // Để hiển thị lại thông tin người dùng trên form
+            model.addAttribute("user", user);
+            model.addAttribute("allRoles", roleRepository.findAll());
             return "/admin/user/user-form";
+        }
+
+        if (selectedRoles != null) {
+            for (Long roleId : selectedRoles) {
+                Role role = roleRepository.findById(roleId).orElse(null);
+                if (role != null) {
+                    UserRole userRole = new UserRole();
+                    userRole.setUser(user);
+                    userRole.setRole(role);
+//                    user.getRoles().add(userRole);
+                }
+            }
         }
 
         userService.saveUser(user);
@@ -49,8 +68,12 @@ public class UserManagementController {
     @GetMapping("/edit/{id}")
     public String editUserForm(@PathVariable Long id, Model model) {
         Optional<AppUser> user = userService.getUserById(id);
-        user.ifPresent(appUser -> model.addAttribute("user", appUser));
-        return "/admin/user/user-form";
+        if (user.isPresent()) {
+            model.addAttribute("user", user.get());
+            model.addAttribute("allRoles", roleRepository.findAll());
+            return "/admin/user/user-form";
+        }
+        return "redirect:/admin/users/";
     }
 
     @PostMapping("/edit/{id}")
