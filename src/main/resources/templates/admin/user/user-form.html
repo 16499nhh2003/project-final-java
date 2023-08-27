@@ -35,6 +35,14 @@
             border-radius: 3px;
         }
 
+        select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
         .save-button {
             background-color: #66cc66;
             border: none;
@@ -66,6 +74,7 @@
     <label for="email">Email:</label>
     <input type="email" th:field="*{email}" required>
     <br>
+    <p th:if="${emailExistsError}" style="color: red" th:text="${emailExistsError}"></p>
     <label for="phoneNumber">Phone Number:</label>
     <input type="text" th:field="*{phoneNumber}">
     <br>
@@ -73,7 +82,7 @@
     <input type="password" th:field="*{password}">
     <br>
 
-    <!-- Additional fields can be added here as needed -->
+    <!-- Các trường bổ sung có thể được thêm vào đây nếu cần -->
 
     <button class="save-button" type="submit">Save</button>
     <a class="cancel-link" th:if="${user.id != null}" th:href="@{/admin/users/}">Cancel</a>

@@ -43,5 +43,9 @@ public class AppUser {
     private boolean gender;
     @Column
     private String resetToken;
+    private int roleId;
 
+    public void setRole(int roleId) {
+        this.roleId = roleId;
+    }
 }
