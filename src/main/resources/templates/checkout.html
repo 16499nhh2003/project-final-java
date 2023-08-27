@@ -89,9 +89,10 @@
                 <div class="card-body">
                     <div class="form-group">
                         <div class="custom-control custom-radio">
-                            <input type="radio" class="custom-control-input" name="payment" id="paypal" disabled>
+                            <input type="radio" class="custom-control-input" name="payment" id="paypal" value="paypal">
                             <label class="custom-control-label" for="paypal">Paypal</label>
                         </div>
+                    </div>
                     </div>
                     <div class="form-group">
                         <div class="custom-control custom-radio">
@@ -106,14 +107,20 @@
                         </div>
                     </div>
                 </div>
-                <div class="card-footer border-secondary bg-transparent">
-                    <form method="post" th:action="@{/checkout}">
-                        <button class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3"
-                                th:disabled="${total == 0 ? true : false }">Place Order
-                        </button>
-                    </form>
-                </div>
+            <!-- ... Phần mã HTML hiện tại ... -->
+
+            <div class="card-footer border-secondary bg-transparent">
+                <form method="get" th:action="@{/paypal/payment}">
+                    <input type="hidden" name="total" th:value="${total}">
+                    <button class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3"
+                            th:disabled="${total == 0 ? true : false }">Place Order
+                    </button>
+                </form>
             </div>
+
+            <!-- ... Phần mã HTML khác ... -->
+
+        </div>
         </div>
     </div>
 </div>
@@ -154,6 +161,7 @@
         priceProduct[i].innerText = VND.format(priceValue.toFixed(0)).replace("₫", "VNĐ"); // Use toFixed(0) to get the rounded integer value and format it
     }
 </script>
+
 
 </body>
 

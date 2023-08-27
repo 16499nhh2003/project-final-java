@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Summary</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        h2 {
+            text-align: center;
+            padding: 20px;
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        h4 {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 24px;
+        }
+
+        span {
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<h2>Order Summary</h2>
+<h4>Total Amount: <span th:text="${total}"></span> VND</h4>
+
+<form action="/paypal/create-payment" method="post">
+    <input type="hidden" name="total" th:value="${total}">
+    <button type="submit">Proceed to Payment</button>
+</form>
+</body>
+</html>
