@@ -46,6 +46,7 @@ public class PayPalService {
                         .map(LinkDescription::href)
                         .orElse(null);
 
+
                 return approvalUrl;
             }
         } catch (IOException e) {

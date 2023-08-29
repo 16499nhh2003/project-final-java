@@ -1,12 +1,14 @@
 package com.project.spring.controllers;
 
+import com.project.spring.model.Order;
 import com.project.spring.service.PayPalService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.math.BigDecimal;
 
@@ -23,7 +25,7 @@ public class PayPalController {
     @GetMapping("/payment")
     public String showPaymentForm(@RequestParam BigDecimal total, Model model) {
         model.addAttribute("total", total);
-        return "payment";
+        return "/payment"; // Điều hướng đến trang hiển thị thông tin thanh toán
     }
 
     @PostMapping("/create-payment")
@@ -32,14 +34,16 @@ public class PayPalController {
         if (redirectUrl != null) {
             return "redirect:" + redirectUrl;
         } else {
-            // Handle error
-            return "error";
+            // Xử lý lỗi
+            return "/error";
         }
     }
-    @PostMapping("/payment-success")
-    public String paymentSuccess() {
+
+    @GetMapping("/payment-success")
+    public String paymentSuccess(@RequestParam("orderId") Long orderId) {
+        // Xử lý thành công thanh toán và chuyển hướng đến trang thành công
         return "/checkoutsuccess";
     }
 
-    // ... Các phương thức xử lý khác ...
+    // ... Các phương thức khác ...
 }

@@ -86,14 +86,12 @@
                 <div class="card-header bg-secondary border-0">
                     <h4 class="font-weight-semi-bold m-0">Payment</h4>
                 </div>
-                <div class="card-body">
-                    <div class="form-group">
-                        <div class="custom-control custom-radio">
-                            <input type="radio" class="custom-control-input" name="payment" id="paypal" value="paypal">
-                            <label class="custom-control-label" for="paypal">Paypal</label>
-                        </div>
+                <div class="form-group">
+                    <div class="custom-control custom-radio">
+                        <input type="radio" class="custom-control-input" name="payment" id="paypal" value="paypal">
+                        <label class="custom-control-label" for="paypal">Paypal</label>
                     </div>
-                    </div>
+                </div>
                     <div class="form-group">
                         <div class="custom-control custom-radio">
                             <input type="radio" class="custom-control-input" name="payment" id="directcheck" checked>
@@ -109,10 +107,18 @@
                 </div>
             <!-- ... Phần mã HTML hiện tại ... -->
 
+<!--            <div class="card-footer border-secondary bg-transparent">-->
+<!--                <form method="post" th:action="@{/checkout}">-->
+<!--                    <button id="placeOrderButton" class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3"-->
+<!--                            th:disabled="${total == 0 ? true : false }">Place Order-->
+<!--                    </button>-->
+
+<!--                </form>-->
+<!--            </div>-->
             <div class="card-footer border-secondary bg-transparent">
                 <form method="get" th:action="@{/paypal/payment}">
                     <input type="hidden" name="total" th:value="${total}">
-                    <button class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3"
+                    <button id="placeOrderButton" class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3"
                             th:disabled="${total == 0 ? true : false }">Place Order
                     </button>
                 </form>
@@ -123,7 +129,6 @@
         </div>
         </div>
     </div>
-</div>
 <!-- Checkout End -->
 
 
@@ -149,18 +154,6 @@
 
 <!--    Big -->
 <script src="https://cdn.jsdelivr.net/npm/big.js@5.2.2/big.min.js"></script>
-<script>
-    // Replace the existing code to use Big objects
-    const VND = new Intl.NumberFormat('vi-VN', {
-        style: 'currency',
-        currency: 'VND',
-    });
-    let priceProduct = $('.price-product');
-    for (let i = 0; i < priceProduct.length; i++) {
-        let priceValue = new Big(priceProduct[i].innerHTML); // Create a Big object with the price value
-        priceProduct[i].innerText = VND.format(priceValue.toFixed(0)).replace("₫", "VNĐ"); // Use toFixed(0) to get the rounded integer value and format it
-    }
-</script>
 
 
 </body>
