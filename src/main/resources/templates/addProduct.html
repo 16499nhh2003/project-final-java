@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thêm Sản Phẩm</title>
+</head>
+<body>
+
+    <form action="/addProduct" method="POST">
+        <label for="product_name">Tên Sản Phẩm:</label>
+        <input type="text" id="product_name" name="product_name" required>
+        <br><br>
+
+        <label for="product_img">Ảnh Sản Phẩm:</label>
+        <input type="file" id="product_img" name="product_img" required>
+        <br><br>
+
+        
+
+        <button type="submit">Thêm Sản Phẩm</button>
+    </form>
+</body>
+</html>

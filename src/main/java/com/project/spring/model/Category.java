@@ -18,13 +18,9 @@ public class Category{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+  
     @OneToMany(mappedBy = "category",fetch = FetchType.EAGER)
     @ToString.Exclude
     private Set<Product> products;
     private String url;
-    
-    public Category(String name, String url) {
-        this.name = name;
-        this.url = url;
-    }
 }

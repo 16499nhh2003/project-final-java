@@ -18,7 +18,7 @@ public class AppUser {
     private Long id;
     @NotEmpty(message = "Name not empty!")
     private String name;
-//    @Column(nullable = false, unique = true)
+
     private String username;
     @Column(nullable = false, unique = true)
     @Email(message = "Please provide a valid e-mail")
@@ -40,7 +40,7 @@ public class AppUser {
 
     private String photo;
     private String address;
-    private boolean gender;
+    private String gender;
     @Column
     private String resetToken;
 
