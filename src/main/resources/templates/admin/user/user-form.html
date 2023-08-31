@@ -1,106 +1,96 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="UTF-8">
     <title>User Form</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
         }
 
         h1 {
-            text-align: center;
-            margin-top: 20px;
+            color: #333;
         }
 
         form {
-            max-width: 500px;
-            margin: 0 auto;
+            margin-top: 20px;
+            border: 1px solid #ddd;
             padding: 20px;
-            background-color: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .form-group {
-            margin-bottom: 20px;
+            border-radius: 5px;
         }
 
         label {
+            display: block;
+            margin-bottom: 5px;
             font-weight: bold;
         }
 
-        .form-control {
-            border-radius: 0;
-            border: 1px solid #ced4da;
-            box-shadow: none;
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
         }
 
-        .form-control:focus {
-            border-color: #2196F3;
-            box-shadow: none;
+        select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
         }
 
-        .btn {
-            border-radius: 0;
-            box-shadow: none;
+        .save-button {
+            background-color: #66cc66;
+            border: none;
+            color: #fff;
+            padding: 8px 15px;
+            border-radius: 3px;
+            cursor: pointer;
         }
 
-        .back-link {
-            display: block;
-            text-align: center;
-            margin-top: 20px;
+        .cancel-link {
+            display: inline-block;
+            margin-left: 10px;
+            color: #333;
+            text-decoration: none;
         }
     </style>
 </head>
 <body>
 <h1>User Form</h1>
-<form th:action="@{/admin/users/add}" th:object="${user}" method="post">
-    <input type="hidden" th:field="*{id}"/>
-    <div class="form-group">
-        <label for="name">Name:</label>
-        <input type="text" th:field="*{name}" class="form-control" required/>
-    </div>
-    <div class="form-group">
-        <label for="username">Username:</label>
-        <input type="text" th:field="*{username}" class="form-control"/>
-    </div>
-    <div class="form-group">
-        <label for="email">Email:</label>
-        <input type="email" th:field="*{email}" class="form-control" required/>
-    </div>
-    <div class="form-group">
-        <label for="phoneNumber">Phone Number:</label>
-        <input type="text" th:field="*{phoneNumber}" class="form-control"/>
-    </div>
-    <div class="form-group">
-        <label for="password">Password:</label>
-        <input type="password" th:field="*{password}" class="form-control" required/>
-    </div>
-    <div class="form-group">
-        <label for="photo">Photo:</label>
-        <input type="text" th:field="*{photo}" class="form-control"/>
-    </div>
-    <div class="form-group">
-        <label for="address">Address:</label>
-        <input type="text" th:field="*{address}" class="form-control"/>
-    </div>
-    <div class="form-group">
-        <label>Gender:</label>
-        <div class="form-check">
-            <input type="radio" class="form-check-input" id="male" name="gender" th:value="true"
-                   th:checked="${user.gender == true}"/>
-            <label class="form-check-label" for="male">Male</label>
-        </div>
-        <div class="form-check">
-            <input type="radio" class="form-check-input" id="female" name="gender" th:value="false"
-                   th:checked="${user.gender == false}"/>
-            <label class="form-check-label" for="female">Female</label>
-        </div>
-    </div>
-    <button type="submit" class="btn btn-primary">Save</button>
+<form th:object="${user}" th:action="${user.id == null ? '/admin/users/add' : '/admin/users/edit/' + user.id}" method="post">
+    <input type="hidden" th:field="*{id}">
+
+    <label for="name">Name:</label>
+    <input type="text" th:field="*{name}" required>
+    <br>
+    <label for="username">Username:</label>
+    <input type="text" th:field="*{username}" required>
+    <br>
+    <label for="email">Email:</label>
+    <input type="email" th:field="*{email}" required>
+    <br>
+    <p th:if="${emailExistsError}" style="color: red" th:text="${emailExistsError}"></p>
+    <label for="phoneNumber">Phone Number:</label>
+    <input type="text" th:field="*{phoneNumber}">
+    <br>
+    <label for="password">Password:</label>
+    <input type="password" th:field="*{password}">
+    <br>
+    <label for="role">Role:</label>
+    <select th:field="*{roles}" multiple="multiple">
+        <option th:each="role : ${allRoles}" th:value="${role.id}" th:text="${role.name}"></option>
+    </select>
+    <br>
+
+    <!-- Các trường bổ sung có thể được thêm vào đây nếu cần -->
+
+    <button class="save-button" type="submit">Save</button>
+    <a class="cancel-link" th:if="${user.id != null}" th:href="@{/admin/users/}">Cancel</a>
 </form>
-<a href="/admin/users/" class="back-link">Back to List</a>
 </body>
 </html>

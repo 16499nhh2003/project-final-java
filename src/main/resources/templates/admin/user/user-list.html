@@ -1,80 +1,94 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>User Management</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+  <meta charset="UTF-8">
+  <title>User List</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #f8f9fa;
     }
 
-    .table-container {
-      max-width: 100%;
-      padding: 20px;
-      border-radius: 10px;
-      background-color: #fff;
-      box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-      margin: 20px auto;
-      overflow-x: auto;
+    h1 {
+      color: #333;
     }
 
-    .table-header {
-      background-color: #f8f9fa;
-      font-weight: bold;
+    .user-table {
+      border-collapse: collapse;
+      width: 100%;
     }
 
-    .edit-link,
-    .delete-link {
-      transition: color 0.3s;
+    .user-table th,
+    .user-table td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
     }
 
-    .edit-link:hover,
-    .delete-link:hover {
-      color: #0056b3;
+    .user-table th {
+      background-color: #f2f2f2;
+    }
+
+    .action-link {
+      display: inline-block;
+      padding: 4px 8px;
+      margin-right: 5px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      text-decoration: none;
+      color: #333;
+    }
+
+    .action-link.edit {
+      background-color: #ffcc00;
+    }
+
+    .action-link.delete {
+      background-color: #ff6666;
+    }
+
+    .add-link {
+      display: inline-block;
+      padding: 4px 8px;
+      background-color: #66cc66;
+      border-radius: 3px;
+      text-decoration: none;
+      color: #fff;
     }
   </style>
 </head>
 <body>
-<div class="container table-container">
-  <h1 class="mb-4">User List</h1>
-  <table class="table table-striped">
-    <thead class="table-header">
-    <tr>
-      <th>ID</th>
-      <th>Name</th>
-      <th>Username</th>
-      <th>Email</th>
-      <th>Phone Number</th>
-      <th>Password</th>
-      <th>Photo</th>
-      <th>Address</th>
-      <th>Gender</th>
-      <th>Reset Token</th>
-      <th>Actions</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="user : ${users}">
-      <td th:text="${user.id}"></td>
-      <td th:text="${user.name}"></td>
-      <td th:text="${user.username}"></td>
-      <td th:text="${user.email}"></td>
-      <td th:text="${user.phoneNumber}"></td>
-      <td th:text="${user.password}"></td>
-      <td th:text="${user.photo}"></td>
-      <td th:text="${user.address}"></td>
-      <td th:text="${user.gender}"></td>
-      <td th:text="${user.resetToken}"></td>
-      <td>
-        <a class="edit-link" th:href="@{/admin/users/edit/{id}(id=${user.id})}"><i class="fas fa-edit"></i> Edit</a>
-        <a class="delete-link" th:href="@{/admin/users/delete/{id}(id=${user.id})}"><i class="fas fa-trash"></i> Delete</a>
-      </td>
-    </tr>
-    </tbody>
-  </table>
-  <a class="btn btn-primary" href="/admin/users/add">Add User</a>
-</div>
+<h1>User List</h1>
+<form action="/admin/users/search" method="get">
+  <input type="text" name="keyword" placeholder="Search...">
+  <button type="submit">Search</button>
+</form>
+<table class="user-table">
+  <tr>
+    <th>ID</th>
+    <th>Name</th>
+    <th>Username</th>
+    <th>Email</th>
+    <th>Phone Number</th>
+    <th>Roles</th>
+    <th>Actions</th>
+  </tr>
+  <tr th:each="user : ${users}">
+    <td th:text="${user.id}"></td>
+    <td th:text="${user.name}"></td>
+    <td th:text="${user.username}"></td>
+    <td th:text="${user.email}"></td>
+    <td th:text="${user.phoneNumber}"></td>
+    <td>
+      <ul>
+        <li th:each="role : ${user.roles}" th:text="${role.name}"></li>
+      </ul>
+    </td>
+    <td>
+      <a class="action-link edit" th:href="@{/admin/users/edit/{id}(id=${user.id})}">Edit</a>
+      <a class="action-link delete" th:href="@{/admin/users/delete/{id}(id=${user.id})}">Delete</a>
+    </td>
+  </tr>
+</table>
+<p><a class="add-link" th:href="@{/admin/users/add}">Add User</a></p>
 </body>
 </html>

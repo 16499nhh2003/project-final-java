@@ -7,6 +7,7 @@ import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
+
 @Entity
 @Table(name = "users")
 @Data
@@ -16,10 +17,12 @@ public class AppUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @NotEmpty(message = "Name not empty!")
     private String name;
-//    @Column(nullable = false, unique = true)
+
     private String username;
+
     @Column(nullable = false, unique = true)
     @Email(message = "Please provide a valid e-mail")
     @NotEmpty(message = "Please provide an e-mail")
@@ -27,6 +30,7 @@ public class AppUser {
 
     private String phoneNumber;
     private String password;
+
     @OneToMany(mappedBy = "user")
     private List<Cart> carts;
 
@@ -41,7 +45,15 @@ public class AppUser {
     private String photo;
     private String address;
     private boolean gender;
+
     @Column
     private String resetToken;
 
+    private int roleId;
+
+    public void setRole(int roleId) {
+        this.roleId = roleId;
+    }
+
+    // Constructors, getters, setters...
 }

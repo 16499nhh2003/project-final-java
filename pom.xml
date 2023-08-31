@@ -129,19 +129,12 @@
             <artifactId>spring-security-oauth2-jose</artifactId>
             <version>6.1.2</version>
         </dependency>
-
+        <!-- https://mvnrepository.com/artifact/com.paypal.sdk/rest-api-sdk -->
         <dependency>
-            <groupId>com.lowagie</groupId>
-            <artifactId>itext</artifactId>
-            <version>4.2.2</version>
+            <groupId>com.paypal.sdk</groupId>
+            <artifactId>rest-api-sdk</artifactId>
+            <version>1.4.1</version>
         </dependency>
-
-        <dependency>
-            <groupId>net.sf.jasperreports</groupId>
-            <artifactId>jasperreports</artifactId>
-            <version>6.20.5</version>
-        </dependency>
-
 
 
     </dependencies>
