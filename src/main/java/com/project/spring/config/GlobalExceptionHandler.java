@@ -1,6 +1,7 @@
 package com.project.spring.config;
 
 import com.project.spring.exceptions.ProductNotFoundException;
+import com.project.spring.exceptions.UserEnableException;
 import com.project.spring.exceptions.UserNotFoundException;
 
 import org.springframework.http.HttpStatus;
@@ -19,7 +20,13 @@ public class GlobalExceptionHandler {
         modelAndView.setViewName("error");
         return modelAndView;
     }
-    
+
+    @ExceptionHandler(UserEnableException.class)
+    public ModelAndView handleUserEnable(UserEnableException userEnableException){
+        ModelAndView modelAndView = new ModelAndView("/login");
+        modelAndView.addObject("isEnable",true);
+        return  modelAndView;
+    }
     @ResponseBody
     @ExceptionHandler(UserNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)

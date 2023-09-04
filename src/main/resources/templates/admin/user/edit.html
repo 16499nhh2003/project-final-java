@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 
@@ -43,14 +45,15 @@
             <section class="content">
                 <div class="container">
                     <h1 class="mb-4" th:text="${title}"></h1>
-                    <form th:object="${user}" th:action="@{/admin/users/add}" method="post">
+                    <form th:object="${user}" th:action="@{/admin/users/edit }" method="post">
+                        <input type="hidden" name="id" th:field="*{id}">
                         <div class="form-group">
                             <label for="name">Name:</label>
                             <input type="text" id="name" name="name" class="form-control" th:field="*{name}">
                         </div>
                         <div class="form-group">
                             <label for="username">Username:</label>
-                            <input type="text" id="username" name="username" class="form-control" th:field="*{username}"        >
+                            <input type="text" id="username" name="username" class="form-control" th:field="*{username}">
                         </div>
                         <div class="form-group">
                             <label for="email">Email:</label>
@@ -66,14 +69,32 @@
                         </div>
                         <div class="form-group">
                             <label for="roles">Vai trò:</label>
-                            <select id="roles" name="roles" class="form-control" th:field="*{roles}" multiple>
+                            <select id="roles" name="roles" class="form-control" multiple>
                                 <option th:each="role : ${roles}"
                                         th:value="${role.id}"
                                         th:text="${role.name}"
+                                        th:selected="${#lists.contains(user.roles,role)}"
                                 >
                                 </option>
                             </select>
                         </div>
+
+                        <div th:if="${username}">
+                            <div class="alert alert-danger" role="alert">
+                                <h2>[[${username}]]</h2>
+                            </div>
+                        </div>
+                        <div th:if="${email}">
+                            <div class="alert alert-danger" role="alert">
+                                <h2>[[${email}]]</h2>
+                            </div>
+                        </div>
+                        <div th:if="${success}">
+                            <div class="alert alert-success" role="alert">
+                                <h2>Update Successfully</h2>
+                            </div>
+                        </div>
+
                         <button type="submit" class="btn btn-primary">Lưu</button>
 
                     </form>

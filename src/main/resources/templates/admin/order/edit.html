@@ -169,6 +169,7 @@
                         </thead>
                         <tbody>
                         <tr th:each="orderDetail,rowStat : ${order.getOrderDetails()}">
+                            <input type="hidden" th:name="|orderDetails[${rowStat.index}].idOrderDetail|" th:value="${orderDetail.idOrderDetail }">
                             <th scope="row">
                                 <input type="hidden" th:name="|orderDetails[${rowStat.index}].idProduct|"
                                        th:value="${orderDetail.idProduct}">

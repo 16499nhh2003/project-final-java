@@ -30,10 +30,10 @@ import org.springframework.web.servlet.ModelAndView;
 import java.math.BigDecimal;
 import java.util.*;
 
-@Controller
-public class CartController {
-    @Autowired
-    CartService cartService;
+    @Controller
+    public class CartController {
+        @Autowired
+        CartService cartService;
     @Autowired
     CartRepository cartRepository;
     @Autowired
@@ -53,7 +53,7 @@ public class CartController {
         ModelAndView modelAndView = new ModelAndView("/cart");
         int totalProduct = 0;
         int numberItems = 0;
-        BigDecimal[] total = {BigDecimal.ZERO};
+        BigDecimal[] total = { BigDecimal.ZERO };
         if (user != null) {
             Long idUser = user.getId();
             List<Cart> carts = this.cartRepository.findByUserId(idUser);
@@ -64,7 +64,8 @@ public class CartController {
             CartDTO cartDTO = modelMapper.map(cart, CartDTO.class);
             List<CartItemDTO> cartItemDTOs = cartDTO.getCartItems();
             cartItemDTOs.stream().map(cartItemDTO -> {
-                cartItemDTO.setProductOriginalPicture(this.productRepository.findById(cartItemDTO.getProductId()).get().getLogoImage());
+                cartItemDTO.setProductOriginalPicture(
+                        this.productRepository.findById(cartItemDTO.getProductId()).get().getLogoImage());
                 return cartItemDTO;
             }).toList();
             numberItems = cartItemDTOs.size();
@@ -151,20 +152,18 @@ public class CartController {
 
     }
 
-
-    @RequestMapping(value = {"/cart/add"}, method = RequestMethod.POST)
+    @RequestMapping(value = { "/cart/add" }, method = RequestMethod.POST)
     public String addToCart(@ModelAttribute("cartItemDTO") CartItemDTO cartItemDTO, Model model,
-                            HttpServletRequest request, HttpServletResponse response
-    ) {
-        /* send request CartItemDTO*/
+            HttpServletRequest request, HttpServletResponse response) {
+        /* send request CartItemDTO */
         Long idProduct = cartItemDTO.getProductId();
         Product product = productRepository.findById(idProduct).get();
         int quantity = cartItemDTO.getQuantity();
 
-        /* get user*/
+        /* get user */
         AppUser user = this.userRepository.getUserByUsername(userDetailsServiceImpl.getCurrentUserId());
         if (user != null) {
-            /*Get list cart of user*/
+            /* Get list cart of user */
             List<Cart> carts = this.cartRepository.findByUserId(user.getId());
             if (carts == null) {
                 Cart cart = new Cart();
@@ -237,7 +236,7 @@ public class CartController {
             try {
                 Long idUser = user.getId();
                 List<Cart> carts = this.cartRepository.findByUserId(idUser);
-                /*get cart [0]*/
+                /* get cart [0] */
                 Cart cart = carts.get(0);
                 CartDTO cartDTO = modelMapper.map(cart, CartDTO.class);
                 List<CartItemDTO> cartItemDTOs = cartDTO.getCartItems();
@@ -268,7 +267,8 @@ public class CartController {
         List<Cart> carts = this.cartRepository.findByUserId(idUser);
         Cart cart = carts.get(0);
         List<CartItem> cartItems = cart.getCartItems();
-        List<CartItemDTO> cartItemDTOS = cartItems.stream().map(cartItem -> modelMapper.map(cartItem, CartItemDTO.class)).toList();
+        List<CartItemDTO> cartItemDTOS = cartItems.stream()
+                .map(cartItem -> modelMapper.map(cartItem, CartItemDTO.class)).toList();
 
         List<OrderDetailDTO> orderDetailDTOSGetFromCartItem = cartItemDTOS.stream().map(cartItemDTO -> {
             OrderDetailDTO orderDetailDTO = new OrderDetailDTO();
@@ -304,7 +304,7 @@ public class CartController {
         order.setOrderDetails(orderDetails);
         order.setStatus(OrderStatus.PENDING);
         entityManager.persist(order);
-        /*clear cart */
+        /* clear cart */
         this.cartRepository.delete(cart);
         return "checkoutsuccess";
     }

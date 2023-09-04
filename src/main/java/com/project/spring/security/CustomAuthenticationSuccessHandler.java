@@ -1,5 +1,6 @@
 package com.project.spring.security;
 
+import com.project.spring.service.impl.UserDetailsServiceImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,9 +29,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         String username = userDetails.getUsername();
         UserDetails userDetails1 = userDetailsService.loadUserByUsername(username);
         Collection<? extends GrantedAuthority> authorities = userDetails1.getAuthorities();
-
         for (GrantedAuthority authority : authorities) {
-            System.out.println(authority.getAuthority());
             if (authority.getAuthority().equals("user")) {
                 response.sendRedirect("/");
                 return;

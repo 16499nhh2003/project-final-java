@@ -1,4 +1,5 @@
 package com.project.spring.api;
+
 import com.project.spring.dto.CartDTO;
 import com.project.spring.dto.CartItemDTO;
 import com.project.spring.dto.ResponseObject;
@@ -77,15 +78,13 @@ public class CartAPI {
 
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject("1", "Success", cartDTOS));
         } catch (NumberFormatException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(new ResponseObject("0", "Error", "Invalid user ID format"));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseObject("0", "Error", "Invalid user ID format"));
         } catch (UserNotFoundException e) {
             // TODO: handle exception
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject("1", "Success", e.getMessage()));
         } catch (Exception e) {
             // TODO: handle exception
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ResponseObject("0", "Error", "An error occurred."));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseObject("0", "Error", "An error occurred."));
         }
     }
 
@@ -101,8 +100,7 @@ public class CartAPI {
                 return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject("0", "Fail", "Not found cart"));
             }
         } catch (NumberFormatException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(new ResponseObject("0", "Error", "Invalid cart ID format"));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseObject("0", "Error", "Invalid cart ID format"));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject("0", "Fail", "Not found cart"));
         }
@@ -126,8 +124,7 @@ public class CartAPI {
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject("0", "Fail.No found Product!", this.cartService.getCartDTOById(idCart)));
         }
         /*Check product exist in the cart*/
-        Optional<CartItem> cartItem = cart.getCartItems().stream()
-                .filter(item -> item.getProduct().getId().equals(idProduct)).findFirst();
+        Optional<CartItem> cartItem = cart.getCartItems().stream().filter(item -> item.getProduct().getId().equals(idProduct)).findFirst();
 
         if (cartItem.isPresent()) {
             CartItem item = cartItem.get();
@@ -186,6 +183,7 @@ public class CartAPI {
 
     @Autowired
     CartItemRepository cartItemRepository;
+
     @DeleteMapping("/{idCart}")
     public ResponseEntity<ResponseObject> deleteProductInCart(@PathVariable("idCart") Long idCart, @RequestBody Long idProduct) {
         Cart cart = this.cartRepository.findById(idCart).get();
@@ -194,7 +192,7 @@ public class CartAPI {
         for (CartItem item : cartItems) {
             if (item.getProduct().getId().equals(idProduct)) {
                 cartItems.remove(item);
-                total = total -  item.getProduct().getPrice()*item.getQuantity();
+                total = total - item.getProduct().getPrice() * item.getQuantity();
                 this.cartItemRepository.delete(item);
                 break;
             }
@@ -203,7 +201,12 @@ public class CartAPI {
         this.cartRepository.save(cart);
 
         Cart cartUpdate = this.cartRepository.findById(idCart).get();
-        CartDTO cartDTO = modelMapper.map(cartUpdate,CartDTO.class);
-        return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject("" + HttpStatus.OK, "Successful",cartDTO));
+        CartDTO cartDTO = modelMapper.map(cartUpdate, CartDTO.class);
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject("" + HttpStatus.OK, "Successful", cartDTO));
+    }
+
+    @GetMapping("/cookie")
+    public ResponseEntity<ResponseObject> readCookie(@CookieValue(name = "cart",required = false,defaultValue = "123") String cart) {
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject("12", "Success", cart));
     }
 }

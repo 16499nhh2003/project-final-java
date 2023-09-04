@@ -100,7 +100,7 @@ public class ProductManagementController {
                               @RequestParam("manufactureName") String manufactureName,
                               Model model,
                               @RequestParam(name = "currentPage", defaultValue = "0") String currentPage,
-                              @RequestParam(name = "numberElementInOnePage", defaultValue = "10") String numberElementInOnePage,
+                              @RequestParam(name = "numberElementInOnePage", defaultValue = "3") String numberElementInOnePage,
                               @RequestParam(name = "sortBy", defaultValue = "id") String sortBy,
                               @RequestParam(name = "orderField", defaultValue = "acs") String orderField) throws IOException {
         /*if (!multipartFile.isEmpty()) {
@@ -179,7 +179,7 @@ public class ProductManagementController {
                                 @RequestParam("manufactureName") String manufactureName,
                                 Model model,
                                 @RequestParam(name = "currentPage", defaultValue = "0") String currentPage,
-                                @RequestParam(name = "numberElementInOnePage", defaultValue = "10") String numberElementInOnePage,
+                                @RequestParam(name = "numberElementInOnePage", defaultValue = "3") String numberElementInOnePage,
                                 @RequestParam(name = "sortBy", defaultValue = "id") String sortBy,
                                 @RequestParam(name = "orderField", defaultValue = "acs") String orderField) throws IOException {
         manufactureName = manufactureName.replace('[', ' ');
@@ -246,11 +246,17 @@ public class ProductManagementController {
     public String deleteProduct(@PathVariable Long id,
                                 Model model,
                                 @RequestParam(name = "currentPage", defaultValue = "0") String currentPage,
-                                @RequestParam(name = "numberElementInOnePage", defaultValue = "10") String numberElementInOnePage,
+                                @RequestParam(name = "numberElementInOnePage", defaultValue = "3") String numberElementInOnePage,
                                 @RequestParam(name = "sortBy", defaultValue = "id") String sortBy,
                                 @RequestParam(name = "orderField", defaultValue = "acs") String orderField) {
 
-        productService.deleteProductById(id);
+        if (productService.getProductById(id).orElse(null).getOrderDetails().isEmpty()) {
+            productService.deleteProductById(id);
+        } else {
+            model.addAttribute("errorMessage", "Can't delete product because this product have order");
+        }
+
+//        productService.deleteProductById(id);
         Sort.Direction direction = orderField.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
         Sort.Order order = new Sort.Order(direction, sortBy);
         Pageable pageable = PageRequest.of(Integer.parseInt(currentPage), Integer.parseInt(numberElementInOnePage), Sort.by(order));
@@ -261,14 +267,14 @@ public class ProductManagementController {
         model.addAttribute("numberElementInOnePage", Integer.parseInt(numberElementInOnePage));
         model.addAttribute("sortBy", sortBy);
         model.addAttribute("orderField", orderField);
-        return "redirect:/admin/products/list";
+        return "admin/products/list";
     }
 
     @PostMapping("/search")
     public String searchProducts(@RequestParam("keyword") String keyword,
                                  Model model,
                                  @RequestParam(name = "currentPage", defaultValue = "0") String currentPage,
-                                 @RequestParam(name = "numberElementInOnePage", defaultValue = "10") String numberElementInOnePage,
+                                 @RequestParam(name = "numberElementInOnePage", defaultValue = "3") String numberElementInOnePage,
                                  @RequestParam(name = "sortBy", defaultValue = "id") String sortBy,
                                  @RequestParam(name = "orderField", defaultValue = "acs") String orderField) {
 

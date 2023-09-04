@@ -2,10 +2,7 @@ package com.project.spring.controllers.admin;
 
 import com.project.spring.dto.OrderDTO;
 import com.project.spring.dto.OrderDetailDTO;
-import com.project.spring.model.AppUser;
-import com.project.spring.model.Order;
-import com.project.spring.model.OrderDetail;
-import com.project.spring.model.Product;
+import com.project.spring.model.*;
 import com.project.spring.repositories.OrderRepository;
 import com.project.spring.repositories.ProductRepository;
 import com.project.spring.repositories.UserRepository;
@@ -30,6 +27,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Controller
@@ -40,10 +38,20 @@ public class AdminController {
     @Autowired
     UserDetailsServiceImpl userDetailsServiceImpl;
 
+
     @GetMapping
     public String index(Model model) {
         AppUser user = this.userRepository.getUserByUsername(userDetailsServiceImpl.getCurrentUserId());
         model.addAttribute("isAdmin", user.getName());
+        List<Role> roles = user.getRoles();
+        for (Role role : roles) {
+            if (role.getName().equals("user")) {
+                model.addAttribute("roleUser", true);
+            }
+            if (role.getName().equals("admin")) {
+                model.addAttribute("roleAdmin", true);
+            }
+        }
 
         List<Order> orders = this.orderRepository.findAll();
         model.addAttribute("numberOfOrder", orders.size());
@@ -135,6 +143,7 @@ public class AdminController {
         List<OrderDetail> orderDetail = order.getOrderDetails();
         List<OrderDetailDTO> orderDetailDTOS = orderDetail.stream().map(orderDetail1 -> {
             OrderDetailDTO orderDetailDTO = new OrderDetailDTO();
+            orderDetailDTO.setIdOrderDetail(orderDetail1.getId());
             orderDetailDTO.setIdProduct(orderDetail1.getProduct().getId());
             orderDetailDTO.setNameProduct(orderDetail1.getProduct().getName());
             orderDetailDTO.setPriceProduct(orderDetail1.getProduct().getPrice());
@@ -180,18 +189,19 @@ public class AdminController {
 
         List<OrderDetail> orderDetails = orderDTORequest.getOrderDetails().stream().map(orderDetailDTO -> {
             OrderDetail orderDetail = new OrderDetail();
+            orderDetail.setId(orderDetailDTO.getIdOrderDetail());
             orderDetail.setProduct(this.productRepository.findById(orderDetailDTO.getIdProduct()).get());
             orderDetail.setQuantity(orderDetailDTO.getQuantity());
             orderDetail.setOrder(order);
             return orderDetail;
         }).toList();
 
+
         BigDecimal total = BigDecimal.ZERO;
         for (OrderDetail orderDetail : orderDetails) {
             BigDecimal subtotal = BigDecimal.valueOf(orderDetail.getProduct().getPrice()).multiply(BigDecimal.valueOf(orderDetail.getQuantity()));
             total = total.add(subtotal);
         }
-
         order.setOrderDetails(orderDetails);
         order.setTotal(total);
         this.orderRepository.save(order);

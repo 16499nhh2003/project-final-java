@@ -39,7 +39,7 @@ public class Product implements Serializable {
     @JsonIgnore
     @OneToMany(mappedBy = "product_image", cascade = CascadeType.ALL)
     @ToString.Exclude
-    private Set<ProductImage> images;
+    private Set<ProductImage> images    ;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "pro_man", inverseJoinColumns = @JoinColumn(name = "manufacture_id"), joinColumns = @JoinColumn(name = "product_id"))
@@ -60,6 +60,8 @@ public class Product implements Serializable {
     @OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
     private Set<CartItem> cartItems;
 
+    @OneToMany(mappedBy = "product", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    Set<OrderDetail> orderDetails;
 
     public Long getId() {
         return id;
@@ -171,6 +173,13 @@ public class Product implements Serializable {
 
     public void setCartItems(Set<CartItem> cartItems) {
         this.cartItems = cartItems;
+    }
+    public Set<OrderDetail> getOrderDetails() {
+        return orderDetails;
+    }
+
+    public void setOrderDetails(Set<OrderDetail> orderDetails) {
+        this.orderDetails = orderDetails;
     }
 
     @Transient
