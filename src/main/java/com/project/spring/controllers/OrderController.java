@@ -68,9 +68,21 @@ public class OrderController {
 
         Sort.Direction direction = orderField.equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
         Sort.Order order = new Sort.Order(direction, sortBy);
-        Pageable pageable = PageRequest.of(currentPage - 1, pageSize, Sort.by(order));
+
+
+        Pageable pageable = PageRequest.of((currentPage < 1 ? 0 : currentPage-1), pageSize, Sort.by(order));
+
         Page<OrderDTO> page = this.orderRepository.findByUser_Id(user.getId(), pageable)
-                .map(order1 -> modelMapper.map(order1, OrderDTO.class));
+                .map(order1 ->  {
+                    OrderDTO orderDTO = new OrderDTO();
+                    orderDTO.setIdOrder(order1.getId());
+                    orderDTO.setDate(order1.getDate());
+                    orderDTO.setTotal(order1.getTotal());
+                    orderDTO.setStatus(order1.getStatus());
+                    return orderDTO;
+                });
+
+
         model.addAttribute("orders", page.getContent());
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("currentPage", currentPage);

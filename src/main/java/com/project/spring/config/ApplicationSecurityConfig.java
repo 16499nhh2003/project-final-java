@@ -50,6 +50,7 @@ public class ApplicationSecurityConfig {
         http.csrf().disable();
         http.authorizeHttpRequests(auth -> {
 //                    auth.requestMatchers("/static/**").permitAll();
+
                     auth.requestMatchers("/css/**").permitAll();
                     auth.requestMatchers("/js/**").permitAll();
                     auth.requestMatchers("/assets/**").permitAll();
@@ -141,9 +142,4 @@ public class ApplicationSecurityConfig {
             }
         };
     }
-
-  /*  @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().requestMatchers("/webjars/**", "/assets/**", "/assets2/**", "/css/**", "/js/**");
-    }*/
 }

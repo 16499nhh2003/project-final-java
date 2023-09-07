@@ -30,10 +30,10 @@ import org.springframework.web.servlet.ModelAndView;
 import java.math.BigDecimal;
 import java.util.*;
 
-    @Controller
-    public class CartController {
-        @Autowired
-        CartService cartService;
+@Controller
+public class CartController {
+    @Autowired
+    CartService cartService;
     @Autowired
     CartRepository cartRepository;
     @Autowired
@@ -53,7 +53,7 @@ import java.util.*;
         ModelAndView modelAndView = new ModelAndView("/cart");
         int totalProduct = 0;
         int numberItems = 0;
-        BigDecimal[] total = { BigDecimal.ZERO };
+        BigDecimal[] total = {BigDecimal.ZERO};
         if (user != null) {
             Long idUser = user.getId();
             List<Cart> carts = this.cartRepository.findByUserId(idUser);
@@ -152,9 +152,9 @@ import java.util.*;
 
     }
 
-    @RequestMapping(value = { "/cart/add" }, method = RequestMethod.POST)
+    @RequestMapping(value = {"/cart/add"}, method = RequestMethod.POST)
     public String addToCart(@ModelAttribute("cartItemDTO") CartItemDTO cartItemDTO, Model model,
-            HttpServletRequest request, HttpServletResponse response) {
+                            HttpServletRequest request, HttpServletResponse response) {
         /* send request CartItemDTO */
         Long idProduct = cartItemDTO.getProductId();
         Product product = productRepository.findById(idProduct).get();
@@ -257,7 +257,13 @@ import java.util.*;
 
     @Transactional
     @RequestMapping(value = "/checkout", method = RequestMethod.POST)
-    public String payment(Model model) {
+    public String payment(Model model, @RequestParam(name = "payment", required = false) String payment,
+                          @RequestParam(name = "amount", required = false) String amount
+    ) {
+        if (payment.equals("paypal")) {
+
+            return "redirect:/api/payment?" + "amount=" + amount.toString() + "&orderInfo=CheckOrder";
+        }
         AppUser user = this.userRepository.getUserByUsername(userDetailsServiceImpl.getCurrentUserId());
         if (user == null) {
             return "redirect:/";

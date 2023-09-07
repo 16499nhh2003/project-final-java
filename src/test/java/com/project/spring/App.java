@@ -190,4 +190,13 @@ public class App {
                         entry -> entry.getValue().size() // List<CartItem> size
                 ));
     }
+
+
+    @Test
+    public void testAddProduct(){
+//        Product expectedProduct = new Product();
+//        expectedProduct.setName("test");
+//        Long id = this.productRepository.save(expectedProduct).getId();
+        System.out.println(123);
+    }
 }
